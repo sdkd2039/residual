@@ -9,7 +9,6 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="المتبقي">
     <link rel="apple-touch-icon" href="https://i.ibb.co/fYWfbWBQ/logo.png">
-    
     <link rel="icon" type="image/png" href="https://i.ibb.co/fYWfbWBQ/logo.png">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;700&display=swap" rel="stylesheet">
     
@@ -69,7 +68,6 @@
         }
         .verse-ref { display: block; margin-top: 10px; font-weight: bold; color: var(--accent); font-size: 0.8rem; }
         
-        /* تنبيه إضافة الموقع للشاشة الرئيسية */
         #pwa-prompt {
             position: fixed; bottom: 20px; background: var(--accent); color: #000;
             padding: 15px; border-radius: 15px; width: 90%; max-width: 400px;
@@ -166,8 +164,9 @@
 
     <script>
         window.onload = function() {
-            // إظهار التنبيه للإضافة للشاشة الرئيسية
-            if (!window.navigator.standalone) {
+            // التحقق إذا كان المستخدم قد أغلق الرسالة مسبقاً
+            const promptClosed = localStorage.getItem('pwaPromptClosed');
+            if (!promptClosed) {
                 setTimeout(() => { document.getElementById('pwa-prompt').style.display = 'flex'; }, 3000);
             }
             
@@ -178,7 +177,10 @@
             if(localStorage.getItem('theme') === 'light') document.body.setAttribute('data-theme', 'light');
         }
 
-        function closePrompt() { document.getElementById('pwa-prompt').style.display = 'none'; }
+        function closePrompt() { 
+            document.getElementById('pwa-prompt').style.display = 'none'; 
+            localStorage.setItem('pwaPromptClosed', 'true'); // حفظ حالة الإغلاق للأبد
+        }
 
         function toggleTheme() {
             if(document.body.hasAttribute('data-theme')) {
@@ -200,9 +202,9 @@
                 Notification.requestPermission().then(permission => {
                     if (permission === "granted") {
                         localStorage.setItem('notify-' + id, 'active');
-                        alert("تم تثبيت تفعيل إشعارات " + name);
+                        alert("تم تفعيل إشعارات " + name);
                     } else {
-                        alert("يرجى السماح بالإشعارات من إعدادات المتصفح أولاً");
+                        alert("يرجى السماح بالإشعارات من الإعدادات");
                         checkbox.checked = false;
                         localStorage.removeItem('notify-' + id);
                     }
