@@ -13,7 +13,6 @@
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
-        /* التنسيقات ثابتة كما هي في ردودي السابقة */
         :root { --bg-body: #080c14; --bg-card: #1e293b; --text-main: #ffffff; --text-muted: #94a3b8; --accent: #ffd700; --box-bg: #0f172a; }
         [data-theme="light"] { --bg-body: #f8fafc; --bg-card: #ffffff; --text-main: #0f172a; --text-muted: #64748b; --accent: #10b981; --box-bg: #f1f5f9; }
         body { background-color: var(--bg-body); color: var(--text-main); font-family: 'IBM Plex Sans Arabic', 'Inter', sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; padding: 20px; transition: 0.3s; }
@@ -24,6 +23,7 @@
         .share-mini { position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.05); border: 1px solid var(--accent); color: var(--accent); padding: 5px 8px; border-radius: 8px; cursor: pointer; font-size: 0.7rem; }
         html[dir="ltr"] .share-mini { left: auto; right: 15px; }
         .event-title { color: var(--accent); font-size: 1.4rem; font-weight: bold; }
+        .event-date { color: var(--text-muted); font-size: 0.8rem; margin-bottom: 15px; display: block; }
         .timer-grid { display: flex; justify-content: space-between; gap: 8px; margin-top: 15px; }
         .box { background: var(--box-bg); padding: 10px 5px; border-radius: 12px; flex: 1; }
         .num { display: block; font-size: 1.4rem; color: var(--accent); font-weight: bold; }
@@ -31,12 +31,6 @@
         .verse-box { background: var(--bg-card); padding: 20px; border-radius: 15px; max-width: 500px; text-align: center; line-height: 1.8; margin: 20px 0; border-right: 4px solid var(--accent); }
         html[dir="ltr"] .verse-box { border-right: none; border-left: 4px solid var(--accent); }
         .verse-ref { display: block; margin-top: 10px; font-weight: bold; color: var(--accent); font-size: 0.8rem; }
-        .switch { position: relative; display: inline-block; width: 34px; height: 18px; }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #475569; transition: .4s; border-radius: 34px; }
-        .slider:before { position: absolute; content: ""; height: 12px; width: 12px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background-color: #10b981; }
-        input:checked + .slider:before { transform: translateX(16px); }
     </style>
 </head>
 <body>
@@ -106,13 +100,47 @@
         <span class="verse-ref" id="v-ref-2"></span>
     </div>
 
-    <script src="languages.js"></script>
-
     <script>
+        const i18n = {
+            ar: {
+                "share": "مشاركة", "days": "يوم", "hours": "ساعة", "mins": "دقيقة", "secs": "ثانية",
+                "copy-msg": "تم نسخ التفاصيل بنجاح!", "ramadan-title": "شهر رمضان المبارك",
+                "ramadan-date": "1 رمضان 1447 هـ | 18 فبراير 2026 م",
+                "eid1-title": "عيد الفطر المبارك", "eid1-date": "1 شوال 1447 هـ | 20 مارس 2026 م",
+                "hajj-title": "عشر ذي الحجة", "hajj-date": "1 ذو الحجة 1447 هـ | 18 مايو 2026 م",
+                "eid2-title": "عيد الأضحى المبارك", "eid2-date": "10 ذو الحجة 1447 هـ | 27 مايو 2026 م",
+                "v1": "﴿شَهرُ رَمَضانَ الَّذي أُنزِلَ فيهِ القُرآنُ هُدًى لِلنّاسِ وَبَيِّناتٍ مِنَ الهُدى وَالفُرقانِ...﴾",
+                "v1-ref": "[البقرة: ١٨٥]", 
+                "v2": "﴿الحَجُّ أَشهُرٌ مَعلوماتٌ فَمَن فَرَضَ فيهِنَّ الحَجَّ فَلا رَفَثَ وَلا فُسوقَ وَلا جِدالَ فِي الحَجِّ...﴾",
+                "v2-ref": "[البقرة: ١٩٧]",
+                "ramadan-pray": "بلغنا الله وإياكم شهر الصيام ونحن في أحسن حال.",
+                "eid1-pray": "تقبل الله منا ومنكم صالح الأعمال وعساكم من عواده.",
+                "hajj-pray": "خير أيام الدنيا.. أعاننا الله وإياكم فيها على ذكره وشكره وحسن عبادته.",
+                "eid2-pray": "عيدكم مبارك، وتقبل الله طاعاتكم وأتم عليكم فرحتكم.",
+                "lang-btn": "English", "theme-btn": "نمط"
+            },
+            en: {
+                "share": "Share", "days": "Days", "hours": "Hrs", "mins": "Min", "secs": "Sec",
+                "copy-msg": "Countdown details copied successfully!", "ramadan-title": "Holy Ramadan",
+                "ramadan-date": "Feb 18, 2026",
+                "eid1-title": "Eid Al-Fitr", "eid1-date": "March 20, 2026",
+                "hajj-title": "10 Days of Hajj", "hajj-date": "May 18, 2026",
+                "eid2-title": "Eid Al-Adha", "eid2-date": "May 27, 2026",
+                "v1": "“The month of Ramadhan [is that] in which was revealed the Qur'an...”",
+                "v1-ref": "[Al-Baqarah: 185]",
+                "v2": "“Hajj is [during] well-known months...”",
+                "v2-ref": "[Al-Baqarah: 197]",
+                "ramadan-pray": "May Allah let us reach Ramadan in the best state.",
+                "eid1-pray": "May Allah accept our good deeds. Happy Eid!",
+                "hajj-pray": "The best days of the world.. May Allah help us remember Him.",
+                "eid2-pray": "Eid Mubarak! May Allah accept your worship.",
+                "lang-btn": "عربي", "theme-btn": "Theme"
+            }
+        };
+
         let currentLang = localStorage.getItem('lang') || 'ar';
 
         function updateUI() {
-            if (typeof i18n === 'undefined') return;
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 el.innerText = i18n[currentLang][key];
@@ -137,11 +165,29 @@
             localStorage.setItem('theme', document.body.hasAttribute('data-theme') ? 'light' : 'dark');
         }
 
+        // الوظيفة التي طلبتها: لا تغير شيء في شكل النسخ القديم (إيموجي، أيام، ساعات، دقائق، ثواني، دعاء)
         function doShare(idx) {
-            const names = currentLang === 'ar' ? ["رمضان", "عيد الفطر", "عشر ذي الحجة", "عيد الأضحى"] : ["Ramadan", "Eid Al-Fitr", "10 Days of Hajj", "Eid Al-Adha"];
             const ids = ["1", "2", "4", "3"];
+            const titlesAr = ["شهر رمضان المبارك", "عيد الفطر المبارك", "عشر ذي الحجة", "عيد الأضحى المبارك"];
+            const titlesEn = ["Holy Ramadan", "Eid Al-Fitr", "10 Days of Hajj", "Eid Al-Adha"];
+            
+            const eventName = currentLang === 'ar' ? titlesAr[idx] : titlesEn[idx];
+            const pray = currentLang === 'ar' ? 
+                [i18n.ar["ramadan-pray"], i18n.ar["eid1-pray"], i18n.ar["hajj-pray"], i18n.ar["eid2-pray"]][idx] :
+                [i18n.en["ramadan-pray"], i18n.en["eid1-pray"], i18n.en["hajj-pray"], i18n.en["eid2-pray"]][idx];
+
             const d = document.getElementById('d' + ids[idx]).innerText;
-            const msg = `${names[idx]}: ${d} ${i18n[currentLang]['days']}\n${window.location.href}`;
+            const h = document.getElementById('h' + ids[idx]).innerText;
+            const m = document.getElementById('m' + ids[idx]).innerText;
+            const s = document.getElementById('s' + ids[idx]).innerText;
+
+            const labels = currentLang === 'ar' ? 
+                {d:"يوم", h:"ساعة", m:"دقيقة", s:"ثانية", rem:"المتبقي لـ", link:"رابط العداد"} : 
+                {d:"Days", h:"Hrs", m:"Min", s:"Sec", rem:"Remaining for", link:"Link"};
+
+            // صياغة الرسالة كما كانت بالضبط مع الإيموجي والوقت الكامل
+            const msg = `🌙 ${labels.rem} ${eventName}:\n⏳ ${d} ${labels.d} و ${h} ${labels.h} و ${m} ${labels.m} و ${s} ${labels.s}\n\n✨ ${pray}\n\n📍 ${labels.link}:\n${window.location.href}`;
+            
             if (navigator.share && /iPhone|Android/i.test(navigator.userAgent)) {
                 navigator.share({text: msg});
             } else {
