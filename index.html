@@ -42,7 +42,6 @@
             position: relative;
         }
 
-        /* زر المشاركة الصغير بجانب العنوان */
         .share-mini {
             position: absolute; top: 20px; left: 20px; background: rgba(255,255,255,0.05);
             border: 1px solid var(--accent); color: var(--accent); padding: 5px 10px;
@@ -191,17 +190,24 @@
         async function shareSpecific(name, id, prayer) {
             const days = document.getElementById('d'+id).innerText;
             const hours = document.getElementById('h'+id).innerText;
-            
             const message = `🌙 المتبقي لـ ${name}:\n⏳ ${days} يوم و ${hours} ساعة\n\n✨ ${prayer}\n\n📍 تابع العداد مباشرة عبر تطبيق المتبقي:\n${window.location.href}`;
             
-            if (navigator.share) {
-                try {
-                    await navigator.share({ title: 'تطبيق المتبقي', text: message });
-                } catch (err) { console.log(err); }
+            if (navigator.share && /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+                try { await navigator.share({ title: 'تطبيق المتبقي', text: message }); } 
+                catch (err) { copyToClipboard(message, name); }
             } else {
-                navigator.clipboard.writeText(message);
-                alert('تم نسخ تفاصيل المتبقي لـ ' + name + ' مع الدعاء.. يمكنك مشاركتها الآن!');
+                copyToClipboard(message, name);
             }
+        }
+
+        function copyToClipboard(text, name) {
+            const el = document.createElement('textarea');
+            el.value = text;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            alert('تم نسخ تفاصيل ' + name + ' بنجاح! يمكنك الآن لصقها (Paste) في الواتساب أو أي مكان آخر.');
         }
 
         function closePrompt() { 
