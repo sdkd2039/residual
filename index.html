@@ -25,36 +25,39 @@
             background-color: var(--bg-body); color: var(--text-main);
             font-family: 'IBM Plex Sans Arabic', sans-serif; margin: 0;
             transition: all 0.3s ease; display: flex; flex-direction: column;
-            align-items: center; padding: 20px; padding-bottom: 80px;
+            align-items: center; padding: 20px;
         }
         .theme-switch {
             position: fixed; top: 20px; left: 20px; background: var(--accent);
             color: #000; border: none; width: 45px; height: 45px; border-radius: 50%;
             cursor: pointer; z-index: 1000; font-weight: bold; font-size: 0.8rem;
         }
-        /* تصميم زر المشاركة الجديد */
-        .share-btn {
-            position: fixed; bottom: 20px; right: 20px; background: var(--accent);
-            color: #000; border: none; padding: 12px 20px; border-radius: 30px;
-            cursor: pointer; z-index: 1000; font-weight: bold; font-size: 0.9rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3); display: flex; align-items: center; gap: 8px;
-            transition: transform 0.2s;
-        }
-        .share-btn:active { transform: scale(0.9); }
-        
         .logo-container { margin: 20px 0; text-align: center; }
         .main-logo { width: 180px; height: auto; filter: drop-shadow(0 0 10px rgba(255,255,255,0.1)); }
+        
         .card {
             background: var(--bg-card); border-radius: 20px; padding: 25px;
             margin-bottom: 20px; width: 100%; max-width: 450px;
             text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            position: relative;
         }
+
+        /* زر المشاركة الصغير بجانب العنوان */
+        .share-mini {
+            position: absolute; top: 20px; left: 20px; background: rgba(255,255,255,0.05);
+            border: 1px solid var(--accent); color: var(--accent); padding: 5px 10px;
+            border-radius: 10px; cursor: pointer; font-size: 0.75rem; display: flex;
+            align-items: center; gap: 5px; transition: 0.3s;
+        }
+        .share-mini:hover { background: var(--accent); color: #000; }
+
         .event-title { color: var(--accent); font-size: 1.5rem; font-weight: bold; margin-bottom: 5px; }
         .event-date { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px; display: block; }
         .timer-grid { display: flex; justify-content: space-between; gap: 8px; }
         .box { background: var(--box-bg); padding: 12px 5px; border-radius: 12px; flex: 1; }
         .num { display: block; font-size: 1.5rem; color: var(--accent); font-weight: bold; }
         .label { font-size: 0.7rem; color: var(--text-muted); }
+        
         .toggle-section {
             display: flex; align-items: center; justify-content: center;
             margin-top: 20px; gap: 10px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.05);
@@ -71,6 +74,7 @@
         }
         input:checked + .slider { background-color: #10b981; }
         input:checked + .slider:before { transform: translateX(20px); }
+        
         .verse-box {
             background: var(--bg-card); padding: 25px; border-radius: 15px;
             max-width: 550px; text-align: center; line-height: 1.8;
@@ -79,7 +83,7 @@
         .verse-ref { display: block; margin-top: 10px; font-weight: bold; color: var(--accent); font-size: 0.8rem; }
         
         #pwa-prompt {
-            position: fixed; bottom: 80px; background: var(--accent); color: #000;
+            position: fixed; bottom: 20px; background: var(--accent); color: #000;
             padding: 15px; border-radius: 15px; width: 90%; max-width: 400px;
             display: none; justify-content: space-between; align-items: center;
             box-shadow: 0 10px 20px rgba(0,0,0,0.3); z-index: 2000; font-weight: bold;
@@ -88,11 +92,6 @@
     </style>
 </head>
 <body>
-
-    <button class="share-btn" onclick="shareApp()">
-        <span>مشاركة الموقع</span>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
-    </button>
 
     <div id="pwa-prompt">
         <span>أضف "المتبقي" لشاشتك الرئيسية</span>
@@ -106,6 +105,7 @@
     </div>
 
     <div class="card">
+        <button class="share-mini" onclick="shareSpecific('رمضان المبارك', '1', 'بلغنا الله وإياكم شهر الصيام ونحن في أحسن حال.')">مشاركة</button>
         <div class="event-title">شهر رمضان المبارك</div>
         <span class="event-date">1 رمضان 1447 هـ | 18 فبراير 2026 م</span>
         <div class="timer-grid">
@@ -121,6 +121,7 @@
     </div>
 
     <div class="card">
+        <button class="share-mini" onclick="shareSpecific('عيد الفطر', '2', 'تقبل الله منا ومنكم صالح الأعمال وعساكم من عواده.')">مشاركة</button>
         <div class="event-title">عيد الفطر المبارك</div>
         <span class="event-date">1 شوال 1447 هـ | 20 مارس 2026 م</span>
         <div class="timer-grid">
@@ -136,13 +137,14 @@
     </div>
 
     <div class="verse-box">
-        ﴿شَهرُ رَمَضانَ الَّذي أُنزِلَ فيهِ القُرآنُ هُدًى لِلنّاسِ وَبَيِّناتٍ مِنَ الهُدى وَالفُرقانِ فَمَن شَهِدَ مِنكُمُ الشَّهرَ فَليَصُمهُ وَمَن كانَ مَريضًا أَو عَلى سَفَرٍ فَعِدَّةٌ مِن أَيّامٍ أُخَرَ يُريدُ اللَّهُ بِكُمُ اليُسرَ وَلا يُريدُ بِكُمُ العُسرَ وَلِتُكمِلُوا العِدَّةَ وَلِتُكَبِّرُوا اللَّهَ عَلى ما هَداكُم وَلَعَلَّكُم تَشكُرونَ﴾
+        ﴿شَهرُ رَمَضانَ الَّذي أُنزِلَ فيهِ القُرآنُ هُدًى لِلنّاسِ وَبَيِّناتٍ مِنَ الهُدى وَالفُرقانِ﴾
         <span class="verse-ref">[البقرة: ١٨٥]</span>
     </div>
 
     <hr style="width: 80%; opacity: 0.1; margin: 30px 0;">
 
     <div class="card">
+        <button class="share-mini" onclick="shareSpecific('عشر ذي الحجة', '4', 'خير أيام الدنيا.. أعاننا الله وإياكم فيها على ذكره وشكره وحسن عبادته.')">مشاركة</button>
         <div class="event-title">عشر ذي الحجة</div>
         <span class="event-date">1 ذو الحجة 1447 هـ | 18 مايو 2026 م</span>
         <div class="timer-grid">
@@ -158,6 +160,7 @@
     </div>
 
     <div class="card">
+        <button class="share-mini" onclick="shareSpecific('عيد الأضحى', '3', 'عيدكم مبارك، وتقبل الله طاعاتكم وأتم عليكم فرحتكم.')">مشاركة</button>
         <div class="event-title">عيد الأضحى المبارك</div>
         <span class="event-date">10 ذو الحجة 1447 هـ | 27 مايو 2026 م</span>
         <div class="timer-grid">
@@ -170,11 +173,6 @@
             <span>تفعيل التنبيهات</span>
             <label class="switch"><input type="checkbox" id="notify-3" onchange="handleNotify('3', 'عيد الأضحى', this)"><span class="slider"></span></label>
         </div>
-    </div>
-
-    <div class="verse-box">
-        ﴿الحَجُّ أَشهُرٌ مَعلوماتٌ فَمَن فَرَضَ فيهِنَّ الحَجَّ فَلا رَفَثَ وَلا فُسوقَ وَلا جِدالَ فِي الحَجِّ وَما تَفعَلوا مِن خَيرٍ يَعلَمهُ اللَّهُ وَتَزَوَّدوا فَإِنَّ خَيرَ الزّادِ التَّقوى وَاتَّقونِ يا أُولِي الأَلبابِ﴾
-        <span class="verse-ref">[البقرة: ١٩٧]</span>
     </div>
 
     <script>
@@ -190,20 +188,20 @@
             if(localStorage.getItem('theme') === 'light') document.body.setAttribute('data-theme', 'light');
         }
 
-        async function shareApp() {
-            const shareData = {
-                title: 'المتبقي لمواسم الخير',
-                text: 'تابع المتبقي لرمضان، عشر ذي الحجة والأعياد المباركة مع تطبيق المتبقي.',
-                url: window.location.href
+        async function shareSpecific(name, id, prayer) {
+            const days = document.getElementById('d'+id).innerText;
+            const hours = document.getElementById('h'+id).innerText;
+            
+            const message = `🌙 المتبقي لـ ${name}:\n⏳ ${days} يوم و ${hours} ساعة\n\n✨ ${prayer}\n\n📍 تابع العداد مباشرة عبر تطبيق المتبقي:\n${window.location.href}`;
+            
+            if (navigator.share) {
+                try {
+                    await navigator.share({ title: 'تطبيق المتبقي', text: message });
+                } catch (err) { console.log(err); }
+            } else {
+                navigator.clipboard.writeText(message);
+                alert('تم نسخ تفاصيل المتبقي لـ ' + name + ' مع الدعاء.. يمكنك مشاركتها الآن!');
             }
-            try {
-                if (navigator.share) {
-                    await navigator.share(shareData);
-                } else {
-                    await navigator.clipboard.writeText(window.location.href);
-                    alert('تم نسخ رابط الموقع.. يمكنك مشاركته الآن!');
-                }
-            } catch (err) { console.log(err); }
         }
 
         function closePrompt() { 
@@ -223,23 +221,17 @@
 
         function handleNotify(id, name, checkbox) {
             if (checkbox.checked) {
-                if (!("Notification" in window)) {
-                    alert("متصفحك لا يدعم الإشعارات");
-                    checkbox.checked = false;
-                    return;
-                }
                 Notification.requestPermission().then(permission => {
                     if (permission === "granted") {
                         localStorage.setItem('notify-' + id, 'active');
                         alert("تم تفعيل إشعارات " + name);
                     } else {
-                        alert("يرجى السماح بالإشعارات من إعدادات المتصفح");
+                        alert("يرجى السماح بالإشعارات");
                         checkbox.checked = false;
                     }
                 });
             } else {
                 localStorage.removeItem('notify-' + id);
-                alert("تم إيقاف إشعارات " + name);
             }
         }
 
