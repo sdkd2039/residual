@@ -28,9 +28,9 @@
         .box { background: var(--box-bg); padding: 10px 5px; border-radius: 12px; flex: 1; }
         .num { display: block; font-size: 1.4rem; color: var(--accent); font-weight: bold; }
         .label { font-size: 0.65rem; color: var(--text-muted); }
-        .verse-box { background: var(--bg-card); padding: 20px; border-radius: 15px; max-width: 500px; text-align: center; line-height: 1.8; margin: 20px 0; border-right: 4px solid var(--accent); border-left: 4px solid var(--accent); }
-        .quran-text { display: block; font-size: 1.1rem; color: var(--accent); margin-bottom: 10px; direction: rtl !important; }
-        .translation-text { display: block; font-size: 0.85rem; color: var(--text-muted); font-style: italic; }
+        .verse-box { background: var(--bg-card); padding: 20px; border-radius: 15px; max-width: 500px; text-align: center; line-height: 1.8; margin: 20px 0; border: 1px solid rgba(255, 215, 0, 0.3); }
+        .quran-text { display: block; font-size: 1.15rem; color: var(--accent); margin-bottom: 10px; direction: rtl !important; font-weight: 500; }
+        .translation-text { display: block; font-size: 0.85rem; color: var(--text-muted); font-style: italic; margin-top: 8px; }
         .verse-ref { display: block; margin-top: 10px; font-weight: bold; color: var(--accent); font-size: 0.8rem; }
     </style>
 </head>
@@ -68,7 +68,7 @@
     </div>
 
     <div class="verse-box">
-        <span class="quran-text">﴿شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ هُدًى لِّلنَّاسِ وَبَيِّنَاتٍ مِّنَ الْهُدَىٰ وَالْفُرْقَانِ...﴾</span>
+        <span class="quran-text">﴿شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ هُدًى لِّلنَّاسِ وَبَيِّنَاتٍ مِّنَ الْهُدَىٰ وَالْفُرْقَانِ ۚ فَمَن شَهِدَ مِنكُمُ الشَّهْرَ فَلْيَصُمْهُ ۖ وَمَن كَانَ مَرِيضًا أَوْ عَلَىٰ سَفَرٍ فَعِدَّةٌ مِّنْ أَيَّامٍ أُخَرَ ۗ يُرِيدُ اللَّهُ بِكُمُ الْيُسْرَ وَلَا يُرِيدُ بِكُمُ الْعُسْرَ وَلِتُكْمِلُوا الْعِدَّةَ وَلِتُكَبِّرُوا اللَّهَ عَلَىٰ مَا هَدَاكُمْ وَلَعَلَّكُمْ تَشْكُرُونَ﴾</span>
         <span id="trans-1" class="translation-text"></span>
         <span class="verse-ref" data-i18n="v1-ref"></span>
     </div>
@@ -98,7 +98,7 @@
     </div>
 
     <div class="verse-box">
-        <span class="quran-text">﴿الْحَجُّ أَشْهُرٌ مَّعْلُومَاتٌ ۚ فَمَن فَرَضَ فِيهِنَّ الْحَجَّ فَلَا رَفَثَ وَلَا فُسُوقَ وَلَا جِدَالَ فِي الْحَجِّ...﴾</span>
+        <span class="quran-text">﴿الْحَجُّ أَشْهُرٌ مَّعْلُومَاتٌ ۚ فَمَن فَرَضَ فِيهِنَّ الْحَجَّ فَلَا رَفَثَ وَلَا فُسُوقَ وَلَا جِدَالَ فِي الْحَجِّ ۗ وَمَا تَفْعَلُوا مِنْ خَيْرٍ يَعْلَمْهُ اللَّهُ ۗ وَتَزَوَّدُوا فَإِنَّ خَيْرَ الزَّادِ التَّقْوَىٰ ۚ وَاتَّقُونِ يَا أُولِي الْأَلْبَابِ﴾</span>
         <span id="trans-2" class="translation-text"></span>
         <span class="verse-ref" data-i18n="v2-ref"></span>
     </div>
@@ -112,7 +112,7 @@
                 "eid1-title": "عيد الفطر المبارك", "eid1-date": "1 شوال 1447 هـ | 20 مارس 2026 م",
                 "hajj-title": "عشر ذي الحجة", "hajj-date": "1 ذو الحجة 1447 هـ | 18 مايو 2026 م",
                 "eid2-title": "عيد الأضحى المبارك", "eid2-date": "10 ذو الحجة 1447 هـ | 27 مايو 2026 م",
-                "v1-ref": "[البقرة: ١٨٥]", "v2-ref": "[البقرة: ١٩٧]",
+                "v1-ref": "[سورة البقرة: ١٨٥]", "v2-ref": "[سورة البقرة: ١٩٧]",
                 "trans-1": "", "trans-2": "",
                 "ramadan-pray": "بلغنا الله وإياكم شهر الصيام ونحن في أحسن حال.",
                 "eid1-pray": "تقبل الله منا ومنكم صالح الأعمال وعساكم من عواده.",
@@ -127,9 +127,9 @@
                 "eid1-title": "Eid Al-Fitr", "eid1-date": "March 20, 2026",
                 "hajj-title": "10 Days of Hajj", "hajj-date": "May 18, 2026",
                 "eid2-title": "Eid Al-Adha", "eid2-date": "May 27, 2026",
-                "v1-ref": "[Al-Baqarah: 185]", "v2-ref": "[Al-Baqarah: 197]",
-                "trans-1": "“The month of Ramadhan [is that] in which was revealed the Qur'an...”",
-                "trans-2": "“Hajj is [during] well-known months...”",
+                "v1-ref": "[Surah Al-Baqarah: 185]", "v2-ref": "[Surah Al-Baqarah: 197]",
+                "trans-1": "“The month of Ramadhan [is that] in which was revealed the Qur'an, a guidance for the people and clear proofs of guidance and criterion...”",
+                "trans-2": "“Hajj is [during] well-known months, so whoever has made Hajj obligatory upon himself therein, there is [to be for him] no disobedience and no disputing during Hajj...”",
                 "ramadan-pray": "May Allah let us reach Ramadan in the best state.",
                 "eid1-pray": "May Allah accept our good deeds. Happy Eid!",
                 "hajj-pray": "The best days of the world.. May Allah help us remember Him.",
