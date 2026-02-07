@@ -25,13 +25,23 @@
             background-color: var(--bg-body); color: var(--text-main);
             font-family: 'IBM Plex Sans Arabic', sans-serif; margin: 0;
             transition: all 0.3s ease; display: flex; flex-direction: column;
-            align-items: center; padding: 20px;
+            align-items: center; padding: 20px; padding-bottom: 80px;
         }
         .theme-switch {
             position: fixed; top: 20px; left: 20px; background: var(--accent);
             color: #000; border: none; width: 45px; height: 45px; border-radius: 50%;
             cursor: pointer; z-index: 1000; font-weight: bold; font-size: 0.8rem;
         }
+        /* تصميم زر المشاركة الجديد */
+        .share-btn {
+            position: fixed; bottom: 20px; right: 20px; background: var(--accent);
+            color: #000; border: none; padding: 12px 20px; border-radius: 30px;
+            cursor: pointer; z-index: 1000; font-weight: bold; font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3); display: flex; align-items: center; gap: 8px;
+            transition: transform 0.2s;
+        }
+        .share-btn:active { transform: scale(0.9); }
+        
         .logo-container { margin: 20px 0; text-align: center; }
         .main-logo { width: 180px; height: auto; filter: drop-shadow(0 0 10px rgba(255,255,255,0.1)); }
         .card {
@@ -69,7 +79,7 @@
         .verse-ref { display: block; margin-top: 10px; font-weight: bold; color: var(--accent); font-size: 0.8rem; }
         
         #pwa-prompt {
-            position: fixed; bottom: 20px; background: var(--accent); color: #000;
+            position: fixed; bottom: 80px; background: var(--accent); color: #000;
             padding: 15px; border-radius: 15px; width: 90%; max-width: 400px;
             display: none; justify-content: space-between; align-items: center;
             box-shadow: 0 10px 20px rgba(0,0,0,0.3); z-index: 2000; font-weight: bold;
@@ -79,8 +89,13 @@
 </head>
 <body>
 
+    <button class="share-btn" onclick="shareApp()">
+        <span>مشاركة الموقع</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+    </button>
+
     <div id="pwa-prompt">
-        <span>أضف "المتبقي" لشاشتك الرئيسية كأنّه تطبيق</span>
+        <span>أضف "المتبقي" لشاشتك الرئيسية</span>
         <button onclick="closePrompt()">حسناً</button>
     </div>
 
@@ -164,12 +179,10 @@
 
     <script>
         window.onload = function() {
-            // التحقق إذا كان المستخدم قد أغلق الرسالة مسبقاً
             const promptClosed = localStorage.getItem('pwaPromptClosed');
             if (!promptClosed) {
                 setTimeout(() => { document.getElementById('pwa-prompt').style.display = 'flex'; }, 3000);
             }
-            
             for(let i=1; i<=4; i++) {
                 const status = localStorage.getItem('notify-' + i);
                 if(status === 'active') document.getElementById('notify-' + i).checked = true;
@@ -177,9 +190,25 @@
             if(localStorage.getItem('theme') === 'light') document.body.setAttribute('data-theme', 'light');
         }
 
+        async function shareApp() {
+            const shareData = {
+                title: 'المتبقي لمواسم الخير',
+                text: 'تابع المتبقي لرمضان، عشر ذي الحجة والأعياد المباركة مع تطبيق المتبقي.',
+                url: window.location.href
+            }
+            try {
+                if (navigator.share) {
+                    await navigator.share(shareData);
+                } else {
+                    await navigator.clipboard.writeText(window.location.href);
+                    alert('تم نسخ رابط الموقع.. يمكنك مشاركته الآن!');
+                }
+            } catch (err) { console.log(err); }
+        }
+
         function closePrompt() { 
             document.getElementById('pwa-prompt').style.display = 'none'; 
-            localStorage.setItem('pwaPromptClosed', 'true'); // حفظ حالة الإغلاق للأبد
+            localStorage.setItem('pwaPromptClosed', 'true');
         }
 
         function toggleTheme() {
@@ -204,9 +233,8 @@
                         localStorage.setItem('notify-' + id, 'active');
                         alert("تم تفعيل إشعارات " + name);
                     } else {
-                        alert("يرجى السماح بالإشعارات من الإعدادات");
+                        alert("يرجى السماح بالإشعارات من إعدادات المتصفح");
                         checkbox.checked = false;
-                        localStorage.removeItem('notify-' + id);
                     }
                 });
             } else {
@@ -229,8 +257,6 @@
             update('1', "2026-02-18T00:00:00"); update('2', "2026-03-20T00:00:00");
             update('3', "2026-05-27T00:00:00"); update('4', "2026-05-18T00:00:00");
         }, 1000);
-
-        setInterval(function(){ location.reload(); }, 9000000);
     </script>
 </body>
 </html>
