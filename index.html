@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>المتبقي</title>
     
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ffd700">
+    
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="المتبقي">
@@ -179,6 +182,11 @@
     </div>
 
     <script>
+        // تسجيل Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+
         window.onload = function() {
             const promptClosed = localStorage.getItem('pwaPromptClosed');
             if (!promptClosed) {
@@ -196,7 +204,6 @@
             const hours = document.getElementById('h'+id).innerText;
             const msg = `🌙 المتبقي لـ ${name}:\n⏳ ${days} يوم و ${hours} ساعة\n\n✨ ${prayer}\n\n📍 رابط العداد:\n${window.location.href}`;
             
-            // حل مشكلة اللابتوب: النسخ فورا دون انتظار قائمة النظام
             const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
             
             if (navigator.share && isMobile) {
