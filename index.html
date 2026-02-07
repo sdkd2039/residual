@@ -34,9 +34,9 @@
         .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #475569; transition: .4s; border-radius: 34px; }
         .slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
         
-        /* اللون الأزرق عند التشغيل كما طلبت */
-        input:checked + .slider { background-color: var(--blue-notif); }
+        input:checked + .slider { background-color: var(--blue-notif); cursor: default; }
         input:checked + .slider:before { transform: translateX(14px); }
+        input:disabled + .slider { opacity: 0.7; cursor: not-allowed; }
 
         .verse-box { background: var(--bg-card); padding: 20px; border-radius: 15px; max-width: 500px; text-align: center; line-height: 1.8; margin: 20px 0; border: 1px solid rgba(255, 215, 0, 0.2); }
         .quran-text { display: block; font-size: 1.15rem; color: var(--accent); direction: rtl !important; }
@@ -65,7 +65,7 @@
         </div>
         <div class="notify-row">
             <span data-i18n="notify">تفعيل التنبيهات</span>
-            <label class="switch"><input type="checkbox" onclick="toggleNotif()"><span class="slider"></span></label>
+            <label class="switch"><input type="checkbox" class="notif-check" onclick="toggleNotif(this)"><span class="slider"></span></label>
         </div>
     </div>
 
@@ -81,7 +81,7 @@
         </div>
         <div class="notify-row">
             <span data-i18n="notify">تفعيل التنبيهات</span>
-            <label class="switch"><input type="checkbox" onclick="toggleNotif()"><span class="slider"></span></label>
+            <label class="switch"><input type="checkbox" class="notif-check" onclick="toggleNotif(this)"><span class="slider"></span></label>
         </div>
     </div>
 
@@ -103,7 +103,7 @@
         </div>
         <div class="notify-row">
             <span data-i18n="notify">تفعيل التنبيهات</span>
-            <label class="switch"><input type="checkbox" onclick="toggleNotif()"><span class="slider"></span></label>
+            <label class="switch"><input type="checkbox" class="notif-check" onclick="toggleNotif(this)"><span class="slider"></span></label>
         </div>
     </div>
 
@@ -119,7 +119,7 @@
         </div>
         <div class="notify-row">
             <span data-i18n="notify">تفعيل التنبيهات</span>
-            <label class="switch"><input type="checkbox" onclick="toggleNotif()"><span class="slider"></span></label>
+            <label class="switch"><input type="checkbox" class="notif-check" onclick="toggleNotif(this)"><span class="slider"></span></label>
         </div>
     </div>
 
@@ -175,6 +175,14 @@
             document.getElementById('lang-btn').innerText = i18n[currentLang]['lang-btn'];
             document.getElementById('theme-btn').innerText = i18n[currentLang]['theme-btn'];
             document.getElementById('main-html').dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+            
+            // استعادة حالة الأزرار المعطلة
+            if(localStorage.getItem('notifs_enabled') === 'true') {
+                document.querySelectorAll('.notif-check').forEach(btn => {
+                    btn.checked = true;
+                    btn.disabled = true;
+                });
+            }
         }
 
         function toggleLang() {
@@ -188,9 +196,19 @@
             localStorage.setItem('theme', document.body.hasAttribute('data-theme') ? 'light' : 'dark');
         }
 
-        function toggleNotif() {
+        function toggleNotif(el) {
             Notification.requestPermission().then(p => {
-                if(p === 'granted') alert(currentLang === 'ar' ? "تم تفعيل التنبيهات بنجاح!" : "Notifications enabled!");
+                if(p === 'granted') {
+                    // تعطيل كل الأزرار بعد التفعيل لضمان عدم الإغلاق
+                    document.querySelectorAll('.notif-check').forEach(btn => {
+                        btn.checked = true;
+                        btn.disabled = true;
+                    });
+                    localStorage.setItem('notifs_enabled', 'true');
+                    alert(currentLang === 'ar' ? "تم تفعيل التنبيهات بنجاح!" : "Notifications enabled!");
+                } else {
+                    el.checked = false;
+                }
             });
         }
 
@@ -199,18 +217,12 @@
             const titlesAr = ["شهر رمضان المبارك", "عيد الفطر المبارك", "عشر ذي الحجة", "عيد الأضحى المبارك"];
             const titlesEn = ["Holy Ramadan", "Eid Al-Fitr", "10 Days of Hajj", "Eid Al-Adha"];
             const eventName = currentLang === 'ar' ? titlesAr[idx] : titlesEn[idx];
-            const pray = currentLang === 'ar' ? 
-                [i18n.ar["ramadan-pray"], i18n.ar["eid1-pray"], i18n.ar["hajj-pray"], i18n.ar["eid2-pray"]][idx] :
-                [i18n.en["ramadan-pray"], i18n.en["eid1-pray"], i18n.en["hajj-pray"], i18n.en["eid2-pray"]][idx];
-
             const d = document.getElementById('d' + ids[idx]).innerText;
             const h = document.getElementById('h' + ids[idx]).innerText;
             const m = document.getElementById('m' + ids[idx]).innerText;
             const s = document.getElementById('s' + ids[idx]).innerText;
-
-            const labels = currentLang === 'ar' ? 
-                {d:"يوم", h:"ساعة", m:"دقيقة", s:"ثانية", rem:"المتبقي لـ", link:"رابط العداد"} : 
-                {d:"Days", h:"Hrs", m:"Min", s:"Sec", rem:"Remaining for", link:"Link"};
+            const pray = [i18n[currentLang]["ramadan-pray"], i18n[currentLang]["eid1-pray"], i18n[currentLang]["hajj-pray"], i18n[currentLang]["eid2-pray"]][idx];
+            const labels = currentLang === 'ar' ? {d:"يوم", h:"ساعة", m:"دقيقة", s:"ثانية", rem:"المتبقي لـ", link:"رابط العداد"} : {d:"Days", h:"Hrs", m:"Min", s:"Sec", rem:"Remaining for", link:"Link"};
 
             const msg = `🌙 ${labels.rem} ${eventName}:\n⏳ ${d} ${labels.d} و ${h} ${labels.h} و ${m} ${labels.m} و ${s} ${labels.s}\n\n✨ ${pray}\n\n📍 ${labels.link}:\n${window.location.href}`;
             
