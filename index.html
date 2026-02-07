@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المتبقي</title>
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="المتبقي">
+    <link rel="apple-touch-icon" href="https://i.ibb.co/fYWfbWBQ/logo.png">
+    
+    <link rel="icon" type="image/png" href="https://i.ibb.co/fYWfbWBQ/logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-body: #080c14; --bg-card: #1e293b; --text-main: #ffffff;
+            --text-muted: #94a3b8; --accent: #ffd700; --box-bg: #0f172a;
+        }
+        [data-theme="light"] {
+            --bg-body: #f8fafc; --bg-card: #ffffff; --text-main: #0f172a;
+            --text-muted: #64748b; --accent: #10b981; --box-bg: #f1f5f9;
+        }
+        body {
+            background-color: var(--bg-body); color: var(--text-main);
+            font-family: 'IBM Plex Sans Arabic', sans-serif; margin: 0;
+            transition: all 0.3s ease; display: flex; flex-direction: column;
+            align-items: center; padding: 20px;
+        }
+        .theme-switch {
+            position: fixed; top: 20px; left: 20px; background: var(--accent);
+            color: #000; border: none; width: 45px; height: 45px; border-radius: 50%;
+            cursor: pointer; z-index: 1000; font-weight: bold; font-size: 0.8rem;
+        }
+        .logo-container { margin: 20px 0; text-align: center; }
+        .main-logo { width: 180px; height: auto; filter: drop-shadow(0 0 10px rgba(255,255,255,0.1)); }
+        .card {
+            background: var(--bg-card); border-radius: 20px; padding: 25px;
+            margin-bottom: 20px; width: 100%; max-width: 450px;
+            text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        .event-title { color: var(--accent); font-size: 1.5rem; font-weight: bold; margin-bottom: 5px; }
+        .event-date { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px; display: block; }
+        .timer-grid { display: flex; justify-content: space-between; gap: 8px; }
+        .box { background: var(--box-bg); padding: 12px 5px; border-radius: 12px; flex: 1; }
+        .num { display: block; font-size: 1.5rem; color: var(--accent); font-weight: bold; }
+        .label { font-size: 0.7rem; color: var(--text-muted); }
+        .toggle-section {
+            display: flex; align-items: center; justify-content: center;
+            margin-top: 20px; gap: 10px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .switch { position: relative; display: inline-block; width: 40px; height: 20px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #475569; transition: .4s; border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px;
+            background-color: white; transition: .4s; border-radius: 50%;
+        }
+        input:checked + .slider { background-color: #10b981; }
+        input:checked + .slider:before { transform: translateX(20px); }
+        .verse-box {
+            background: var(--bg-card); padding: 25px; border-radius: 15px;
+            max-width: 550px; text-align: center; line-height: 1.8;
+            font-size: 1.05rem; margin-top: 20px; border-right: 4px solid var(--accent);
+        }
+        .verse-ref { display: block; margin-top: 10px; font-weight: bold; color: var(--accent); font-size: 0.8rem; }
+        
+        /* تنبيه إضافة الموقع للشاشة الرئيسية */
+        #pwa-prompt {
+            position: fixed; bottom: 20px; background: var(--accent); color: #000;
+            padding: 15px; border-radius: 15px; width: 90%; max-width: 400px;
+            display: none; justify-content: space-between; align-items: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3); z-index: 2000; font-weight: bold;
+        }
+        #pwa-prompt button { background: #000; color: #fff; border: none; padding: 5px 15px; border-radius: 8px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div id="pwa-prompt">
+        <span>أضف "المتبقي" لشاشتك الرئيسية كأنّه تطبيق</span>
+        <button onclick="closePrompt()">حسناً</button>
+    </div>
+
+    <button class="theme-switch" onclick="toggleTheme()">نمط</button>
+    
+    <div class="logo-container">
+        <img src="https://i.ibb.co/fYWfbWBQ/logo.png" alt="المتبقي" class="main-logo">
+    </div>
+
+    <div class="card">
+        <div class="event-title">شهر رمضان المبارك</div>
+        <span class="event-date">1 رمضان 1447 هـ | 18 فبراير 2026 م</span>
+        <div class="timer-grid">
+            <div class="box"><span class="num" id="d1">0</span><span class="label">يوم</span></div>
+            <div class="box"><span class="num" id="h1">0</span><span class="label">ساعة</span></div>
+            <div class="box"><span class="num" id="m1">0</span><span class="label">دقيقة</span></div>
+            <div class="box"><span class="num" id="s1">0</span><span class="label">ثانية</span></div>
+        </div>
+        <div class="toggle-section">
+            <span>تفعيل التنبيهات</span>
+            <label class="switch"><input type="checkbox" id="notify-1" onchange="handleNotify('1', 'رمضان', this)"><span class="slider"></span></label>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="event-title">عيد الفطر المبارك</div>
+        <span class="event-date">1 شوال 1447 هـ | 20 مارس 2026 م</span>
+        <div class="timer-grid">
+            <div class="box"><span class="num" id="d2">0</span><span class="label">يوم</span></div>
+            <div class="box"><span class="num" id="h2">0</span><span class="label">ساعة</span></div>
+            <div class="box"><span class="num" id="m2">0</span><span class="label">دقيقة</span></div>
+            <div class="box"><span class="num" id="s2">0</span><span class="label">ثانية</span></div>
+        </div>
+        <div class="toggle-section">
+            <span>تفعيل التنبيهات</span>
+            <label class="switch"><input type="checkbox" id="notify-2" onchange="handleNotify('2', 'عيد الفطر', this)"><span class="slider"></span></label>
+        </div>
+    </div>
+
+    <div class="verse-box">
+        ﴿شَهرُ رَمَضانَ الَّذي أُنزِلَ فيهِ القُرآنُ هُدًى لِلنّاسِ وَبَيِّناتٍ مِنَ الهُدى وَالفُرقانِ فَمَن شَهِدَ مِنكُمُ الشَّهرَ فَليَصُمهُ وَمَن كانَ مَريضًا أَو عَلى سَفَرٍ فَعِدَّةٌ مِن أَيّامٍ أُخَرَ يُريدُ اللَّهُ بِكُمُ اليُسرَ وَلا يُريدُ بِكُمُ العُسرَ وَلِتُكمِلُوا العِدَّةَ وَلِتُكَبِّرُوا اللَّهَ عَلى ما هَداكُم وَلَعَلَّكُم تَشكُرونَ﴾
+        <span class="verse-ref">[البقرة: ١٨٥]</span>
+    </div>
+
+    <hr style="width: 80%; opacity: 0.1; margin: 30px 0;">
+
+    <div class="card">
+        <div class="event-title">عشر ذي الحجة</div>
+        <span class="event-date">1 ذو الحجة 1447 هـ | 18 مايو 2026 م</span>
+        <div class="timer-grid">
+            <div class="box"><span class="num" id="d4">0</span><span class="label">يوم</span></div>
+            <div class="box"><span class="num" id="h4">0</span><span class="label">ساعة</span></div>
+            <div class="box"><span class="num" id="m4">0</span><span class="label">دقيقة</span></div>
+            <div class="box"><span class="num" id="s4">0</span><span class="label">ثانية</span></div>
+        </div>
+        <div class="toggle-section">
+            <span>تفعيل التنبيهات</span>
+            <label class="switch"><input type="checkbox" id="notify-4" onchange="handleNotify('4', 'عشر ذي الحجة', this)"><span class="slider"></span></label>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="event-title">عيد الأضحى المبارك</div>
+        <span class="event-date">10 ذو الحجة 1447 هـ | 27 مايو 2026 م</span>
+        <div class="timer-grid">
+            <div class="box"><span class="num" id="d3">0</span><span class="label">يوم</span></div>
+            <div class="box"><span class="num" id="h3">0</span><span class="label">ساعة</span></div>
+            <div class="box"><span class="num" id="m3">0</span><span class="label">دقيقة</span></div>
+            <div class="box"><span class="num" id="s3">0</span><span class="label">ثانية</span></div>
+        </div>
+        <div class="toggle-section">
+            <span>تفعيل التنبيهات</span>
+            <label class="switch"><input type="checkbox" id="notify-3" onchange="handleNotify('3', 'عيد الأضحى', this)"><span class="slider"></span></label>
+        </div>
+    </div>
+
+    <div class="verse-box">
+        ﴿الحَجُّ أَشهُرٌ مَعلوماتٌ فَمَن فَرَضَ فيهِنَّ الحَجَّ فَلا رَفَثَ وَلا فُسوقَ وَلا جِدالَ فِي الحَجِّ وَما تَفعَلوا مِن خَيرٍ يَعلَمهُ اللَّهُ وَتَزَوَّدوا فَإِنَّ خَيرَ الزّادِ التَّقوى وَاتَّقونِ يا أُولِي الأَلبابِ﴾
+        <span class="verse-ref">[البقرة: ١٩٧]</span>
+    </div>
+
+    <script>
+        window.onload = function() {
+            // إظهار التنبيه للإضافة للشاشة الرئيسية
+            if (!window.navigator.standalone) {
+                setTimeout(() => { document.getElementById('pwa-prompt').style.display = 'flex'; }, 3000);
+            }
+            
+            for(let i=1; i<=4; i++) {
+                const status = localStorage.getItem('notify-' + i);
+                if(status === 'active') document.getElementById('notify-' + i).checked = true;
+            }
+            if(localStorage.getItem('theme') === 'light') document.body.setAttribute('data-theme', 'light');
+        }
+
+        function closePrompt() { document.getElementById('pwa-prompt').style.display = 'none'; }
+
+        function toggleTheme() {
+            if(document.body.hasAttribute('data-theme')) {
+                document.body.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.body.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        function handleNotify(id, name, checkbox) {
+            if (checkbox.checked) {
+                if (!("Notification" in window)) {
+                    alert("متصفحك لا يدعم الإشعارات");
+                    checkbox.checked = false;
+                    return;
+                }
+                Notification.requestPermission().then(permission => {
+                    if (permission === "granted") {
+                        localStorage.setItem('notify-' + id, 'active');
+                        alert("تم تثبيت تفعيل إشعارات " + name);
+                    } else {
+                        alert("يرجى السماح بالإشعارات من إعدادات المتصفح أولاً");
+                        checkbox.checked = false;
+                        localStorage.removeItem('notify-' + id);
+                    }
+                });
+            } else {
+                localStorage.removeItem('notify-' + id);
+                alert("تم إيقاف إشعارات " + name);
+            }
+        }
+
+        function update(id, date) {
+            const diff = new Date(date).getTime() - new Date().getTime();
+            if (diff > 0) {
+                document.getElementById('d'+id).innerText = Math.floor(diff / 86400000);
+                document.getElementById('h'+id).innerText = Math.floor((diff % 86400000) / 3600000);
+                document.getElementById('m'+id).innerText = Math.floor((diff % 3600000) / 60000);
+                document.getElementById('s'+id).innerText = Math.floor((diff % 60000) / 1000);
+            }
+        }
+
+        setInterval(() => {
+            update('1', "2026-02-18T00:00:00"); update('2', "2026-03-20T00:00:00");
+            update('3', "2026-05-27T00:00:00"); update('4', "2026-05-18T00:00:00");
+        }, 1000);
+
+        setInterval(function(){ location.reload(); }, 9000000);
+    </script>
+</body>
+</html>
