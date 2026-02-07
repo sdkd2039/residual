@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>المتبقي | Al-Mutabaqi</title>
-    
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#ffd700">
-    
     <link rel="apple-touch-icon" href="https://i.ibb.co/fYWfbWBQ/logo.png">
     <link rel="icon" type="image/png" href="https://i.ibb.co/fYWfbWBQ/logo.png">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
@@ -28,18 +26,15 @@
         .num { display: block; font-size: 1.4rem; color: var(--accent); font-weight: bold; }
         .label { font-size: 0.65rem; color: var(--text-muted); }
         .notify-row { margin-top: 20px; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 0.85rem; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px; }
-        
         .switch { position: relative; display: inline-block; width: 34px; height: 20px; }
         .switch input { opacity: 0; width: 0; height: 0; }
         .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #475569; transition: .4s; border-radius: 34px; }
         .slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
         input:checked + .slider { background-color: var(--blue-notif); }
         input:checked + .slider:before { transform: translateX(14px); }
-
-        .verse-box { background: var(--bg-card); padding: 20px; border-radius: 15px; max-width: 500px; text-align: center; line-height: 1.8; margin: 20px 0; border: 1px solid rgba(255, 215, 0, 0.2); }
-        .quran-text { display: block; font-size: 1.15rem; color: var(--accent); direction: rtl !important; }
-        .translation-text { display: block; font-size: 0.85rem; color: var(--text-muted); font-style: italic; margin-top: 10px; }
-        .verse-ref { display: block; margin-top: 10px; font-weight: bold; color: var(--accent); font-size: 0.8rem; }
+        .verse-box { background: var(--bg-card); padding: 20px; border-radius: 15px; max-width: 500px; text-align: center; line-height: 1.8; margin: 10px 0 30px 0; border: 1px solid rgba(255, 215, 0, 0.2); }
+        .quran-text { display: block; font-size: 1.1rem; color: var(--accent); direction: rtl !important; }
+        .verse-ref { display: block; margin-top: 10px; font-weight: bold; color: var(--text-muted); font-size: 0.8rem; }
     </style>
 </head>
 <body>
@@ -67,6 +62,11 @@
         </div>
     </div>
 
+    <div class="verse-box">
+        <span class="quran-text">﴿شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ هُدًى لِّلنَّاسِ وَبَيِّنَاتٍ مِّنَ الْهُدَىٰ وَالْفُرْقَانِ ۚ فَمَن شَهِدَ مِنكُمُ الشَّهْرَ فَلْيَصُمْهُ﴾</span>
+        <span class="verse-ref">[سورة البقرة: ١٨٥]</span>
+    </div>
+
     <div class="card">
         <button class="share-mini" onclick="doShare(1)" data-i18n="share">مشاركة</button>
         <div class="event-title" data-i18n="eid1-title"></div>
@@ -81,12 +81,6 @@
             <span data-i18n="notify">تفعيل التنبيهات</span>
             <label class="switch"><input type="checkbox" class="notif-check" onchange="handleToggle(this)"><span class="slider"></span></label>
         </div>
-    </div>
-
-    <div class="verse-box">
-        <span class="quran-text">﴿شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ هُدًى لِّلنَّاسِ وَبَيِّنَاتٍ مِّنَ الْهُدَىٰ وَالْفُرْقَانِ﴾</span>
-        <span id="trans-1" class="translation-text"></span>
-        <span class="verse-ref" data-i18n="v1-ref"></span>
     </div>
 
     <div class="card">
@@ -121,6 +115,11 @@
         </div>
     </div>
 
+    <div class="verse-box">
+        <span class="quran-text">﴿الْحَجُّ أَشْهُرٌ مَّعْلُومَاتٌ ۚ فَمَن فَرَضَ فِيهِنَّ الْحَجَّ فَلَا رَفَثَ وَلَا فُسُوقَ وَلَا جِدَالَ فِي الْحَجِّ﴾</span>
+        <span class="verse-ref">[سورة البقرة: ١٩٧]</span>
+    </div>
+
     <script>
         const i18n = {
             ar: {
@@ -130,7 +129,6 @@
                 "eid1-title": "عيد الفطر المبارك", "eid1-date": "1 شوال 1447 هـ | 20 مارس 2026 م",
                 "hajj-title": "عشر ذي الحجة", "hajj-date": "1 ذو الحجة 1447 هـ | 18 مايو 2026 م",
                 "eid2-title": "عيد الأضحى المبارك", "eid2-date": "10 ذو الحجة 1447 هـ | 27 مايو 2026 م",
-                "v1-ref": "[سورة البقرة: ١٨٥]", "trans-1": "",
                 "ramadan-pray": "بلغنا الله وإياكم شهر الصيام ونحن في أحسن حال. 🌙",
                 "eid1-pray": "تقبل الله منا ومنكم صالح الأعمال وعساكم من عواده. ✨",
                 "hajj-pray": "خير أيام الدنيا.. أعاننا الله وإياكم فيها على ذكره وشكره. 🙌",
@@ -139,12 +137,11 @@
             },
             en: {
                 "share": "Share", "days": "Days", "hours": "Hrs", "mins": "Min", "secs": "Sec",
-                "notify": "Notifications", "copy-msg": "Copied!",
+                "notify": "Notifications", "copy-msg": "Copied successfully!",
                 "ramadan-title": "Holy Ramadan", "ramadan-date": "Feb 18, 2026",
                 "eid1-title": "Eid Al-Fitr", "eid1-date": "March 20, 2026",
                 "hajj-title": "10 Days of Hajj", "hajj-date": "May 18, 2026",
                 "eid2-title": "Eid Al-Adha", "eid2-date": "May 27, 2026",
-                "v1-ref": "[Al-Baqarah: 185]", "trans-1": "“Ramadhan is the month...”",
                 "ramadan-pray": "May Allah let us reach Ramadan in peace. 🌙",
                 "eid1-pray": "May Allah accept our deeds. Happy Eid! ✨",
                 "hajj-pray": "The best days of the world. 🙌",
@@ -157,15 +154,13 @@
 
         function updateUI() {
             document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                el.innerText = i18n[currentLang][key];
+                el.innerText = i18n[currentLang][el.getAttribute('data-i18n')];
             });
-            document.getElementById('trans-1').innerText = i18n[currentLang]['trans-1'];
             document.getElementById('lang-btn').innerText = i18n[currentLang]['lang-btn'];
             document.getElementById('theme-btn').innerText = i18n[currentLang]['theme-btn'];
             document.getElementById('main-html').dir = currentLang === 'ar' ? 'rtl' : 'ltr';
-            const isEnabled = localStorage.getItem('notifs_enabled') === 'true';
-            document.querySelectorAll('.notif-check').forEach(btn => btn.checked = isEnabled);
+            const state = localStorage.getItem('notifs_enabled') === 'true';
+            document.querySelectorAll('.notif-check').forEach(btn => btn.checked = state);
         }
 
         function handleToggle(el) {
@@ -174,10 +169,7 @@
                     if(p === 'granted') {
                         localStorage.setItem('notifs_enabled', 'true');
                         document.querySelectorAll('.notif-check').forEach(b => b.checked = true);
-                    } else {
-                        el.checked = false;
-                        alert("يرجى تفعيل الإذن من إعدادات المتصفح");
-                    }
+                    } else { el.checked = false; alert("يرجى تفعيل الإذن من إعدادات المتصفح"); }
                 });
             } else {
                 localStorage.setItem('notifs_enabled', 'false');
@@ -190,14 +182,10 @@
             const titlesAr = ["شهر رمضان المبارك", "عيد الفطر المبارك", "عشر ذي الحجة", "عيد الأضحى المبارك"];
             const titlesEn = ["Holy Ramadan", "Eid Al-Fitr", "10 Days of Hajj", "Eid Al-Adha"];
             const prays = [i18n[currentLang]["ramadan-pray"], i18n[currentLang]["eid1-pray"], i18n[currentLang]["hajj-pray"], i18n[currentLang]["eid2-pray"]];
-            
             const eventName = currentLang === 'ar' ? titlesAr[idx] : titlesEn[idx];
             const d = document.getElementById('d' + ids[idx]).innerText;
             const h = document.getElementById('h' + ids[idx]).innerText;
-            
-            const labels = currentLang === 'ar' ? 
-                {rem: "المتبقي لـ", d: "يوم", h: "ساعة", link: "رابط العداد"} : 
-                {rem: "Remaining for", d: "Days", h: "Hrs", link: "Link"};
+            const labels = currentLang === 'ar' ? {rem: "المتبقي لـ", d: "يوم", h: "ساعة", link: "رابط العداد"} : {rem: "Remaining for", d: "Days", h: "Hrs", link: "Link"};
 
             const msg = `⌛ ${labels.rem} ${eventName}:\n🗓️ ${d} ${labels.d} و ${h} ${labels.h}\n\n✨ ${prays[idx]}\n\n📍 ${labels.link}:\n${window.location.href}`;
             
@@ -209,16 +197,8 @@
             }
         }
 
-        function toggleLang() {
-            currentLang = currentLang === 'ar' ? 'en' : 'ar';
-            localStorage.setItem('lang', currentLang);
-            updateUI();
-        }
-
-        function toggleTheme() {
-            document.body.hasAttribute('data-theme') ? document.body.removeAttribute('data-theme') : document.body.setAttribute('data-theme', 'light');
-            localStorage.setItem('theme', document.body.hasAttribute('data-theme') ? 'light' : 'dark');
-        }
+        function toggleLang() { currentLang = (currentLang === 'ar' ? 'en' : 'ar'); localStorage.setItem('lang', currentLang); updateUI(); }
+        function toggleTheme() { document.body.hasAttribute('data-theme') ? document.body.removeAttribute('data-theme') : document.body.setAttribute('data-theme', 'light'); localStorage.setItem('theme', document.body.hasAttribute('data-theme') ? 'light' : 'dark'); }
 
         function update(id, date) {
             const diff = new Date(date).getTime() - new Date().getTime();
@@ -235,7 +215,10 @@
             update('3', "2026-05-27T00:00:00"); update('4', "2026-05-18T00:00:00");
         }, 1000);
 
-        window.onload = updateUI;
+        window.onload = () => {
+            updateUI();
+            if(localStorage.getItem('theme') === 'light') document.body.setAttribute('data-theme', 'light');
+        };
     </script>
 </body>
 </html>
