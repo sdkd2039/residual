@@ -34,9 +34,10 @@
         .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #475569; transition: .4s; border-radius: 34px; }
         .slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
         
-        input:checked + .slider { background-color: var(--blue-notif); cursor: default; }
+        input:checked + .slider { background-color: var(--blue-notif); }
         input:checked + .slider:before { transform: translateX(14px); }
-        input:disabled + .slider { opacity: 0.7; cursor: not-allowed; }
+        /* التعديل هنا: الزر المعطل سيظل أزرق ولكن بشفافية بسيطة */
+        input:disabled + .slider { opacity: 0.8; cursor: default; pointer-events: none; }
 
         .verse-box { background: var(--bg-card); padding: 20px; border-radius: 15px; max-width: 500px; text-align: center; line-height: 1.8; margin: 20px 0; border: 1px solid rgba(255, 215, 0, 0.2); }
         .quran-text { display: block; font-size: 1.15rem; color: var(--accent); direction: rtl !important; }
@@ -65,7 +66,7 @@
         </div>
         <div class="notify-row">
             <span data-i18n="notify">تفعيل التنبيهات</span>
-            <label class="switch"><input type="checkbox" class="notif-check" onclick="toggleNotif(this)"><span class="slider"></span></label>
+            <label class="switch"><input type="checkbox" class="notif-check" onchange="handleToggle(this)"><span class="slider"></span></label>
         </div>
     </div>
 
@@ -81,7 +82,7 @@
         </div>
         <div class="notify-row">
             <span data-i18n="notify">تفعيل التنبيهات</span>
-            <label class="switch"><input type="checkbox" class="notif-check" onclick="toggleNotif(this)"><span class="slider"></span></label>
+            <label class="switch"><input type="checkbox" class="notif-check" onchange="handleToggle(this)"><span class="slider"></span></label>
         </div>
     </div>
 
@@ -103,7 +104,7 @@
         </div>
         <div class="notify-row">
             <span data-i18n="notify">تفعيل التنبيهات</span>
-            <label class="switch"><input type="checkbox" class="notif-check" onclick="toggleNotif(this)"><span class="slider"></span></label>
+            <label class="switch"><input type="checkbox" class="notif-check" onchange="handleToggle(this)"><span class="slider"></span></label>
         </div>
     </div>
 
@@ -119,7 +120,7 @@
         </div>
         <div class="notify-row">
             <span data-i18n="notify">تفعيل التنبيهات</span>
-            <label class="switch"><input type="checkbox" class="notif-check" onclick="toggleNotif(this)"><span class="slider"></span></label>
+            <label class="switch"><input type="checkbox" class="notif-check" onchange="handleToggle(this)"><span class="slider"></span></label>
         </div>
     </div>
 
@@ -176,11 +177,29 @@
             document.getElementById('theme-btn').innerText = i18n[currentLang]['theme-btn'];
             document.getElementById('main-html').dir = currentLang === 'ar' ? 'rtl' : 'ltr';
             
-            // استعادة حالة الأزرار المعطلة
+            // تحقق من الحالة المخزنة لتثبيت الزر
             if(localStorage.getItem('notifs_enabled') === 'true') {
                 document.querySelectorAll('.notif-check').forEach(btn => {
                     btn.checked = true;
                     btn.disabled = true;
+                });
+            }
+        }
+
+        function handleToggle(el) {
+            if(el.checked) {
+                Notification.requestPermission().then(p => {
+                    if(p === 'granted') {
+                        document.querySelectorAll('.notif-check').forEach(btn => {
+                            btn.checked = true;
+                            btn.disabled = true;
+                        });
+                        localStorage.setItem('notifs_enabled', 'true');
+                        alert(currentLang === 'ar' ? "تم تفعيل التنبيهات بنجاح!" : "Notifications enabled!");
+                    } else {
+                        el.checked = false;
+                        alert(currentLang === 'ar' ? "يجب السماح بالإشعارات من إعدادات المتصفح" : "Please enable notifications in browser settings");
+                    }
                 });
             }
         }
@@ -194,22 +213,6 @@
         function toggleTheme() {
             document.body.hasAttribute('data-theme') ? document.body.removeAttribute('data-theme') : document.body.setAttribute('data-theme', 'light');
             localStorage.setItem('theme', document.body.hasAttribute('data-theme') ? 'light' : 'dark');
-        }
-
-        function toggleNotif(el) {
-            Notification.requestPermission().then(p => {
-                if(p === 'granted') {
-                    // تعطيل كل الأزرار بعد التفعيل لضمان عدم الإغلاق
-                    document.querySelectorAll('.notif-check').forEach(btn => {
-                        btn.checked = true;
-                        btn.disabled = true;
-                    });
-                    localStorage.setItem('notifs_enabled', 'true');
-                    alert(currentLang === 'ar' ? "تم تفعيل التنبيهات بنجاح!" : "Notifications enabled!");
-                } else {
-                    el.checked = false;
-                }
-            });
         }
 
         function doShare(idx) {
