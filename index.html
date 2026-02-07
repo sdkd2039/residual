@@ -33,7 +33,6 @@
         .switch input { opacity: 0; width: 0; height: 0; }
         .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #475569; transition: .4s; border-radius: 34px; }
         .slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
-        
         input:checked + .slider { background-color: var(--blue-notif); }
         input:checked + .slider:before { transform: translateX(14px); }
 
@@ -85,7 +84,7 @@
     </div>
 
     <div class="verse-box">
-        <span class="quran-text">﴿شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ هُدًى لِّلنَّاسِ وَبَيِّنَاتٍ مِّنَ الْهُدَىٰ وَالْفُرْقَانِ ۚ فَمَن شَهِدَ مِنكُمُ الشَّهْرَ فَلْيَصُمْهُ ۖ وَمَن كَانَ مَرِيضًا أَوْ عَلَىٰ سَفَرٍ فَعِدَّةٌ مِّنْ أَيَّامٍ أُخَرَ ۗ يُرِيدُ اللَّهُ بِكُمُ الْيُسْرَ وَلَا يُرِيدُ بِكُمُ الْعُسْرَ وَلِتُكْمِلُوا الْعِدَّةَ وَلِتُكَبِّرُوا اللَّهَ عَلَىٰ مَا هَدَاكُمْ وَلَعَلَّكُمْ تَشْكُرُونَ﴾</span>
+        <span class="quran-text">﴿شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ هُدًى لِّلنَّاسِ وَبَيِّنَاتٍ مِّنَ الْهُدَىٰ وَالْفُرْقَانِ﴾</span>
         <span id="trans-1" class="translation-text"></span>
         <span class="verse-ref" data-i18n="v1-ref"></span>
     </div>
@@ -122,14 +121,7 @@
         </div>
     </div>
 
-    <div class="verse-box">
-        <span class="quran-text">﴿الْحَجُّ أَشْهُرٌ مَّعْلُومَاتٌ ۚ فَمَن فَرَضَ فِيهِنَّ الْحَجَّ فَلَا رَفَثَ وَلَا فُسُوقَ وَلَا جِدَالَ فِي الْحَجِّ ۗ وَمَا تَفْعَلُوا مِنْ خَيْرٍ يَعْلَمْهُ اللَّهُ ۗ وَتَزَوَّدُوا فَإِنَّ خَيْرَ الزَّادِ التَّقْوَىٰ ۚ وَاتَّقُونِ يَا أُولِي الْأَلْبَابِ﴾</span>
-        <span id="trans-2" class="translation-text"></span>
-        <span class="verse-ref" data-i18n="v2-ref"></span>
-    </div>
-
     <script>
-        // ... (نفس بيانات i18n السابقة)
         const i18n = {
             ar: {
                 "share": "مشاركة", "days": "يوم", "hours": "ساعة", "mins": "دقيقة", "secs": "ثانية",
@@ -138,27 +130,25 @@
                 "eid1-title": "عيد الفطر المبارك", "eid1-date": "1 شوال 1447 هـ | 20 مارس 2026 م",
                 "hajj-title": "عشر ذي الحجة", "hajj-date": "1 ذو الحجة 1447 هـ | 18 مايو 2026 م",
                 "eid2-title": "عيد الأضحى المبارك", "eid2-date": "10 ذو الحجة 1447 هـ | 27 مايو 2026 م",
-                "v1-ref": "[سورة البقرة: ١٨٥]", "v2-ref": "[سورة البقرة: ١٩٧]", "trans-1": "", "trans-2": "",
-                "ramadan-pray": "بلغنا الله وإياكم شهر الصيام ونحن في أحسن حال.",
-                "eid1-pray": "تقبل الله منا ومنكم صالح الأعمال وعساكم من عواده.",
-                "hajj-pray": "خير أيام الدنيا.. أعاننا الله وإياكم فيها على ذكره وشكره وحسن عبادته.",
-                "eid2-pray": "عيدكم مبارك، وتقبل الله طاعاتكم وأتم عليكم فرحتكم.",
+                "v1-ref": "[سورة البقرة: ١٨٥]", "trans-1": "",
+                "ramadan-pray": "بلغنا الله وإياكم شهر الصيام ونحن في أحسن حال. 🌙",
+                "eid1-pray": "تقبل الله منا ومنكم صالح الأعمال وعساكم من عواده. ✨",
+                "hajj-pray": "خير أيام الدنيا.. أعاننا الله وإياكم فيها على ذكره وشكره. 🙌",
+                "eid2-pray": "عيدكم مبارك، وتقبل الله طاعاتكم وأتم عليكم فرحتكم. 🐑",
                 "lang-btn": "English", "theme-btn": "نمط"
             },
             en: {
                 "share": "Share", "days": "Days", "hours": "Hrs", "mins": "Min", "secs": "Sec",
-                "notify": "Notifications", "copy-msg": "Details copied successfully!",
+                "notify": "Notifications", "copy-msg": "Copied!",
                 "ramadan-title": "Holy Ramadan", "ramadan-date": "Feb 18, 2026",
                 "eid1-title": "Eid Al-Fitr", "eid1-date": "March 20, 2026",
                 "hajj-title": "10 Days of Hajj", "hajj-date": "May 18, 2026",
                 "eid2-title": "Eid Al-Adha", "eid2-date": "May 27, 2026",
-                "v1-ref": "[Surah Al-Baqarah: 185]", "v2-ref": "[Surah Al-Baqarah: 197]",
-                "trans-1": "“The month of Ramadhan [is that] in which was revealed the Qur'an...”",
-                "trans-2": "“Hajj is [during] well-known months...”",
-                "ramadan-pray": "May Allah let us reach Ramadan in the best state.",
-                "eid1-pray": "May Allah accept our good deeds. Happy Eid!",
-                "hajj-pray": "The best days of the world.. May Allah help us remember Him.",
-                "eid2-pray": "Eid Mubarak! May Allah accept your worship.",
+                "v1-ref": "[Al-Baqarah: 185]", "trans-1": "“Ramadhan is the month...”",
+                "ramadan-pray": "May Allah let us reach Ramadan in peace. 🌙",
+                "eid1-pray": "May Allah accept our deeds. Happy Eid! ✨",
+                "hajj-pray": "The best days of the world. 🙌",
+                "eid2-pray": "Eid Mubarak! May Allah accept your worship. 🐑",
                 "lang-btn": "عربي", "theme-btn": "Theme"
             }
         };
@@ -171,16 +161,11 @@
                 el.innerText = i18n[currentLang][key];
             });
             document.getElementById('trans-1').innerText = i18n[currentLang]['trans-1'];
-            document.getElementById('trans-2').innerText = i18n[currentLang]['trans-2'];
             document.getElementById('lang-btn').innerText = i18n[currentLang]['lang-btn'];
             document.getElementById('theme-btn').innerText = i18n[currentLang]['theme-btn'];
             document.getElementById('main-html').dir = currentLang === 'ar' ? 'rtl' : 'ltr';
-            
-            // استرجاع حالة التشغيل/الإغلاق من الذاكرة
             const isEnabled = localStorage.getItem('notifs_enabled') === 'true';
-            document.querySelectorAll('.notif-check').forEach(btn => {
-                btn.checked = isEnabled;
-            });
+            document.querySelectorAll('.notif-check').forEach(btn => btn.checked = isEnabled);
         }
 
         function handleToggle(el) {
@@ -188,22 +173,40 @@
                 Notification.requestPermission().then(p => {
                     if(p === 'granted') {
                         localStorage.setItem('notifs_enabled', 'true');
-                        updateAllButtons(true);
+                        document.querySelectorAll('.notif-check').forEach(b => b.checked = true);
                     } else {
                         el.checked = false;
-                        alert("يرجى تفعيل الإشعارات من إعدادات المتصفح");
+                        alert("يرجى تفعيل الإذن من إعدادات المتصفح");
                     }
                 });
             } else {
                 localStorage.setItem('notifs_enabled', 'false');
-                updateAllButtons(false);
+                document.querySelectorAll('.notif-check').forEach(b => b.checked = false);
             }
         }
 
-        function updateAllButtons(state) {
-            document.querySelectorAll('.notif-check').forEach(btn => {
-                btn.checked = state;
-            });
+        function doShare(idx) {
+            const ids = ["1", "2", "4", "3"];
+            const titlesAr = ["شهر رمضان المبارك", "عيد الفطر المبارك", "عشر ذي الحجة", "عيد الأضحى المبارك"];
+            const titlesEn = ["Holy Ramadan", "Eid Al-Fitr", "10 Days of Hajj", "Eid Al-Adha"];
+            const prays = [i18n[currentLang]["ramadan-pray"], i18n[currentLang]["eid1-pray"], i18n[currentLang]["hajj-pray"], i18n[currentLang]["eid2-pray"]];
+            
+            const eventName = currentLang === 'ar' ? titlesAr[idx] : titlesEn[idx];
+            const d = document.getElementById('d' + ids[idx]).innerText;
+            const h = document.getElementById('h' + ids[idx]).innerText;
+            
+            const labels = currentLang === 'ar' ? 
+                {rem: "المتبقي لـ", d: "يوم", h: "ساعة", link: "رابط العداد"} : 
+                {rem: "Remaining for", d: "Days", h: "Hrs", link: "Link"};
+
+            const msg = `⌛ ${labels.rem} ${eventName}:\n🗓️ ${d} ${labels.d} و ${h} ${labels.h}\n\n✨ ${prays[idx]}\n\n📍 ${labels.link}:\n${window.location.href}`;
+            
+            if (navigator.share && /iPhone|Android/i.test(navigator.userAgent)) {
+                navigator.share({text: msg});
+            } else {
+                const t = document.createElement('textarea'); t.value = msg; document.body.appendChild(t); t.select(); document.execCommand('copy'); document.body.removeChild(t);
+                alert(i18n[currentLang]['copy-msg']);
+            }
         }
 
         function toggleLang() {
@@ -215,16 +218,6 @@
         function toggleTheme() {
             document.body.hasAttribute('data-theme') ? document.body.removeAttribute('data-theme') : document.body.setAttribute('data-theme', 'light');
             localStorage.setItem('theme', document.body.hasAttribute('data-theme') ? 'light' : 'dark');
-        }
-
-        function doShare(idx) {
-            const ids = ["1", "2", "4", "3"];
-            const d = document.getElementById('d' + ids[idx]).innerText;
-            const h = document.getElementById('h' + ids[idx]).innerText;
-            const m = document.getElementById('m' + ids[idx]).innerText;
-            const s = document.getElementById('s' + ids[idx]).innerText;
-            // ... (نفس منطق المشاركة السابق)
-            alert("تم نسخ النص للمشاركة!");
         }
 
         function update(id, date) {
@@ -242,10 +235,7 @@
             update('3', "2026-05-27T00:00:00"); update('4', "2026-05-18T00:00:00");
         }, 1000);
 
-        window.onload = () => {
-            updateUI();
-            if(localStorage.getItem('theme') === 'light') document.body.setAttribute('data-theme', 'light');
-        };
+        window.onload = updateUI;
     </script>
 </body>
 </html>
