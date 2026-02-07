@@ -23,14 +23,23 @@
         .share-mini { position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.05); border: 1px solid var(--accent); color: var(--accent); padding: 5px 8px; border-radius: 8px; cursor: pointer; font-size: 0.7rem; }
         html[dir="ltr"] .share-mini { left: auto; right: 15px; }
         .event-title { color: var(--accent); font-size: 1.4rem; font-weight: bold; }
-        .event-date { color: var(--text-muted); font-size: 0.8rem; margin-bottom: 15px; display: block; }
         .timer-grid { display: flex; justify-content: space-between; gap: 8px; margin-top: 15px; }
         .box { background: var(--box-bg); padding: 10px 5px; border-radius: 12px; flex: 1; }
         .num { display: block; font-size: 1.4rem; color: var(--accent); font-weight: bold; }
         .label { font-size: 0.65rem; color: var(--text-muted); }
-        .verse-box { background: var(--bg-card); padding: 20px; border-radius: 15px; max-width: 500px; text-align: center; line-height: 1.8; margin: 20px 0; border: 1px solid rgba(255, 215, 0, 0.3); }
-        .quran-text { display: block; font-size: 1.15rem; color: var(--accent); margin-bottom: 10px; direction: rtl !important; font-weight: 500; }
-        .translation-text { display: block; font-size: 0.85rem; color: var(--text-muted); font-style: italic; margin-top: 8px; }
+        .notify-row { margin-top: 20px; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 0.85rem; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px; }
+        
+        /* زر الإشعارات Switch */
+        .switch { position: relative; display: inline-block; width: 34px; height: 20px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #475569; transition: .4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--accent); }
+        input:checked + .slider:before { transform: translateX(14px); }
+
+        .verse-box { background: var(--bg-card); padding: 20px; border-radius: 15px; max-width: 500px; text-align: center; line-height: 1.8; margin: 20px 0; border: 1px solid rgba(255, 215, 0, 0.2); }
+        .quran-text { display: block; font-size: 1.15rem; color: var(--accent); direction: rtl !important; }
+        .translation-text { display: block; font-size: 0.85rem; color: var(--text-muted); font-style: italic; margin-top: 10px; }
         .verse-ref { display: block; margin-top: 10px; font-weight: bold; color: var(--accent); font-size: 0.8rem; }
     </style>
 </head>
@@ -46,19 +55,23 @@
     <div class="card">
         <button class="share-mini" onclick="doShare(0)" data-i18n="share">مشاركة</button>
         <div class="event-title" data-i18n="ramadan-title"></div>
-        <span class="event-date" data-i18n="ramadan-date"></span>
+        <span style="font-size: 0.8rem; color: var(--text-muted);" data-i18n="ramadan-date"></span>
         <div class="timer-grid">
             <div class="box"><span class="num" id="d1">0</span><span class="label" data-i18n="days"></span></div>
             <div class="box"><span class="num" id="h1">0</span><span class="label" data-i18n="hours"></span></div>
             <div class="box"><span class="num" id="m1">0</span><span class="label" data-i18n="mins"></span></div>
             <div class="box"><span class="num" id="s1">0</span><span class="label" data-i18n="secs"></span></div>
         </div>
+        <div class="notify-row">
+            <span data-i18n="notify">تفعيل التنبيهات</span>
+            <label class="switch"><input type="checkbox" onclick="toggleNotif()"><span class="slider"></span></label>
+        </div>
     </div>
 
     <div class="card">
         <button class="share-mini" onclick="doShare(1)" data-i18n="share">مشاركة</button>
         <div class="event-title" data-i18n="eid1-title"></div>
-        <span class="event-date" data-i18n="eid1-date"></span>
+        <span style="font-size: 0.8rem; color: var(--text-muted);" data-i18n="eid1-date"></span>
         <div class="timer-grid">
             <div class="box"><span class="num" id="d2">0</span><span class="label" data-i18n="days"></span></div>
             <div class="box"><span class="num" id="h2">0</span><span class="label" data-i18n="hours"></span></div>
@@ -76,7 +89,7 @@
     <div class="card">
         <button class="share-mini" onclick="doShare(2)" data-i18n="share">مشاركة</button>
         <div class="event-title" data-i18n="hajj-title"></div>
-        <span class="event-date" data-i18n="hajj-date"></span>
+        <span style="font-size: 0.8rem; color: var(--text-muted);" data-i18n="hajj-date"></span>
         <div class="timer-grid">
             <div class="box"><span class="num" id="d4">0</span><span class="label" data-i18n="days"></span></div>
             <div class="box"><span class="num" id="h4">0</span><span class="label" data-i18n="hours"></span></div>
@@ -88,7 +101,7 @@
     <div class="card">
         <button class="share-mini" onclick="doShare(3)" data-i18n="share">مشاركة</button>
         <div class="event-title" data-i18n="eid2-title"></div>
-        <span class="event-date" data-i18n="eid2-date"></span>
+        <span style="font-size: 0.8rem; color: var(--text-muted);" data-i18n="eid2-date"></span>
         <div class="timer-grid">
             <div class="box"><span class="num" id="d3">0</span><span class="label" data-i18n="days"></span></div>
             <div class="box"><span class="num" id="h3">0</span><span class="label" data-i18n="hours"></span></div>
@@ -107,13 +120,12 @@
         const i18n = {
             ar: {
                 "share": "مشاركة", "days": "يوم", "hours": "ساعة", "mins": "دقيقة", "secs": "ثانية",
-                "copy-msg": "تم نسخ التفاصيل بنجاح!", "ramadan-title": "شهر رمضان المبارك",
-                "ramadan-date": "1 رمضان 1447 هـ | 18 فبراير 2026 م",
+                "notify": "تفعيل التنبيهات", "copy-msg": "تم نسخ التفاصيل بنجاح!",
+                "ramadan-title": "شهر رمضان المبارك", "ramadan-date": "1 رمضان 1447 هـ | 18 فبراير 2026 م",
                 "eid1-title": "عيد الفطر المبارك", "eid1-date": "1 شوال 1447 هـ | 20 مارس 2026 م",
                 "hajj-title": "عشر ذي الحجة", "hajj-date": "1 ذو الحجة 1447 هـ | 18 مايو 2026 م",
                 "eid2-title": "عيد الأضحى المبارك", "eid2-date": "10 ذو الحجة 1447 هـ | 27 مايو 2026 م",
-                "v1-ref": "[سورة البقرة: ١٨٥]", "v2-ref": "[سورة البقرة: ١٩٧]",
-                "trans-1": "", "trans-2": "",
+                "v1-ref": "[سورة البقرة: ١٨٥]", "v2-ref": "[سورة البقرة: ١٩٧]", "trans-1": "", "trans-2": "",
                 "ramadan-pray": "بلغنا الله وإياكم شهر الصيام ونحن في أحسن حال.",
                 "eid1-pray": "تقبل الله منا ومنكم صالح الأعمال وعساكم من عواده.",
                 "hajj-pray": "خير أيام الدنيا.. أعاننا الله وإياكم فيها على ذكره وشكره وحسن عبادته.",
@@ -122,14 +134,14 @@
             },
             en: {
                 "share": "Share", "days": "Days", "hours": "Hrs", "mins": "Min", "secs": "Sec",
-                "copy-msg": "Countdown details copied successfully!", "ramadan-title": "Holy Ramadan",
-                "ramadan-date": "Feb 18, 2026",
+                "notify": "Notifications", "copy-msg": "Details copied successfully!",
+                "ramadan-title": "Holy Ramadan", "ramadan-date": "Feb 18, 2026",
                 "eid1-title": "Eid Al-Fitr", "eid1-date": "March 20, 2026",
                 "hajj-title": "10 Days of Hajj", "hajj-date": "May 18, 2026",
                 "eid2-title": "Eid Al-Adha", "eid2-date": "May 27, 2026",
                 "v1-ref": "[Surah Al-Baqarah: 185]", "v2-ref": "[Surah Al-Baqarah: 197]",
-                "trans-1": "“The month of Ramadhan [is that] in which was revealed the Qur'an, a guidance for the people and clear proofs of guidance and criterion...”",
-                "trans-2": "“Hajj is [during] well-known months, so whoever has made Hajj obligatory upon himself therein, there is [to be for him] no disobedience and no disputing during Hajj...”",
+                "trans-1": "“The month of Ramadhan [is that] in which was revealed the Qur'an...”",
+                "trans-2": "“Hajj is [during] well-known months...”",
                 "ramadan-pray": "May Allah let us reach Ramadan in the best state.",
                 "eid1-pray": "May Allah accept our good deeds. Happy Eid!",
                 "hajj-pray": "The best days of the world.. May Allah help us remember Him.",
@@ -163,11 +175,16 @@
             localStorage.setItem('theme', document.body.hasAttribute('data-theme') ? 'light' : 'dark');
         }
 
+        function toggleNotif() {
+            Notification.requestPermission().then(p => {
+                if(p === 'granted') alert(currentLang === 'ar' ? "تم تفعيل التنبيهات بنجاح!" : "Notifications enabled!");
+            });
+        }
+
         function doShare(idx) {
             const ids = ["1", "2", "4", "3"];
             const titlesAr = ["شهر رمضان المبارك", "عيد الفطر المبارك", "عشر ذي الحجة", "عيد الأضحى المبارك"];
             const titlesEn = ["Holy Ramadan", "Eid Al-Fitr", "10 Days of Hajj", "Eid Al-Adha"];
-            
             const eventName = currentLang === 'ar' ? titlesAr[idx] : titlesEn[idx];
             const pray = currentLang === 'ar' ? 
                 [i18n.ar["ramadan-pray"], i18n.ar["eid1-pray"], i18n.ar["hajj-pray"], i18n.ar["eid2-pray"]][idx] :
