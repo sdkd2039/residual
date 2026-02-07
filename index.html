@@ -48,7 +48,6 @@
             border-radius: 10px; cursor: pointer; font-size: 0.75rem; display: flex;
             align-items: center; gap: 5px; transition: 0.3s;
         }
-        .share-mini:hover { background: var(--accent); color: #000; }
 
         .event-title { color: var(--accent); font-size: 1.5rem; font-weight: bold; margin-bottom: 5px; }
         .event-date { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px; display: block; }
@@ -77,7 +76,7 @@
         .verse-box {
             background: var(--bg-card); padding: 25px; border-radius: 15px;
             max-width: 550px; text-align: center; line-height: 1.8;
-            font-size: 1.05rem; margin-top: 20px; border-right: 4px solid var(--accent);
+            font-size: 1.05rem; margin: 20px 0; border-right: 4px solid var(--accent);
         }
         .verse-ref { display: block; margin-top: 10px; font-weight: bold; color: var(--accent); font-size: 0.8rem; }
         
@@ -104,7 +103,7 @@
     </div>
 
     <div class="card">
-        <button class="share-mini" onclick="shareSpecific('رمضان المبارك', '1', 'بلغنا الله وإياكم شهر الصيام ونحن في أحسن حال.')">مشاركة</button>
+        <button class="share-mini" onclick="doShare('رمضان المبارك', '1', 'بلغنا الله وإياكم شهر الصيام ونحن في أحسن حال.')">مشاركة</button>
         <div class="event-title">شهر رمضان المبارك</div>
         <span class="event-date">1 رمضان 1447 هـ | 18 فبراير 2026 م</span>
         <div class="timer-grid">
@@ -120,7 +119,7 @@
     </div>
 
     <div class="card">
-        <button class="share-mini" onclick="shareSpecific('عيد الفطر', '2', 'تقبل الله منا ومنكم صالح الأعمال وعساكم من عواده.')">مشاركة</button>
+        <button class="share-mini" onclick="doShare('عيد الفطر', '2', 'تقبل الله منا ومنكم صالح الأعمال وعساكم من عواده.')">مشاركة</button>
         <div class="event-title">عيد الفطر المبارك</div>
         <span class="event-date">1 شوال 1447 هـ | 20 مارس 2026 م</span>
         <div class="timer-grid">
@@ -136,14 +135,14 @@
     </div>
 
     <div class="verse-box">
-        ﴿شَهرُ رَمَضانَ الَّذي أُنزِلَ فيهِ القُرآنُ هُدًى لِلنّاسِ وَبَيِّناتٍ مِنَ الهُدى وَالفُرقانِ﴾
+        ﴿شَهرُ رَمَضانَ الَّذي أُنزِلَ فيهِ القُرآنُ هُدًى لِلنّاسِ وَبَيِّناتٍ مِنَ الهُدى وَالفُرقانِ فَمَن شَهِدَ مِنكُمُ الشَّهرَ فَليَصُمهُ وَمَن كانَ مَريضًا أَو عَلى سَفَرٍ فَعِدَّةٌ مِن أَيّامٍ أُخَرَ يُريدُ اللَّهُ بِكُمُ اليُسرَ وَلا يُريدُ بِكُمُ العُسرَ وَلِتُكمِلُوا العِدَّةَ وَلِتُكَبِّرُوا اللَّهَ عَلى ما هَداكُم وَلَعَلَّكُم تَشكُرونَ﴾
         <span class="verse-ref">[البقرة: ١٨٥]</span>
     </div>
 
     <hr style="width: 80%; opacity: 0.1; margin: 30px 0;">
 
     <div class="card">
-        <button class="share-mini" onclick="shareSpecific('عشر ذي الحجة', '4', 'خير أيام الدنيا.. أعاننا الله وإياكم فيها على ذكره وشكره وحسن عبادته.')">مشاركة</button>
+        <button class="share-mini" onclick="doShare('عشر ذي الحجة', '4', 'خير أيام الدنيا.. أعاننا الله وإياكم فيها على ذكره وشكره وحسن عبادته.')">مشاركة</button>
         <div class="event-title">عشر ذي الحجة</div>
         <span class="event-date">1 ذو الحجة 1447 هـ | 18 مايو 2026 م</span>
         <div class="timer-grid">
@@ -159,7 +158,7 @@
     </div>
 
     <div class="card">
-        <button class="share-mini" onclick="shareSpecific('عيد الأضحى', '3', 'عيدكم مبارك، وتقبل الله طاعاتكم وأتم عليكم فرحتكم.')">مشاركة</button>
+        <button class="share-mini" onclick="doShare('عيد الأضحى', '3', 'عيدكم مبارك، وتقبل الله طاعاتكم وأتم عليكم فرحتكم.')">مشاركة</button>
         <div class="event-title">عيد الأضحى المبارك</div>
         <span class="event-date">10 ذو الحجة 1447 هـ | 27 مايو 2026 م</span>
         <div class="timer-grid">
@@ -172,6 +171,11 @@
             <span>تفعيل التنبيهات</span>
             <label class="switch"><input type="checkbox" id="notify-3" onchange="handleNotify('3', 'عيد الأضحى', this)"><span class="slider"></span></label>
         </div>
+    </div>
+
+    <div class="verse-box">
+        ﴿الحَجُّ أَشهُرٌ مَعلوماتٌ فَمَن فَرَضَ فيهِنَّ الحَجَّ فَلا رَفَثَ وَلا فُسوقَ وَلا جِدالَ فِي الحَجِّ وَما تَفعَلوا مِن خَيرٍ يَعلَمهُ اللَّهُ وَتَزَوَّدوا فَإِنَّ خَيرَ الزّادِ التَّقوى وَاتَّقونِ يا أُولِي الأَلبابِ﴾
+        <span class="verse-ref">[البقرة: ١٩٧]</span>
     </div>
 
     <script>
@@ -187,27 +191,29 @@
             if(localStorage.getItem('theme') === 'light') document.body.setAttribute('data-theme', 'light');
         }
 
-        async function shareSpecific(name, id, prayer) {
+        function doShare(name, id, prayer) {
             const days = document.getElementById('d'+id).innerText;
             const hours = document.getElementById('h'+id).innerText;
-            const message = `🌙 المتبقي لـ ${name}:\n⏳ ${days} يوم و ${hours} ساعة\n\n✨ ${prayer}\n\n📍 تابع العداد مباشرة عبر تطبيق المتبقي:\n${window.location.href}`;
+            const msg = `🌙 المتبقي لـ ${name}:\n⏳ ${days} يوم و ${hours} ساعة\n\n✨ ${prayer}\n\n📍 رابط العداد:\n${window.location.href}`;
             
-            if (navigator.share && /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-                try { await navigator.share({ title: 'تطبيق المتبقي', text: message }); } 
-                catch (err) { copyToClipboard(message, name); }
+            // حل مشكلة اللابتوب: النسخ فورا دون انتظار قائمة النظام
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            
+            if (navigator.share && isMobile) {
+                navigator.share({title: 'تطبيق المتبقي', text: msg}).catch(e => copyMsg(msg, name));
             } else {
-                copyToClipboard(message, name);
+                copyMsg(msg, name);
             }
         }
 
-        function copyToClipboard(text, name) {
-            const el = document.createElement('textarea');
-            el.value = text;
-            document.body.appendChild(el);
-            el.select();
+        function copyMsg(text, name) {
+            const temp = document.createElement('textarea');
+            temp.value = text;
+            document.body.appendChild(temp);
+            temp.select();
             document.execCommand('copy');
-            document.body.removeChild(el);
-            alert('تم نسخ تفاصيل ' + name + ' بنجاح! يمكنك الآن لصقها (Paste) في الواتساب أو أي مكان آخر.');
+            document.body.removeChild(temp);
+            alert('تم نسخ تفاصيل ' + name + ' بنجاح! يمكنك الآن لصقها في محادثاتك.');
         }
 
         function closePrompt() { 
@@ -227,8 +233,8 @@
 
         function handleNotify(id, name, checkbox) {
             if (checkbox.checked) {
-                Notification.requestPermission().then(permission => {
-                    if (permission === "granted") {
+                Notification.requestPermission().then(p => {
+                    if (p === "granted") {
                         localStorage.setItem('notify-' + id, 'active');
                         alert("تم تفعيل إشعارات " + name);
                     } else {
