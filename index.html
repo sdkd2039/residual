@@ -28,8 +28,9 @@
         .box { background: var(--box-bg); padding: 10px 5px; border-radius: 12px; flex: 1; }
         .num { display: block; font-size: 1.4rem; color: var(--accent); font-weight: bold; }
         .label { font-size: 0.65rem; color: var(--text-muted); }
-        .verse-box { background: var(--bg-card); padding: 20px; border-radius: 15px; max-width: 500px; text-align: center; line-height: 1.8; margin: 20px 0; border-right: 4px solid var(--accent); }
-        html[dir="ltr"] .verse-box { border-right: none; border-left: 4px solid var(--accent); }
+        .verse-box { background: var(--bg-card); padding: 20px; border-radius: 15px; max-width: 500px; text-align: center; line-height: 1.8; margin: 20px 0; border-right: 4px solid var(--accent); border-left: 4px solid var(--accent); }
+        .quran-text { display: block; font-size: 1.1rem; color: var(--accent); margin-bottom: 10px; direction: rtl !important; }
+        .translation-text { display: block; font-size: 0.85rem; color: var(--text-muted); font-style: italic; }
         .verse-ref { display: block; margin-top: 10px; font-weight: bold; color: var(--accent); font-size: 0.8rem; }
     </style>
 </head>
@@ -67,8 +68,9 @@
     </div>
 
     <div class="verse-box">
-        <span id="v-text-1"></span>
-        <span class="verse-ref" id="v-ref-1"></span>
+        <span class="quran-text">﴿شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ هُدًى لِّلنَّاسِ وَبَيِّنَاتٍ مِّنَ الْهُدَىٰ وَالْفُرْقَانِ...﴾</span>
+        <span id="trans-1" class="translation-text"></span>
+        <span class="verse-ref" data-i18n="v1-ref"></span>
     </div>
 
     <div class="card">
@@ -96,8 +98,9 @@
     </div>
 
     <div class="verse-box">
-        <span id="v-text-2"></span>
-        <span class="verse-ref" id="v-ref-2"></span>
+        <span class="quran-text">﴿الْحَجُّ أَشْهُرٌ مَّعْلُومَاتٌ ۚ فَمَن فَرَضَ فِيهِنَّ الْحَجَّ فَلَا رَفَثَ وَلَا فُسُوقَ وَلَا جِدَالَ فِي الْحَجِّ...﴾</span>
+        <span id="trans-2" class="translation-text"></span>
+        <span class="verse-ref" data-i18n="v2-ref"></span>
     </div>
 
     <script>
@@ -109,10 +112,8 @@
                 "eid1-title": "عيد الفطر المبارك", "eid1-date": "1 شوال 1447 هـ | 20 مارس 2026 م",
                 "hajj-title": "عشر ذي الحجة", "hajj-date": "1 ذو الحجة 1447 هـ | 18 مايو 2026 م",
                 "eid2-title": "عيد الأضحى المبارك", "eid2-date": "10 ذو الحجة 1447 هـ | 27 مايو 2026 م",
-                "v1": "﴿شَهرُ رَمَضانَ الَّذي أُنزِلَ فيهِ القُرآنُ هُدًى لِلنّاسِ وَبَيِّناتٍ مِنَ الهُدى وَالفُرقانِ...﴾",
-                "v1-ref": "[البقرة: ١٨٥]", 
-                "v2": "﴿الحَجُّ أَشهُرٌ مَعلوماتٌ فَمَن فَرَضَ فيهِنَّ الحَجَّ فَلا رَفَثَ وَلا فُسوقَ وَلا جِدالَ فِي الحَجِّ...﴾",
-                "v2-ref": "[البقرة: ١٩٧]",
+                "v1-ref": "[البقرة: ١٨٥]", "v2-ref": "[البقرة: ١٩٧]",
+                "trans-1": "", "trans-2": "",
                 "ramadan-pray": "بلغنا الله وإياكم شهر الصيام ونحن في أحسن حال.",
                 "eid1-pray": "تقبل الله منا ومنكم صالح الأعمال وعساكم من عواده.",
                 "hajj-pray": "خير أيام الدنيا.. أعاننا الله وإياكم فيها على ذكره وشكره وحسن عبادته.",
@@ -126,10 +127,9 @@
                 "eid1-title": "Eid Al-Fitr", "eid1-date": "March 20, 2026",
                 "hajj-title": "10 Days of Hajj", "hajj-date": "May 18, 2026",
                 "eid2-title": "Eid Al-Adha", "eid2-date": "May 27, 2026",
-                "v1": "“The month of Ramadhan [is that] in which was revealed the Qur'an...”",
-                "v1-ref": "[Al-Baqarah: 185]",
-                "v2": "“Hajj is [during] well-known months...”",
-                "v2-ref": "[Al-Baqarah: 197]",
+                "v1-ref": "[Al-Baqarah: 185]", "v2-ref": "[Al-Baqarah: 197]",
+                "trans-1": "“The month of Ramadhan [is that] in which was revealed the Qur'an...”",
+                "trans-2": "“Hajj is [during] well-known months...”",
                 "ramadan-pray": "May Allah let us reach Ramadan in the best state.",
                 "eid1-pray": "May Allah accept our good deeds. Happy Eid!",
                 "hajj-pray": "The best days of the world.. May Allah help us remember Him.",
@@ -145,10 +145,8 @@
                 const key = el.getAttribute('data-i18n');
                 el.innerText = i18n[currentLang][key];
             });
-            document.getElementById('v-text-1').innerText = i18n[currentLang]['v1'];
-            document.getElementById('v-ref-1').innerText = i18n[currentLang]['v1-ref'];
-            document.getElementById('v-text-2').innerText = i18n[currentLang]['v2'];
-            document.getElementById('v-ref-2').innerText = i18n[currentLang]['v2-ref'];
+            document.getElementById('trans-1').innerText = i18n[currentLang]['trans-1'];
+            document.getElementById('trans-2').innerText = i18n[currentLang]['trans-2'];
             document.getElementById('lang-btn').innerText = i18n[currentLang]['lang-btn'];
             document.getElementById('theme-btn').innerText = i18n[currentLang]['theme-btn'];
             document.getElementById('main-html').dir = currentLang === 'ar' ? 'rtl' : 'ltr';
@@ -165,7 +163,6 @@
             localStorage.setItem('theme', document.body.hasAttribute('data-theme') ? 'light' : 'dark');
         }
 
-        // الوظيفة التي طلبتها: لا تغير شيء في شكل النسخ القديم (إيموجي، أيام، ساعات، دقائق، ثواني، دعاء)
         function doShare(idx) {
             const ids = ["1", "2", "4", "3"];
             const titlesAr = ["شهر رمضان المبارك", "عيد الفطر المبارك", "عشر ذي الحجة", "عيد الأضحى المبارك"];
@@ -185,7 +182,6 @@
                 {d:"يوم", h:"ساعة", m:"دقيقة", s:"ثانية", rem:"المتبقي لـ", link:"رابط العداد"} : 
                 {d:"Days", h:"Hrs", m:"Min", s:"Sec", rem:"Remaining for", link:"Link"};
 
-            // صياغة الرسالة كما كانت بالضبط مع الإيموجي والوقت الكامل
             const msg = `🌙 ${labels.rem} ${eventName}:\n⏳ ${d} ${labels.d} و ${h} ${labels.h} و ${m} ${labels.m} و ${s} ${labels.s}\n\n✨ ${pray}\n\n📍 ${labels.link}:\n${window.location.href}`;
             
             if (navigator.share && /iPhone|Android/i.test(navigator.userAgent)) {
