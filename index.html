@@ -43,22 +43,10 @@
         .translation-text { display: block; font-size: 0.9rem; color: var(--text-muted); font-style: italic; line-height: 1.5; margin-bottom: 10px; }
         .verse-ref { display: block; font-weight: bold; color: var(--text-muted); font-size: 0.8rem; }
         
-        /* شريط التنبيه الخاص بالتثبيت */
         #pwa-banner { 
-            display: none; 
-            background: var(--blue-notif); 
-            color: white; 
-            padding: 12px; 
-            border-radius: 12px; 
-            margin-bottom: 20px; 
-            font-size: 0.85rem; 
-            text-align: center; 
-            width: 100%; 
-            max-width: 430px; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            position: relative;
+            display: none; background: var(--blue-notif); color: white; padding: 12px; border-radius: 12px; margin-bottom: 20px; font-size: 0.85rem; text-align: center; width: 100%; max-width: 430px; position: relative; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
-        #pwa-banner .close-btn { position: absolute; top: 5px; left: 10px; cursor: pointer; font-weight: bold; }
+        #pwa-banner .close-btn { position: absolute; top: 5px; left: 10px; cursor: pointer; font-weight: bold; font-size: 1.2rem; }
 
         footer { margin-top: auto; padding: 40px 20px 20px; text-align: center; color: var(--text-muted); font-size: 0.8rem; line-height: 1.6; width: 100%; }
         footer b { color: var(--accent); }
@@ -162,24 +150,32 @@
 <script>
     const i18n = {
         ar: {
-            "ramadan-title": "شهر رمضان المبارك", "eid1-title": "عيد الفطر المبارك", 
-            "hajj-title": "عشر ذي الحجة", "eid2-title": "عيد الأضحى المبارك",
+            "ramadan-title": "رمضان المبارك", "eid1-title": "عيد الفطر المبارك", 
+            "hajj-title": "11 ذو الحجة 1447 هـ", "eid2-title": "عيد الأضحى المبارك",
+            "ramadan-date": "1 رمضان 1447 هـ | 18 فبراير 2026 م",
+            "eid1-date": "1 شوال 1447 هـ | 20 مارس 2026 م",
+            "hajj-date": "1 ذو الحجة 1447 هـ | 18 مايو 2026 م",
+            "eid2-date": "10 ذو الحجة 1447 هـ | 27 مايو 2026 م",
             "lang-btn": "English", "theme-btn": "نمط", "notify": "تفعيل التنبيهات", "share": "مشاركة",
             "days": "يوم", "hours": "ساعة", "mins": "دقيقة", "secs": "ثانية",
             "v1-ref": "سورة البقرة: ١٨٥", "v2-ref": "سورة البقرة: ١٩٧", 
             "copy-msg": "تم النسخ بنجاح! ✅", "rem": "المتبقي لـ",
-            "notif-confirm": "تم تفعيل التنبيهات لـ ",
-            "congrat-msg": "تهنئ موقع المتبقي بقدوم #EVENT# وتقبل الله الصيام والقيام وصالح الأعمال 🌒"
+            "congrat-msg": "تهنئ موقع المتبقي بقدوم #EVENT# وتقبل الله الصيام والقيام وصالح الأعمال 🌒",
+            "share-footer": "\n✨ بلغنا الله وإياكم هذه الأيام المباركة ونحن في أحسن حال.\n\n📍 رابط العداد:\n"
         },
         en: {
-            "ramadan-title": "Holy Ramadan", "eid1-title": "Eid al-Fitr",
+            "ramadan-title": "Ramadan", "eid1-title": "Eid al-Fitr",
             "hajj-title": "10 Days of Dhu al-Hijjah", "eid2-title": "Eid al-Adha",
+            "ramadan-date": "1 Ramadan 1447 AH | 18 Feb 2026",
+            "eid1-date": "1 Shawwal 1447 AH | 20 Mar 2026",
+            "hajj-date": "1 Dhu al-Hijjah 1447 AH | 18 May 2026",
+            "eid2-date": "10 Dhu al-Hijjah 1447 AH | 27 May 2026",
             "lang-btn": "عربي", "theme-btn": "Mode", "notify": "Enable Alerts", "share": "Share",
             "days": "Days", "hours": "Hrs", "mins": "Min", "secs": "Sec",
             "v1-ref": "Surah Al-Baqarah: 185", "v2-ref": "Surah Al-Baqarah: 197",
             "copy-msg": "Link Copied! ✅", "rem": "Remaining for",
-            "notif-confirm": "Notifications enabled for: ",
-            "congrat-msg": "Al-Mutabaqi congratulates you on #EVENT#. May Allah accept your good deeds 🌒"
+            "congrat-msg": "Al-Mutabaqi congratulates you on #EVENT#. May Allah accept your good deeds 🌒",
+            "share-footer": "\n✨ May Allah reach us these blessed days in the best condition.\n\n📍 Counter Link:\n"
         }
     };
 
@@ -192,68 +188,38 @@
             if (i18n[currentLang][key]) el.innerText = i18n[currentLang][key];
         });
         document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
-        
-        if (currentTheme === 'light') { document.body.classList.add('light-mode'); } 
-        else { document.body.classList.remove('light-mode'); }
+        if (currentTheme === 'light') document.body.classList.add('light-mode');
+        else document.body.classList.remove('light-mode');
 
-        // فحص التنبيهات وشريط الـ PWA
-        checkPwaBanner();
+        if (!localStorage.getItem('pwa_banner_closed')) document.getElementById('pwa-banner').style.display = 'block';
 
         ['ramadan', 'eid1', 'hajj', 'eid2'].forEach(key => {
             const saved = localStorage.getItem('notif_' + key);
-            const checkbox = document.getElementById('notif-' + key);
-            if (checkbox) {
-                checkbox.checked = (saved === 'true');
-                if (saved === 'true') scheduleNotification(key);
-            }
+            const cb = document.getElementById('notif-' + key);
+            if (cb) { cb.checked = (saved === 'true'); if (saved === 'true') scheduleNotification(key); }
         });
     }
 
-    // وظيفة شريط التنبيه (تظهر مرة واحدة فقط)
-    function checkPwaBanner() {
-        const bannerShown = localStorage.getItem('pwa_banner_closed');
-        if (!bannerShown) {
-            document.getElementById('pwa-banner').style.display = 'block';
-        }
-    }
-
-    function closePwaBanner() {
-        localStorage.setItem('pwa_banner_closed', 'true');
-        document.getElementById('pwa-banner').style.display = 'none';
-    }
+    function closePwaBanner() { localStorage.setItem('pwa_banner_closed', 'true'); document.getElementById('pwa-banner').style.display = 'none'; }
 
     function scheduleNotification(key) {
-        const dates = {
-            'ramadan': "2026-02-18T00:00:00Z",
-            'eid1': "2026-03-20T00:00:00Z",
-            'hajj': "2026-05-18T00:00:00Z",
-            'eid2': "2026-05-27T00:00:00Z"
-        };
-        const targetDate = new Date(dates[key]).getTime();
-        const dayBefore = targetDate - (24 * 60 * 60 * 1000); 
-        const now = new Date().getTime();
-        const timeUntilNotif = dayBefore - now;
-
-        if (timeUntilNotif > 0) {
+        const dates = { 'ramadan': "2026-02-18T00:00:00Z", 'eid1': "2026-03-20T00:00:00Z", 'hajj': "2026-05-18T00:00:00Z", 'eid2': "2026-05-27T00:00:00Z" };
+        const dayBefore = new Date(dates[key]).getTime() - (24 * 60 * 60 * 1000);
+        const timeUntil = dayBefore - new Date().getTime();
+        if (timeUntil > 0) {
             setTimeout(() => {
                 if (localStorage.getItem('notif_' + key) === 'true') {
-                    const eventName = i18n[currentLang][key + '-title'];
-                    const msg = i18n[currentLang]['congrat-msg'].replace('#EVENT#', eventName);
-                    showSystemNotification(msg);
+                    const msg = i18n[currentLang]['congrat-msg'].replace('#EVENT#', i18n[currentLang][key + '-title']);
+                    showNotification(msg);
                 }
-            }, timeUntilNotif);
+            }, timeUntil);
         }
     }
 
-    function showSystemNotification(bodyText) {
+    function showNotification(body) {
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.ready.then(reg => {
-                reg.showNotification("المتبقي | Al-Mutabaqi", {
-                    body: bodyText,
-                    icon: 'https://i.ibb.co/fYWfbWBQ/logo.png',
-                    vibrate: [300, 100, 300],
-                    badge: 'https://i.ibb.co/fYWfbWBQ/logo.png'
-                });
+                reg.showNotification("المتبقي | Al-Mutabaqi", { body: body, icon: 'https://i.ibb.co/fYWfbWBQ/logo.png', vibrate: [300, 100, 300] });
             });
         }
     }
@@ -263,23 +229,28 @@
             Notification.requestPermission().then(perm => {
                 if (perm === 'granted') {
                     localStorage.setItem('notif_' + key, 'true');
-                    const eventName = i18n[currentLang][key + '-title'];
-                    showSystemNotification(i18n[currentLang]['notif-confirm'] + "(" + eventName + ") 🔔");
+                    showNotification("تم تفعيل التنبيه لـ " + i18n[currentLang][key + '-title']);
                     scheduleNotification(key);
-                } else {
-                    el.checked = false;
-                    localStorage.setItem('notif_' + key, 'false');
-                }
+                } else { el.checked = false; }
             });
-        } else {
-            localStorage.setItem('notif_' + key, 'false');
-        }
+        } else { localStorage.setItem('notif_' + key, 'false'); }
     }
 
-    // العداد التنازلي والوظائف الأخرى (نفس السابقة)
+    function doShare(idx) {
+        const keys = ['ramadan', 'eid1', 'hajj', 'eid2'];
+        const idMap = [1, 2, 4, 3]; // خرائط الـ ID للعدادات في الـ HTML
+        const key = keys[idx];
+        const d = document.getElementById('d' + idMap[idx]).innerText;
+        const h = document.getElementById('h' + idMap[idx]).innerText;
+        const msg = `🌙 ${i18n[currentLang].rem} ${i18n[currentLang][key+'-title']}:\n⏳ ${d} ${i18n[currentLang].days} و ${h} ${i18n[currentLang].hours}${i18n[currentLang]['share-footer']}${window.location.href}`;
+        if (navigator.share) navigator.share({ text: msg });
+        else { alert("تم نسخ النص بنجاح!"); }
+    }
+
     function updateCountdown(id, dateStr) {
         const target = new Date(dateStr).getTime();
-        const diff = target - (new Date().getTime() + (new Date().getTimezoneOffset() * 60000) + (3600000 * 3));
+        const now = new Date().getTime() + (new Date().getTimezoneOffset() * 60000) + (3600000 * 3);
+        const diff = target - now;
         if (diff > 0) {
             document.getElementById('d'+id).innerText = Math.floor(diff / 86400000);
             document.getElementById('h'+id).innerText = Math.floor((diff % 86400000) / 3600000);
@@ -295,13 +266,7 @@
 
     function toggleLang() { currentLang = (currentLang === 'ar' ? 'en' : 'ar'); localStorage.setItem('lang', currentLang); updateUI(); }
     function toggleTheme() { currentTheme = (currentTheme === 'dark' ? 'light' : 'dark'); localStorage.setItem('theme', currentTheme); updateUI(); }
-    function doShare(idx) {
-        const keys = ['ramadan', 'eid1', 'hajj', 'eid2'];
-        const key = keys[idx];
-        const msg = `⌛ ${i18n[currentLang].rem} ${i18n[currentLang][key+'-title']}:\n📍 ${window.location.href}`;
-        if (navigator.share) navigator.share({ text: msg });
-    }
-
+    
     window.onload = updateUI;
 </script>
 </body>
