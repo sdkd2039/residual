@@ -138,34 +138,45 @@
             });
         }
 
-        const i18n = {
-            ar: {
-                  "share": "مشاركة", "days": "يوم", "hours": "ساعة", "mins": "دقيقة", "secs": "ثانية",
-                "notify": "تفعيل التنبيهات", "copy-msg": "تم نسخ التفاصيل بنجاح!",
-                "ramadan-title": "شهر رمضان المبارك", "ramadan-date": "1 رمضان 1447 هـ | 18 فبراير 2026 م",
-                "eid1-title": "عيد الفطر المبارك", "eid1-date": "1 شوال 1447 هـ | 20 مارس 2026 م",
-                "hajj-title": "عشر ذي الحجة", "hajj-date": "1 ذو الحجة 1447 هـ | 18 مايو 2026 م",
-                "eid2-title": "عيد الأضحى المبارك", "eid2-date": "10 ذو الحجة 1447 هـ | 27 مايو 2026 م",
-                "v1-ref": "[سورة البقرة: ١٨٥]", "v2-ref": "[سورة البقرة: ١٩٧]",
-                "notif-msg": "سيصلك تنبيه عند اقتراب الموعد! 🔔", "lang-btn": "English", "theme-btn": "نمط",
-                "rem": "المتبقي لـ", "link": "رابط العداد",
-                "prays": ["بلغنا الله وإياكم شهر الصيام. 🌙", "جعل الله عيدكم فرحة بأعمال قُبلت، وذنوب مُحيت، ودرجات رُفعت، ورقاب عُتقت.. كل عام وأنتم بخير ✨", "📌 اللهم بارك لنا في عشر ذي الحجة، واجعل لنا نصيبًا في كل خير تقسِمه، وفي كل رزق تبسطه، وفي كل هم تفرجه", "عاد عيدكم، تقبل الله منا ومنكم. 🐑"]
-            },
-            en: {
-                "share": "Share", "days": "Days", "hours": "Hrs", "mins": "Min", "secs": "Sec",
-                "notify": "Notify", "copy-msg": "Copied!",
-                "ramadan-title": "Holy Ramadan", "ramadan-date": "Feb 18, 2026",
-                "eid1-title": "Eid Al-Fitr", "eid1-date": "Mar 20, 2026",
-                "hajj-title": "10 Days of Hajj", "hajj-date": "May 18, 2026",
-                "eid2-title": "Eid Al-Adha", "eid2-date": "May 27, 2026",
-                "v1-ref": "[Al-Baqarah: 185]", "v2-ref": "[Al-Baqarah: 197]",
-                "trans-1": "The month of Ramadan in which was revealed the Quran.",
-                "trans-2": "Hajj is in the well-known months.",
-                "notif-msg": "Notification activated! 🔔", "lang-btn": "عربي", "theme-btn": "Theme",
-                "rem": "Remaining for", "link": "Link",
-                "prays": ["May Allah let us reach Ramadan. 🌙", "Happy Eid! ✨", "Best days of the world. 🙌", "Eid Mubarak. 🐑"]
-            }
-        };
+const i18n = {
+    ar: {
+        "share": "مشاركة", "days": "يوم", "hours": "ساعة", "mins": "دقيقة", "secs": "ثانية",
+        "notify": "تفعيل التنبيهات", "copy-msg": "تم نسخ التفاصيل بنجاح!",
+        "ramadan-title": "شهر رمضان المبارك", "ramadan-date": "رمضان 1447 هـ | 18 فبراير 2026 م",
+        "eid1-title": "عيد الفطر المبارك", "eid1-date": "شوال 1447 هـ | 20 مارس 2026 م",
+        "hajj-title": "عشر ذي الحجة", "hajj-date": "ذو الحجة 1447 هـ | 18 مايو 2026 م",
+        "eid2-title": "عيد الأضحى المبارك", "eid2-date": "ذو الحجة 1447 هـ | 27 مايو 2026 م",
+        "v1-ref": "[سورة البقرة: ١٨٥]", "v2-ref": "[سورة البقرة: ١٩٧]",
+        "notif-msg": "سيصلك تنبيه عند اقتراب الموعد! 🔔", "lang-btn": "English", "theme-btn": "نمط",
+        "rem": "المتبقي لـ", "link": "رابط العداد",
+        "prays": [
+            "اللهم بلغنا الصيام والقيام وصالح الأعمال 🌙",
+            "جعل الله عيدكم فرحة بأعمال قُبلت، وذنوب مُحيت، ودرجات رُفعت.. كل عام وأنتم بخير ✨",
+            "اللهم بارك لنا في عشر ذي الحجة، واجعل لنا نصيباً في كل خير تقسمه، وفي كل رزق تبسطه، وفي كل هم تفرجه 🙌",
+            "عاد عيدكم، تقبل الله منا ومنكم 🐑"
+        ]
+    },
+    en: {
+        "share": "Share", "days": "Days", "hours": "Hrs", "mins": "Min", "secs": "Sec",
+        "notify": "Notify", "copy-msg": "Copied!",
+        "ramadan-title": "Holy Ramadan", "ramadan-date": "Feb 18, 2026",
+        "eid1-title": "Eid Al-Fitr", "eid1-date": "Mar 20, 2026",
+        "hajj-title": "10 Days of Hajj", "hajj-date": "May 18, 2026",
+        "eid2-title": "Eid Al-Adha", "eid2-date": "May 27, 2026",
+        "v1-ref": "[Al-Baqarah: 185]", "v2-ref": "[Al-Baqarah: 197]",
+        "trans-1": "The month of Ramadan in which was revealed the Quran.",
+        "trans-2": "Hajj is in the well-known months.",
+        "notif-msg": "Notification activated! 🔔", "lang-btn": "عربي", "theme-btn": "Theme",
+        "rem": "Remaining for", "link": "Link",
+        "prays": [
+            "May Allah let us reach Ramadan. 🌙",
+            "Happy Eid! ✨",
+            "Best days of the world. 🙌",
+            "Eid Mubarak. 🐑"
+        ]
+    }
+};
+
 
         let currentLang = localStorage.getItem('lang') || 'ar';
 
@@ -197,20 +208,22 @@
             } else localStorage.setItem('notif_' + key, 'false');
         }
 
-        function doShare(idx) {
-            const ids = ["1", "2", "4", "3"];
-            const eventName = i18n[currentLang][(idx==0?'ramadan':idx==1?'eid1':idx==2?'hajj':'eid2')+'-title'];
-            const d = document.getElementById('d' + ids[idx]).innerText;
-            const h = document.getElementById('h' + ids[idx]).innerText;
-            const pray = i18n[currentLang]['prays'][idx];
-            
-            const msg = `⌛ ${i18n[currentLang].rem} ${eventName}:\n🗓️ ${d} ${i18n[currentLang].days} و ${h} ${i18n[currentLang].hours}\n\n✨ ${pray}\n\n📍 ${i18n[currentLang].link}:\n${window.location.href}`;
-            
-            if (navigator.share && /iPhone|Android|iPad/i.test(navigator.userAgent)) {
-                navigator.share({ text: msg });
-            } else {
-                const t = document.createElement('textarea'); t.value = msg; document.body.appendChild(t); t.select(); document.execCommand('copy'); document.body.removeChild(t);
-                alert(i18n[currentLang]['copy-msg']);
+function doShare(idx) {
+    const ids = ["1", "2", "4", "3"];
+    const eventName = i18n[currentLang][(idx==0?'ramadan':idx==1?'eid1':idx==2?'hajj':'eid2')+'-title'];
+    const d = document.getElementById('d' + ids[idx]).innerText;
+    const h = document.getElementById('h' + ids[idx]).innerText;
+    const pray = i18n[currentLang]['prays'][idx]; // سحب الدعاء المناسب
+    
+    const msg = `⌛ ${i18n[currentLang].rem} ${eventName}:\n🗓️ ${d} ${i18n[currentLang].days} و ${h} ${i18n[currentLang].hours}\n\n✨ ${pray}\n\n📍 ${i18n[currentLang].link}:\n${window.location.href}`;
+    
+    if (navigator.share) {
+        navigator.share({ text: msg });
+    } else {
+        copyToClipboard(msg);
+    }
+}
+
             }
         }
 
