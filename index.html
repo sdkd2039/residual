@@ -43,9 +43,23 @@
         .translation-text { display: block; font-size: 0.9rem; color: var(--text-muted); font-style: italic; line-height: 1.5; margin-bottom: 10px; }
         .verse-ref { display: block; font-weight: bold; color: var(--text-muted); font-size: 0.8rem; }
         
-        /* تنبيه التثبيت الصغير */
-        #pwa-alert { display: none; background: var(--blue-notif); color: white; padding: 10px; border-radius: 10px; margin-bottom: 20px; font-size: 0.8rem; text-align: center; width: 100%; max-width: 450px; cursor: pointer; }
-        
+        /* شريط التنبيه الخاص بالتثبيت */
+        #pwa-banner { 
+            display: none; 
+            background: var(--blue-notif); 
+            color: white; 
+            padding: 12px; 
+            border-radius: 12px; 
+            margin-bottom: 20px; 
+            font-size: 0.85rem; 
+            text-align: center; 
+            width: 100%; 
+            max-width: 430px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            position: relative;
+        }
+        #pwa-banner .close-btn { position: absolute; top: 5px; left: 10px; cursor: pointer; font-weight: bold; }
+
         footer { margin-top: auto; padding: 40px 20px 20px; text-align: center; color: var(--text-muted); font-size: 0.8rem; line-height: 1.6; width: 100%; }
         footer b { color: var(--accent); }
     </style>
@@ -59,7 +73,10 @@
     
     <img src="https://i.ibb.co/fYWfbWBQ/logo.png" alt="Logo" class="main-logo">
 
-    <div id="pwa-alert" onclick="this.style.display='none'" data-i18n="pwa-tip">لضمان وصول الإشعارات، يرجى إضافة الموقع للشاشة الرئيسية (تثبيت كـ تطبيق).</div>
+    <div id="pwa-banner">
+        <span class="close-btn" onclick="closePwaBanner()">×</span>
+        لضمان وصول التنبيهات في وقتها، يرجى إضافة الموقع للشاشة الرئيسية (تثبيت التطبيق).
+    </div>
 
     <div class="card">
         <button class="share-mini" onclick="doShare(0)" data-i18n="share">مشاركة</button>
@@ -145,31 +162,24 @@
 <script>
     const i18n = {
         ar: {
+            "ramadan-title": "شهر رمضان المبارك", "eid1-title": "عيد الفطر المبارك", 
+            "hajj-title": "عشر ذي الحجة", "eid2-title": "عيد الأضحى المبارك",
             "lang-btn": "English", "theme-btn": "نمط", "notify": "تفعيل التنبيهات", "share": "مشاركة",
-            "ramadan-title": "شهر رمضان المبارك", "ramadan-date": "1 رمضان 1447 هـ | 18 فبراير 2026 م",
-            "eid1-title": "عيد الفطر المبارك", "eid1-date": "1 شوال 1447 هـ | 20 مارس 2026 م",
-            "hajj-title": "عشر ذي الحجة", "hajj-date": "1 ذو الحجة 1447 هـ | 18 مايو 2026 م",
-            "eid2-title": "عيد الأضحى المبارك", "eid2-date": "10 ذو الحجة 1447 هـ | 27 مايو 2026 م",
             "days": "يوم", "hours": "ساعة", "mins": "دقيقة", "secs": "ثانية",
             "v1-ref": "سورة البقرة: ١٨٥", "v2-ref": "سورة البقرة: ١٩٧", 
-            "trans1": "", "trans2": "",
             "copy-msg": "تم النسخ بنجاح! ✅", "rem": "المتبقي لـ",
-            "notif-confirm": "تم تفعيل التنبيهات لـ ", "pwa-tip": "لضمان وصول الإشعارات، يرجى إضافة الموقع للشاشة الرئيسية (تثبيت كـ تطبيق).",
-            "footer-time": "*حسب توقيت مكة المكرمة", "footer-rights": "جميع الحقوق محفوظة لـ", "pre-day": "بقي يوم واحد على "
+            "notif-confirm": "تم تفعيل التنبيهات لـ ",
+            "congrat-msg": "تهنئ موقع المتبقي بقدوم #EVENT# وتقبل الله الصيام والقيام وصالح الأعمال 🌒"
         },
         en: {
+            "ramadan-title": "Holy Ramadan", "eid1-title": "Eid al-Fitr",
+            "hajj-title": "10 Days of Dhu al-Hijjah", "eid2-title": "Eid al-Adha",
             "lang-btn": "عربي", "theme-btn": "Mode", "notify": "Enable Alerts", "share": "Share",
-            "ramadan-title": "Holy Ramadan", "ramadan-date": "1 Ramadan 1447 AH | 18 Feb 2026",
-            "eid1-title": "Eid al-Fitr", "eid1-date": "1 Shawwal 1447 AH | 20 Mar 2026",
-            "hajj-title": "10 Days of Dhu al-Hijjah", "hajj-date": "1 Dhu al-Hijjah 1447 AH | 18 May 2026",
-            "eid2-title": "Eid al-Adha", "eid2-date": "10 Dhu al-Hijjah 1447 AH | 27 May 2026",
             "days": "Days", "hours": "Hrs", "mins": "Min", "secs": "Sec",
             "v1-ref": "Surah Al-Baqarah: 185", "v2-ref": "Surah Al-Baqarah: 197",
-            "trans1": "Meanings: The month of Ramadan [is that] in which was revealed the Qur'an...",
-            "trans2": "Meanings: Hajj is [during] well-known months...",
             "copy-msg": "Link Copied! ✅", "rem": "Remaining for",
-            "notif-confirm": "Notifications enabled for: ", "pwa-tip": "For reliable notifications, please Add to Home Screen (Install App).",
-            "footer-time": "*Based on Makkah Time", "footer-rights": "All rights reserved for", "pre-day": "One day left for "
+            "notif-confirm": "Notifications enabled for: ",
+            "congrat-msg": "Al-Mutabaqi congratulates you on #EVENT#. May Allah accept your good deeds 🌒"
         }
     };
 
@@ -186,6 +196,9 @@
         if (currentTheme === 'light') { document.body.classList.add('light-mode'); } 
         else { document.body.classList.remove('light-mode'); }
 
+        // فحص التنبيهات وشريط الـ PWA
+        checkPwaBanner();
+
         ['ramadan', 'eid1', 'hajj', 'eid2'].forEach(key => {
             const saved = localStorage.getItem('notif_' + key);
             const checkbox = document.getElementById('notif-' + key);
@@ -196,7 +209,19 @@
         });
     }
 
-    // دالة الجدولة قبل الحدث بـ 24 ساعة
+    // وظيفة شريط التنبيه (تظهر مرة واحدة فقط)
+    function checkPwaBanner() {
+        const bannerShown = localStorage.getItem('pwa_banner_closed');
+        if (!bannerShown) {
+            document.getElementById('pwa-banner').style.display = 'block';
+        }
+    }
+
+    function closePwaBanner() {
+        localStorage.setItem('pwa_banner_closed', 'true');
+        document.getElementById('pwa-banner').style.display = 'none';
+    }
+
     function scheduleNotification(key) {
         const dates = {
             'ramadan': "2026-02-18T00:00:00Z",
@@ -213,20 +238,21 @@
             setTimeout(() => {
                 if (localStorage.getItem('notif_' + key) === 'true') {
                     const eventName = i18n[currentLang][key + '-title'];
-                    showFinalNotification(i18n[currentLang]['pre-day'] + eventName);
+                    const msg = i18n[currentLang]['congrat-msg'].replace('#EVENT#', eventName);
+                    showSystemNotification(msg);
                 }
             }, timeUntilNotif);
         }
     }
 
-    function showFinalNotification(bodyText) {
+    function showSystemNotification(bodyText) {
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.ready.then(reg => {
                 reg.showNotification("المتبقي | Al-Mutabaqi", {
                     body: bodyText,
                     icon: 'https://i.ibb.co/fYWfbWBQ/logo.png',
-                    vibrate: [200, 100, 200],
-                    silent: false
+                    vibrate: [300, 100, 300],
+                    badge: 'https://i.ibb.co/fYWfbWBQ/logo.png'
                 });
             });
         }
@@ -237,9 +263,8 @@
             Notification.requestPermission().then(perm => {
                 if (perm === 'granted') {
                     localStorage.setItem('notif_' + key, 'true');
-                    document.getElementById('pwa-alert').style.display = 'block'; // إظهار النصيحة
                     const eventName = i18n[currentLang][key + '-title'];
-                    showFinalNotification(i18n[currentLang]['notif-confirm'] + "(" + eventName + ") 🔔");
+                    showSystemNotification(i18n[currentLang]['notif-confirm'] + "(" + eventName + ") 🔔");
                     scheduleNotification(key);
                 } else {
                     el.checked = false;
@@ -251,21 +276,7 @@
         }
     }
 
-    function doShare(idx) {
-        const keys = ['ramadan', 'eid1', 'hajj', 'eid2'];
-        const key = keys[idx];
-        const msg = `⌛ ${i18n[currentLang].rem} ${i18n[currentLang][key+'-title']}:\n📅 ${i18n[currentLang][key+'-date']}\n📍 ${window.location.href}`;
-        if (navigator.share) { navigator.share({ text: msg }); } 
-        else {
-            const t = document.createElement('textarea'); t.value = msg; document.body.appendChild(t); t.select();
-            document.execCommand('copy'); document.body.removeChild(t);
-            alert(i18n[currentLang]['copy-msg']);
-        }
-    }
-
-    function toggleLang() { currentLang = (currentLang === 'ar' ? 'en' : 'ar'); localStorage.setItem('lang', currentLang); updateUI(); }
-    function toggleTheme() { currentTheme = (currentTheme === 'dark' ? 'light' : 'dark'); localStorage.setItem('theme', currentTheme); updateUI(); }
-
+    // العداد التنازلي والوظائف الأخرى (نفس السابقة)
     function updateCountdown(id, dateStr) {
         const target = new Date(dateStr).getTime();
         const diff = target - (new Date().getTime() + (new Date().getTimezoneOffset() * 60000) + (3600000 * 3));
@@ -282,8 +293,13 @@
         updateCountdown('4', "2026-05-18T00:00:00Z"); updateCountdown('3', "2026-05-27T00:00:00Z");
     }, 1000);
 
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js').then(() => console.log("SW OK"));
+    function toggleLang() { currentLang = (currentLang === 'ar' ? 'en' : 'ar'); localStorage.setItem('lang', currentLang); updateUI(); }
+    function toggleTheme() { currentTheme = (currentTheme === 'dark' ? 'light' : 'dark'); localStorage.setItem('theme', currentTheme); updateUI(); }
+    function doShare(idx) {
+        const keys = ['ramadan', 'eid1', 'hajj', 'eid2'];
+        const key = keys[idx];
+        const msg = `⌛ ${i18n[currentLang].rem} ${i18n[currentLang][key+'-title']}:\n📍 ${window.location.href}`;
+        if (navigator.share) navigator.share({ text: msg });
     }
 
     window.onload = updateUI;
