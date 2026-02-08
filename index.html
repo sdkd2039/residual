@@ -131,6 +131,7 @@
     </footer>
 
 <script>
+    // تسجيل الـ Service Worker
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('sw.js').catch(err => console.log('SW Error', err));
@@ -153,15 +154,15 @@
             "rem": "المتبقي لـ", "link": "رابط العداد",
             "prays": [
                 "اللهم بلغنا الصيام والقيام وصالح الأعمال 🌙",
-                "جعل الله عيدكم فرحة بأعمال قُبلت، وذنوب مُحيت.. كل عام وأنتم بخير ✨",
-                "اللهم بارك لنا في عشر ذي الحجة، واجعل لنا نصيباً في كل خير 🙌",
+                "جعل الله عيدكم فرحة بأعمال قُبلت.. كل عام وأنتم بخير ✨",
+                "اللهم بارك لنا في عشر ذي الحجة 🙌",
                 "عاد عيدكم، تقبل الله منا ومنكم 🐑"
             ]
         },
         en: {
             "share": "Share", "days": "Days", "hours": "Hrs", "mins": "Min", "secs": "Sec",
-            "notify": "Notify", "copy-msg": "Text copied successfully! ✅",
-            "ramadan-title": "The Blessed Month of Ramadan",
+            "notify": "Notify", "copy-msg": "Copied! ✅",
+            "ramadan-title": "Holy Ramadan",
             "ramadan-date": "1 Ramadan 1447 AH | 18 Feb 2026",
             "eid1-title": "Eid al-Fitr",
             "eid1-date": "1 Shawwal 1447 AH | 20 Mar 2026",
@@ -171,26 +172,46 @@
             "eid2-date": "10 Dhu al-Hijjah 1447 AH | 27 May 2026",
             "notif-msg": "Notifications activated for: ", "lang-btn": "عربي", "theme-btn": "Theme",
             "rem": "Remaining for", "link": "Link",
-            "prays": [
-                "Reach Ramadan 🌙", "Happy Eid! ✨", "Best days 🙌", "Eid Mubarak 🐑"
-            ]
+            "prays": ["Reach Ramadan 🌙", "Happy Eid! ✨", "Best days 🙌", "Eid Mubarak 🐑"]
         }
     };
 
     let currentLang = localStorage.getItem('lang') || 'ar';
+    let currentTheme = localStorage.getItem('theme') || 'light';
 
     function updateUI() {
+        // تحديث النصوص
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
             if (i18n[currentLang][key]) el.innerText = i18n[currentLang][key];
         });
+        
+        // اتجاه الصفحة
         document.getElementById('main-html').dir = currentLang === 'ar' ? 'rtl' : 'ltr';
         
+        // تطبيق النمط (ليلي/نهاري)
+        document.body.className = currentTheme + "-mode";
+
+        // تثبيت حالة الإشعارات
         ['ramadan', 'eid1', 'hajj', 'eid2'].forEach(key => {
             const savedState = localStorage.getItem('notif_' + key);
             const checkbox = document.getElementById('notif-' + key);
             if (checkbox && savedState === 'true') checkbox.checked = true;
         });
+    }
+
+    // دالة تغيير اللغة
+    function toggleLang() {
+        currentLang = (currentLang === 'ar' ? 'en' : 'ar');
+        localStorage.setItem('lang', currentLang);
+        updateUI();
+    }
+
+    // دالة تغيير النمط (ليلي/نهاري)
+    function toggleTheme() {
+        currentTheme = (currentTheme === 'light' ? 'dark' : 'light');
+        localStorage.setItem('theme', currentTheme);
+        updateUI();
     }
 
     function handleToggle(key, el) {
@@ -200,14 +221,14 @@
                     localStorage.setItem('notif_' + key, 'true');
                     const eventTitle = i18n[currentLang][key + '-title'];
                     navigator.serviceWorker.ready.then(reg => {
-                        reg.showNotification('تطبيق المتبقي', {
+                        reg.showNotification('المتبقي', {
                             body: i18n[currentLang]['notif-msg'] + "(" + eventTitle + ") 🔔",
                             icon: 'https://i.ibb.co/fYWfbWBQ/logo.png'
                         });
                     });
                 } else {
                     el.checked = false;
-                    alert("يرجى تفعيل الإذن من الإعدادات");
+                    alert("Please enable notifications");
                 }
             });
         } else {
@@ -227,48 +248,28 @@
             document.getElementById('h'+id).innerText = Math.floor((diff % 86400000) / 3600000);
             document.getElementById('m'+id).innerText = Math.floor((diff % 3600000) / 60000);
             document.getElementById('s'+id).innerText = Math.floor((diff % 60000) / 1000);
-        } else {
-            document.getElementById('d'+id).innerText = "0";
-            document.getElementById('h'+id).innerText = "0";
-            document.getElementById('m'+id).innerText = "0";
-            document.getElementById('s'+id).innerText = "0";
         }
     }
 
     setInterval(() => {
-        update('1', "2026-02-18T00:00:00Z"); // رمضان
-        update('2', "2026-03-20T00:00:00Z"); // فطر
-        update('4', "2026-05-18T00:00:00Z"); // عشر ذي الحجة
-        update('3', "2026-05-27T00:00:00Z"); // أضحى
+        update('1', "2026-02-18T00:00:00Z");
+        update('2', "2026-03-20T00:00:00Z");
+        update('4', "2026-05-18T00:00:00Z");
+        update('3', "2026-05-27T00:00:00Z");
     }, 1000);
 
     function doShare(idx) {
         const ids = ["1", "2", "4", "3"];
         const eventKeys = ['ramadan', 'eid1', 'hajj', 'eid2'];
         const key = eventKeys[idx];
-        const eventName = i18n[currentLang][key + '-title'];
-        const eventDate = i18n[currentLang][key + '-date'];
-        const d = document.getElementById('d' + ids[idx]).innerText;
-        const h = document.getElementById('h' + ids[idx]).innerText;
-        const pray = i18n[currentLang]['prays'][idx];
-        
-        const msg = `⌛ ${i18n[currentLang].rem} ${eventName}:\n📅 ${eventDate}\n🗓️ ${d} ${i18n[currentLang].days} و ${h} ${i18n[currentLang].hours}\n\n✨ ${pray}\n\n📍 ${i18n[currentLang].link}:\n${window.location.href}`;
+        const msg = `⌛ ${i18n[currentLang].rem} ${i18n[currentLang][key+'-title']}:\n📅 ${i18n[currentLang][key+'-date']}\n\n📍 ${window.location.href}`;
         
         if (navigator.share && /Android|iPhone|iPad/i.test(navigator.userAgent)) {
-            navigator.share({ text: msg }).catch(() => copyToClipboard(msg));
+            navigator.share({ text: msg });
         } else {
-            copyToClipboard(msg);
+            const t = document.createElement('textarea'); t.value = msg; document.body.appendChild(t); t.select(); document.execCommand('copy'); document.body.removeChild(t);
+            alert(i18n[currentLang]['copy-msg']);
         }
-    }
-
-    function copyToClipboard(text) {
-        const t = document.createElement('textarea');
-        t.value = text;
-        document.body.appendChild(t);
-        t.select();
-        document.execCommand('copy');
-        document.body.removeChild(t);
-        alert(i18n[currentLang]['copy-msg']);
     }
 
     window.onload = updateUI;
