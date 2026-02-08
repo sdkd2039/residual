@@ -208,18 +208,30 @@
     }, 1000);
 
     // 5. وظائف الواجهة والتبديل
-    function updateUI() {
-        document.querySelectorAll('[data-i18n]').forEach(el => {
-            el.innerText = i18n[currentLang][el.getAttribute('data-i18n')];
+function handleToggle(key, el) {
+    if (el.checked) {
+        // طلب الإذن من المتصفح
+        Notification.requestPermission().then(permission => {
+            if (permission === 'granted') {
+                localStorage.setItem('notif_' + key, 'true');
+                
+                // إرسال التنبيه الترحيبي فوراً للتأكد من العمل
+                navigator.serviceWorker.ready.then(registration => {
+                    registration.showNotification('تطبيق المتبقي', {
+                        body: 'تم تفعيل التنبيهات بنجاح! 🔔',
+                        icon: 'https://i.ibb.co/fYWfbWBQ/logo.png',
+                        badge: 'https://i.ibb.co/fYWfbWBQ/logo.png'
+                    });
+                });
+            } else {
+                el.checked = false;
+                alert("يرجى السماح بالإشعارات من إعدادات المتصفح");
+            }
         });
-        document.getElementById('main-html').dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+    } else {
+        localStorage.setItem('notif_' + key, 'false');
     }
-
-    function toggleLang() { 
-        currentLang = (currentLang === 'ar' ? 'en' : 'ar'); 
-        localStorage.setItem('lang', currentLang); 
-        updateUI(); 
-    }
+}
 
     function doShare(idx) {
         const ids = ["1", "2", "4", "3"];
