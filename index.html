@@ -17,7 +17,7 @@
         .controls { position: fixed; top: 20px; left: 20px; display: flex; gap: 10px; z-index: 1000; }
         .btn-tool { background: var(--accent); color: #000; border: none; padding: 10px; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 0.8rem; }
         .main-logo { width: 150px; margin: 20px 0; }
-        .card { background: var(--bg-card); border-radius: 20px; padding: 25px; margin-bottom: 20px; width: 100%; max-width: 450px; text-align: center; position: relative; }
+        .card { background: var(--bg-card); border-radius: 20px; padding: 25px; margin-bottom: 20px; width: 100%; max-width: 450px; text-align: center; position: relative; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
         .share-mini { position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.05); border: 1px solid var(--accent); color: var(--accent); padding: 5px 8px; border-radius: 8px; cursor: pointer; font-size: 0.7rem; }
         html[dir="ltr"] .share-mini { left: auto; right: 15px; }
         .event-title { color: var(--accent); font-size: 1.4rem; font-weight: bold; }
@@ -32,8 +32,8 @@
         .slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
         input:checked + .slider { background-color: var(--blue-notif); }
         input:checked + .slider:before { transform: translateX(14px); }
-        .verse-box { background: var(--bg-card); padding: 25px; border-radius: 15px; max-width: 500px; text-align: center; line-height: 1.8; margin: 10px 0 30px 0; border: 1px solid rgba(255, 215, 0, 0.2); box-sizing: border-box; }
-        .quran-text { display: block; font-size: 1.15rem; color: var(--accent); direction: rtl !important; margin-bottom: 15px; }
+        .verse-box { background: var(--bg-card); padding: 25px; border-radius: 15px; max-width: 450px; text-align: center; line-height: 1.8; margin: 10px 0 30px 0; border: 1px solid rgba(255, 215, 0, 0.2); box-sizing: border-box; }
+        .quran-text { display: block; font-size: 1.1rem; color: var(--accent); direction: rtl !important; margin-bottom: 15px; text-align: justify; }
         .translation-text { display: block; font-size: 0.9rem; color: var(--text-muted); font-style: italic; line-height: 1.5; margin-bottom: 10px; }
         .verse-ref { display: block; font-weight: bold; color: var(--text-muted); font-size: 0.8rem; }
         footer { margin-top: auto; padding: 40px 20px 20px; text-align: center; color: var(--text-muted); font-size: 0.8rem; line-height: 1.6; width: 100%; }
@@ -82,7 +82,7 @@
     </div>
 
     <div class="verse-box">
-        <span class="quran-text">﴿شَهرُ رَمَضانَ الَّذي أُنزِلَ فيهِ القُرآنُ هُدًى لِلنّاسِ وَبَيِّناتٍ مِنَ الهُدى وَالفُرقانِ فَمَن شَهِدَ مِنكُمُ الشَّهرَ فَليَصُمهُ وَمَن كانَ مَريضًا أَو عَلى سَفَرٍ فَعِدَّةٌ مِن أَيّامٍ أُخَرَ يُريدُ اللَّهُ بِكُمُ اليُسرَ وَلا يُريدُ بِكُمُ العُسرَ وَلِتُكمِلُوا العِدَّةَ وَلِتُكَبِّرُوا اللَّهَ عَلى ما هَداكُم وَلَعَلَّكُم تَشكُرونَ﴾</span>
+        <span class="quran-text">﴿شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ هُدًى لِّلنَّاسِ وَبَيِّنَاتٍ مِّنَ الْهُدَىٰ وَالْفُرْقَانِ ۚ فَمَن شَهِدَ مِنكُمُ الشَّهْرَ فَلْيَصُمْهُ ۖ وَمَن كَانَ مَرِيضًا أَوْ عَلَىٰ سَفَرٍ فَعِدَّةٌ مِّنْ أَيَّامٍ أُخَرَ ۗ يُرِيدُ اللَّهُ بِكُمُ الْيُسْرَ وَلَا يُرِيدُ بِكُمُ الْعُسْرَ وَلِتُكْمِلُوا الْعِدَّةَ وَلِتُكَبِّرُوا اللَّهَ عَلَىٰ مَا هَدَاكُمْ وَلَعَلَّكُمْ تَشْكُرُونَ﴾</span>
         <span id="trans-1" class="translation-text"></span>
         <span class="verse-ref" data-i18n="v1-ref"></span>
     </div>
@@ -120,8 +120,7 @@
     </div>
 
     <div class="verse-box">
-        <span class="quran-text">﴿الحَجُّ أَشهُرٌ مَعلوماتٌ فَمَن فَرَضَ فيهِنَّ الحَجَّ فَلا رَفَثَ وَلا فُسوقَ وَلا جِدالَ فِي الحَجِّ وَما تَفعَلوا مِن خَيرٍ يَعلَمهُ اللَّهُ وَتَزَوَّدوا فَإِنَّ خَيرَ الزّادِ التَّقوى وَاتَّقونِ يا أُولِي الأَلبابِ﴾
-</span>
+        <span class="quran-text">﴿الْحَجُّ أَشْهُرٌ مَّعْلُومَاتٌ ۚ فَمَن فَرَضَ فِيهِنَّ الْحَجَّ فَلَا رَفَثَ وَلَا فُسُوقَ وَلَا جِدَالَ فِي الْحَجِّ ۗ وَمَا تَفْعَلُوا مِنْ خَيْرٍ يَعْلَمْهُ اللَّهُ ۗ وَتَزَوَّدُوا فَإِنَّ خَيْرَ الزَّادِ التَّقْوَىٰ ۚ وَاتَّقُونِ يَا أُولِي الْأَلْبَابِ﴾</span>
         <span id="trans-2" class="translation-text"></span>
         <span class="verse-ref" data-i18n="v2-ref"></span>
     </div>
@@ -135,9 +134,7 @@
         // تسجيل الـ Service Worker
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                    .then(reg => console.log('SW Registered'))
-                    .catch(err => console.log('SW Failed', err));
+                navigator.serviceWorker.register('sw.js').catch(err => console.log('SW Failed', err));
             });
         }
 
@@ -150,7 +147,9 @@
                 "hajj-title": "عشر ذي الحجة", "hajj-date": "18 مايو 2026",
                 "eid2-title": "عيد الأضحى المبارك", "eid2-date": "27 مايو 2026",
                 "v1-ref": "[سورة البقرة: ١٨٥]", "v2-ref": "[سورة البقرة: ١٩٧]",
-                "notif-msg": "سيصلك تنبيه عند اقتراب الموعد!", "lang-btn": "English", "theme-btn": "نمط"
+                "notif-msg": "سيصلك تنبيه عند اقتراب الموعد! 🔔", "lang-btn": "English", "theme-btn": "نمط",
+                "rem": "المتبقي لـ", "link": "رابط العداد",
+                "prays": ["بلغنا الله وإياكم شهر الصيام. 🌙", "عساكم من عواده. ✨", "خير أيام الدنيا. 🙌", "عيدكم مبارك. 🐑"]
             },
             en: {
                 "share": "Share", "days": "Days", "hours": "Hrs", "mins": "Min", "secs": "Sec",
@@ -162,7 +161,9 @@
                 "v1-ref": "[Al-Baqarah: 185]", "v2-ref": "[Al-Baqarah: 197]",
                 "trans-1": "The month of Ramadan in which was revealed the Quran.",
                 "trans-2": "Hajj is in the well-known months.",
-                "notif-msg": "You will be notified soon!", "lang-btn": "عربي", "theme-btn": "Theme"
+                "notif-msg": "Notification activated! 🔔", "lang-btn": "عربي", "theme-btn": "Theme",
+                "rem": "Remaining for", "link": "Link",
+                "prays": ["May Allah let us reach Ramadan. 🌙", "Happy Eid! ✨", "Best days of the world. 🙌", "Eid Mubarak. 🐑"]
             }
         };
 
@@ -185,31 +186,32 @@
                 Notification.requestPermission().then(p => {
                     if(p === 'granted') {
                         localStorage.setItem('notif_' + key, 'true');
-                        // إرسال إشعار تجريبي فوري
                         navigator.serviceWorker.ready.then(reg => {
                             reg.showNotification(i18n[currentLang][key + '-title'], {
                                 body: i18n[currentLang]['notif-msg'],
-                                icon: 'https://i.ibb.co/fYWfbWBQ/logo.png',
-                                badge: 'https://i.ibb.co/fYWfbWBQ/logo.png'
+                                icon: 'https://i.ibb.co/fYWfbWBQ/logo.png'
                             });
                         });
-                    } else { 
-                        el.checked = false; 
-                        alert("يرجى تفعيل الإذن من إعدادات المتصفح"); 
-                    }
+                    } else { el.checked = false; alert("يرجى تفعيل الإذن"); }
                 });
-            } else {
-                localStorage.setItem('notif_' + key, 'false');
-            }
+            } else localStorage.setItem('notif_' + key, 'false');
         }
 
         function doShare(idx) {
             const ids = ["1", "2", "4", "3"];
+            const eventName = i18n[currentLang][(idx==0?'ramadan':idx==1?'eid1':idx==2?'hajj':'eid2')+'-title'];
             const d = document.getElementById('d' + ids[idx]).innerText;
             const h = document.getElementById('h' + ids[idx]).innerText;
-            const msg = `⌛ المتبقي: ${d} يوم و ${h} ساعة\n📍 ${window.location.href}`;
-            if (navigator.share) navigator.share({text: msg});
-            else { alert(i18n[currentLang]['copy-msg']); }
+            const pray = i18n[currentLang]['prays'][idx];
+            
+            const msg = `⌛ ${i18n[currentLang].rem} ${eventName}:\n🗓️ ${d} ${i18n[currentLang].days} و ${h} ${i18n[currentLang].hours}\n\n✨ ${pray}\n\n📍 ${i18n[currentLang].link}:\n${window.location.href}`;
+            
+            if (navigator.share && /iPhone|Android|iPad/i.test(navigator.userAgent)) {
+                navigator.share({ text: msg });
+            } else {
+                const t = document.createElement('textarea'); t.value = msg; document.body.appendChild(t); t.select(); document.execCommand('copy'); document.body.removeChild(t);
+                alert(i18n[currentLang]['copy-msg']);
+            }
         }
 
         function toggleLang() { currentLang = (currentLang === 'ar' ? 'en' : 'ar'); localStorage.setItem('lang', currentLang); updateUI(); }
