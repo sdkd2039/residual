@@ -25,6 +25,7 @@
         
         body { background: var(--bg); color: var(--text); font-family: 'IBM Plex Sans Arabic', sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; transition: 0.3s; }
         
+        /* الشعار الجديد */
         .main-logo { width: 160px; height: auto; margin-top: 30px; margin-bottom: 5px; }
         .site-display-title { color: var(--accent); font-size: 1.8rem; font-weight: bold; margin-bottom: 30px; }
 
@@ -73,7 +74,7 @@
         <button class="btn-tool" id="lang-btn" onclick="toggleLang()">English</button>
     </div>
 
-    <img src="https://i.ibb.co/WdhBJMG/main-logo.png" alt="Logo" class="main-logo">
+    <img src="https://i.ibb.co/DDJWNdj1/main-logo.png" alt="Logo" class="main-logo">
     <h1 class="site-display-title" id="main-title-text">المتبقي</h1>
 
     <div class="card">
@@ -110,7 +111,7 @@
     <div class="verse-container">
         <span class="quran-text" dir="rtl">﴿شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ هُدًى لِّلنَّاسِ وَبَيِّنَاتٍ مِّنَ الْهُدَىٰ وَالْفُرْقَانِ ۚ فَمَن شَهِدَ مِنكُمُ الْشَّهْرَ فَلْيَصُمْهُ ۖ وَمَن كَانَ مَرِيضًا أَوْ عَلَىٰ سَفَرٍ فَعِدَّةٌ مِّنْ أَيَّامٍ أُخَرَ ۗ يُرِيدُ اللَّهُ بِكُمُ الْيُسْرَ وَلَا يُرِيدُ بِكُمُ الْعُسْرَ وَلِتُكْمِلُوا الْعِدَّةَ وَلِتُكَبِّرُوا اللَّهَ عَلَىٰ مَا هَدَاكُمْ وَلَعَلَّكُمْ تَشْكُرُونَ﴾</span>
         <span class="verse-ref" id="ref-185">سورة البقرة - آية 185</span>
-        <div class="eng-meaning"><b>General Meaning:</b><br>Ramadan is the month in which the Quran was revealed as guidance for mankind. Allah intends for you ease and not hardship.</div>
+        <div class="eng-meaning"><b>General Meaning:</b><br>Ramadan is the month in which the Quran was revealed as guidance for mankind.</div>
     </div>
 
     <div class="card">
@@ -147,7 +148,7 @@
     <div class="verse-container">
         <span class="quran-text" dir="rtl">﴿الْحَجُّ أَشْهُرٌ مَّعْلُومَاتٌ ۚ فَمَن فَرَضَ فِيهِنَّ الْحَجَّ فَلَا رَفَثَ وَلَا فُسُوقَ وَلَا جِدَالَ فِي الْحَجِّ ۗ وَمَا تَفْعَلُوا مِنْ خَيْرٍ يَعْلَمْهُ اللَّهُ ۗ وَتَزَوَّدُوا فَإِنَّ خَيْرَ الزَّادِ التَّقْوَىٰ ۚ وَاتَّقُونِ يَا أُولِي الْأَلْبَابِ﴾</span>
         <span class="verse-ref" id="ref-197">سورة البقرة - آية 197</span>
-        <div class="eng-meaning"><b>General Meaning:</b><br>Hajj occurs during well-known months. Take necessary provisions, but the best provision is righteousness.</div>
+        <div class="eng-meaning"><b>General Meaning:</b><br>Hajj occurs during well-known months. Take necessary provisions.</div>
     </div>
 
     <footer>
@@ -179,13 +180,19 @@
         }
         setInterval(updateTimers, 1000); updateTimers();
 
+        // تفعيل الإشعارات بصمت دون رسائل تأكيد
         async function toggleNotify(key, el) {
             if (el.checked) {
                 const perm = await Notification.requestPermission();
                 if (perm === "granted") {
                     localStorage.setItem('notif_' + key, 'true');
-                } else { el.checked = false; }
-            } else { localStorage.setItem('notif_' + key, 'false'); }
+                } else { 
+                    el.checked = false; 
+                    localStorage.setItem('notif_' + key, 'false');
+                }
+            } else { 
+                localStorage.setItem('notif_' + key, 'false'); 
+            }
         }
 
         async function shareEvent(key) {
@@ -193,7 +200,7 @@
             const isAr = document.getElementById('app-html').dir === "rtl";
             const d = document.getElementById(`d-${key}`).innerText;
             const h = document.getElementById(`h-${key}`).innerText;
-            const text = `${ev.emj} المتبقي لـ ${isAr ? ev.name : ev.en}:\n⏳ ${d} يوم و ${h} ساعة\n✨ ${ev.dua}\n\n📍 تابع العداد:\n${window.location.href}`;
+            const text = `${ev.emj} المتبقي لـ ${isAr ? ev.name : ev.en}:\n⏳ ${d} يوم و ${h} ساعة\n✨ ${ev.dua}\n\n📍 تابع العداد عبر الرابط:\n${window.location.href}`;
             try {
                 await navigator.clipboard.writeText(text);
                 if (navigator.share) await navigator.share({ text });
@@ -233,7 +240,7 @@
                 const preDay = new Date(events[key].date);
                 preDay.setDate(preDay.getDate() - 1);
                 if (today.toDateString() === preDay.toDateString() && localStorage.getItem('notif_'+key) === 'true' && !localStorage.getItem('sent_'+key)) {
-                    new Notification("Residual", { body: events[key].msg, requireInteraction: true });
+                    new Notification("Residual", { body: events[key].msg, icon: "https://i.ibb.co/fzPfcMp0/small-logo.png" });
                     localStorage.setItem('sent_'+key, 'true');
                 }
             });
@@ -241,14 +248,15 @@
         setInterval(checkPreNotif, 3600000);
 
         window.onload = function() {
-            // استرجاع حالة مفاتيح التنبيه
+            // استرجاع حالة مفاتيح التنبيه المحفوظة
             Object.keys(events).forEach(key => {
-                if (localStorage.getItem('notif_' + key) === 'true') {
+                const savedStatus = localStorage.getItem('notif_' + key);
+                if (savedStatus === 'true') {
                     const sw = document.getElementById('notif-sw-' + key);
                     if (sw) sw.checked = true;
                 }
             });
-            // رسالة التثبيت
+            // رسالة إرشادية للتثبيت (تظهر مرة واحدة)
             if (!window.navigator.standalone && !localStorage.getItem('pwa_tip')) {
                 const isAr = document.getElementById('app-html').dir === "rtl";
                 const msg = isAr ? "للحصول على تنبيهات دقيقة، اضغط على (مشاركة) ثم (إضافة إلى الشاشة الرئيسية) 📲" : "For accurate alerts, tap (Share) then (Add to Home Screen) 📲";
