@@ -42,6 +42,10 @@
         .quran-text { display: block; font-size: 1.1rem; color: var(--accent); direction: rtl; margin-bottom: 15px; text-align: center; }
         .translation-text { display: block; font-size: 0.9rem; color: var(--text-muted); font-style: italic; line-height: 1.5; margin-bottom: 10px; }
         .verse-ref { display: block; font-weight: bold; color: var(--text-muted); font-size: 0.8rem; }
+        
+        /* تنبيه التثبيت الصغير */
+        #pwa-alert { display: none; background: var(--blue-notif); color: white; padding: 10px; border-radius: 10px; margin-bottom: 20px; font-size: 0.8rem; text-align: center; width: 100%; max-width: 450px; cursor: pointer; }
+        
         footer { margin-top: auto; padding: 40px 20px 20px; text-align: center; color: var(--text-muted); font-size: 0.8rem; line-height: 1.6; width: 100%; }
         footer b { color: var(--accent); }
     </style>
@@ -54,6 +58,8 @@
     </div>
     
     <img src="https://i.ibb.co/fYWfbWBQ/logo.png" alt="Logo" class="main-logo">
+
+    <div id="pwa-alert" onclick="this.style.display='none'" data-i18n="pwa-tip">لضمان وصول الإشعارات، يرجى إضافة الموقع للشاشة الرئيسية (تثبيت كـ تطبيق).</div>
 
     <div class="card">
         <button class="share-mini" onclick="doShare(0)" data-i18n="share">مشاركة</button>
@@ -148,8 +154,8 @@
             "v1-ref": "سورة البقرة: ١٨٥", "v2-ref": "سورة البقرة: ١٩٧", 
             "trans1": "", "trans2": "",
             "copy-msg": "تم النسخ بنجاح! ✅", "rem": "المتبقي لـ",
-            "notif-confirm": "تم تفعيل التنبيهات لـ ",
-            "footer-time": "*حسب توقيت مكة المكرمة", "footer-rights": "جميع الحقوق محفوظة لـ"
+            "notif-confirm": "تم تفعيل التنبيهات لـ ", "pwa-tip": "لضمان وصول الإشعارات، يرجى إضافة الموقع للشاشة الرئيسية (تثبيت كـ تطبيق).",
+            "footer-time": "*حسب توقيت مكة المكرمة", "footer-rights": "جميع الحقوق محفوظة لـ", "pre-day": "بقي يوم واحد على "
         },
         en: {
             "lang-btn": "عربي", "theme-btn": "Mode", "notify": "Enable Alerts", "share": "Share",
@@ -159,11 +165,11 @@
             "eid2-title": "Eid al-Adha", "eid2-date": "10 Dhu al-Hijjah 1447 AH | 27 May 2026",
             "days": "Days", "hours": "Hrs", "mins": "Min", "secs": "Sec",
             "v1-ref": "Surah Al-Baqarah: 185", "v2-ref": "Surah Al-Baqarah: 197",
-            "trans1": "Meanings: The month of Ramadan [is that] in which was revealed the Qur'an, a guidance for the people and clear proofs of guidance and criterion.",
-            "trans2": "Meanings: Hajj is [during] well-known months, so whoever has made Hajj obligatory upon himself therein, there is [to be for him] no sexual relations and no disobedience and no disputing during Hajj.",
+            "trans1": "Meanings: The month of Ramadan [is that] in which was revealed the Qur'an...",
+            "trans2": "Meanings: Hajj is [during] well-known months...",
             "copy-msg": "Link Copied! ✅", "rem": "Remaining for",
-            "notif-confirm": "Notifications enabled for: ",
-            "footer-time": "*Based on Makkah Time", "footer-rights": "All rights reserved for"
+            "notif-confirm": "Notifications enabled for: ", "pwa-tip": "For reliable notifications, please Add to Home Screen (Install App).",
+            "footer-time": "*Based on Makkah Time", "footer-rights": "All rights reserved for", "pre-day": "One day left for "
         }
     };
 
@@ -183,8 +189,47 @@
         ['ramadan', 'eid1', 'hajj', 'eid2'].forEach(key => {
             const saved = localStorage.getItem('notif_' + key);
             const checkbox = document.getElementById('notif-' + key);
-            if (checkbox) checkbox.checked = (saved === 'true');
+            if (checkbox) {
+                checkbox.checked = (saved === 'true');
+                if (saved === 'true') scheduleNotification(key);
+            }
         });
+    }
+
+    // دالة الجدولة قبل الحدث بـ 24 ساعة
+    function scheduleNotification(key) {
+        const dates = {
+            'ramadan': "2026-02-18T00:00:00Z",
+            'eid1': "2026-03-20T00:00:00Z",
+            'hajj': "2026-05-18T00:00:00Z",
+            'eid2': "2026-05-27T00:00:00Z"
+        };
+        const targetDate = new Date(dates[key]).getTime();
+        const dayBefore = targetDate - (24 * 60 * 60 * 1000); 
+        const now = new Date().getTime();
+        const timeUntilNotif = dayBefore - now;
+
+        if (timeUntilNotif > 0) {
+            setTimeout(() => {
+                if (localStorage.getItem('notif_' + key) === 'true') {
+                    const eventName = i18n[currentLang][key + '-title'];
+                    showFinalNotification(i18n[currentLang]['pre-day'] + eventName);
+                }
+            }, timeUntilNotif);
+        }
+    }
+
+    function showFinalNotification(bodyText) {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.ready.then(reg => {
+                reg.showNotification("المتبقي | Al-Mutabaqi", {
+                    body: bodyText,
+                    icon: 'https://i.ibb.co/fYWfbWBQ/logo.png',
+                    vibrate: [200, 100, 200],
+                    silent: false
+                });
+            });
+        }
     }
 
     function handleToggle(key, el) {
@@ -192,27 +237,13 @@
             Notification.requestPermission().then(perm => {
                 if (perm === 'granted') {
                     localStorage.setItem('notif_' + key, 'true');
+                    document.getElementById('pwa-alert').style.display = 'block'; // إظهار النصيحة
                     const eventName = i18n[currentLang][key + '-title'];
-                    
-                    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-                        navigator.serviceWorker.ready.then(reg => {
-                            reg.showNotification("المتبقي | Al-Mutabaqi", {
-                                body: i18n[currentLang]['notif-confirm'] + "(" + eventName + ")",
-                                icon: 'https://i.ibb.co/fYWfbWBQ/logo.png',
-                                badge: 'https://i.ibb.co/fYWfbWBQ/logo.png',
-                                vibrate: [200, 100, 200]
-                            });
-                        });
-                    } else {
-                        // تنبيه بديل في حال عدم وجود SW
-                        new Notification("المتبقي | Al-Mutabaqi", {
-                            body: i18n[currentLang]['notif-confirm'] + "(" + eventName + ")"
-                        });
-                    }
+                    showFinalNotification(i18n[currentLang]['notif-confirm'] + "(" + eventName + ") 🔔");
+                    scheduleNotification(key);
                 } else {
                     el.checked = false;
                     localStorage.setItem('notif_' + key, 'false');
-                    alert(currentLang === 'ar' ? "يرجى السماح بالتنبيهات من إعدادات المتصفح" : "Please enable notifications in your browser settings");
                 }
             });
         } else {
@@ -224,10 +255,8 @@
         const keys = ['ramadan', 'eid1', 'hajj', 'eid2'];
         const key = keys[idx];
         const msg = `⌛ ${i18n[currentLang].rem} ${i18n[currentLang][key+'-title']}:\n📅 ${i18n[currentLang][key+'-date']}\n📍 ${window.location.href}`;
-        
-        if (navigator.share) {
-            navigator.share({ text: msg });
-        } else {
+        if (navigator.share) { navigator.share({ text: msg }); } 
+        else {
             const t = document.createElement('textarea'); t.value = msg; document.body.appendChild(t); t.select();
             document.execCommand('copy'); document.body.removeChild(t);
             alert(i18n[currentLang]['copy-msg']);
@@ -252,6 +281,10 @@
         updateCountdown('1', "2026-02-18T00:00:00Z"); updateCountdown('2', "2026-03-20T00:00:00Z");
         updateCountdown('4', "2026-05-18T00:00:00Z"); updateCountdown('3', "2026-05-27T00:00:00Z");
     }, 1000);
+
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js').then(() => console.log("SW OK"));
+    }
 
     window.onload = updateUI;
 </script>
