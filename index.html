@@ -131,54 +131,35 @@
     </footer>
 
 <script>
-    // تسجيل الـ Service Worker لضمان عمل الإشعارات
+    // تسجيل محرك الموقع (Service Worker)
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-            navigator.serviceWorker.register('sw.js').catch(err => console.log('SW Error', err));
+            navigator.serviceWorker.register('sw.js')
+            .then(() => console.log('تم الربط بنجاح'))
+            .catch(() => console.log('خطأ في الربط'));
         });
     }
 
     const i18n = {
         ar: {
-            "share": "مشاركة", "days": "يوم", "hours": "ساعة", "mins": "دقيقة", "secs": "ثانية",
-            "notify": "تفعيل التنبيهات", "copy-msg": "تم نسخ نص المشاركة بنجاح! ✅",
-            "ramadan-title": "شهر رمضان المبارك", 
-            "ramadan-date": "1 رمضان 1447 هـ | 18 فبراير 2026 م",
-            "eid1-title": "عيد الفطر المبارك", 
-            "eid1-date": "1 شوال 1447 هـ | 20 مارس 2026 م",
-            "hajj-title": "عشر ذي الحجة", 
-            "hajj-date": "1 ذو الحجة 1447 هـ | 18 مايو 2026 م",
-            "eid2-title": "عيد الأضحى المبارك", 
-            "eid2-date": "10 ذو الحجة 1447 هـ | 27 مايو 2026 م",
-            "notif-msg": "تم تفعيل تنبيهات: ", "lang-btn": "English", "theme-btn": "نمط",
-            "rem": "المتبقي لـ", "link": "رابط العداد",
-            // الآيات مع اسم السورة والآية بالعربي
-            "verse1": "﴿شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ هُدًى لِّلنَّاسِ وَبَيِّنَاتٍ مِّنَ الْهُدَىٰ وَالْفُرْقَانِ﴾ [سورة البقرة: 185]",
-            "verse2": "﴿وَالْفَجْرِ * وَلَيَالٍ عَشْرٍ﴾ [سورة الفجر: 1-2]",
-            "prays": [
-                "اللهم بلغنا الصيام والقيام وصالح الأعمال 🌙",
-                "جعل الله عيدكم فرحة بأعمال قُبلت.. كل عام وأنتم بخير ✨",
-                "اللهم بارك لنا في عشر ذي الحجة 🙌",
-                "عاد عيدكم، تقبل الله منا ومنكم 🐑"
-            ]
+            "lang-btn": "English", "theme-btn": "نمط", "notify": "تفعيل التنبيهات",
+            "ramadan-title": "شهر رمضان المبارك", "ramadan-date": "1 رمضان 1447 هـ | 18 فبراير 2026 م",
+            "eid1-title": "عيد الفطر المبارك", "eid1-date": "1 شوال 1447 هـ | 20 مارس 2026 م",
+            "hajj-title": "عشر ذي الحجة", "hajj-date": "1 ذو الحجة 1447 هـ | 18 مايو 2026 م",
+            "eid2-title": "عيد الأضحى المبارك", "eid2-date": "10 ذو الحجة 1447 هـ | 27 مايو 2026 م",
+            "verse1": "﴿شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ هُدًى لِّلنَّاسِ﴾ [البقرة: 185]",
+            "verse2": "﴿وَالْفَجْرِ * وَلَيَالٍ عَشْرٍ﴾ [الفجر: 1-2]",
+            "copy-msg": "تم النسخ بنجاح! ✅", "notif-msg": "تم تفعيل تنبيهات: ", "rem": "المتبقي لـ", "days": "يوم", "hours": "ساعة", "mins": "دقيقة", "secs": "ثانية"
         },
         en: {
-            "share": "Share", "days": "Days", "hours": "Hrs", "mins": "Min", "secs": "Sec",
-            "notify": "Notify", "copy-msg": "Copied! ✅",
-            "ramadan-title": "Holy Ramadan",
-            "ramadan-date": "1 Ramadan 1447 AH | 18 Feb 2026",
-            "eid1-title": "Eid al-Fitr",
-            "eid1-date": "1 Shawwal 1447 AH | 20 Mar 2026",
-            "hajj-title": "10 Days of Hajj",
-            "hajj-date": "1 Dhu al-Hijjah 1447 AH | 18 May 2026",
-            "eid2-title": "Eid al-Adha",
-            "eid2-date": "10 Dhu al-Hijjah 1447 AH | 27 May 2026",
-            "notif-msg": "Notifications activated for: ", "lang-btn": "عربي", "theme-btn": "Theme",
-            "rem": "Remaining for", "link": "Link",
-            // الآيات مترجمة مع المرجع بالإنجليزية
-            "verse1": "“The month of Ramadan [is that] in which was revealed the Qur'an, a guidance for the people and clear proofs of guidance and criterion.” [Al-Baqarah: 185]",
-            "verse2": "“By the dawn; And [by] ten nights.” [Al-Fajr: 1-2]",
-            "prays": ["Reach Ramadan 🌙", "Happy Eid! ✨", "Best days 🙌", "Eid Mubarak 🐑"]
+            "lang-btn": "عربي", "theme-btn": "Mode", "notify": "Notify Me",
+            "ramadan-title": "The Holy Ramadan", "ramadan-date": "1 Ramadan 1447 AH | 18 Feb 2026",
+            "eid1-title": "Eid al-Fitr", "eid1-date": "1 Shawwal 1447 AH | 20 Mar 2026",
+            "hajj-title": "10 Days of Hajj", "hajj-date": "1 Dhu al-Hijjah 1447 AH | 18 May 2026",
+            "eid2-title": "Eid al-Adha", "eid2-date": "10 Dhu al-Hijjah 1447 AH | 27 May 2026",
+            "verse1": "“The month of Ramadan in which was revealed the Qur'an, a guidance for the people.” [2:185]",
+            "verse2": "“By the dawn; And [by] ten nights.” [89:1-2]",
+            "copy-msg": "Copied! ✅", "notif-msg": "Notifications for: ", "rem": "Remaining for", "days": "Days", "hours": "Hrs", "mins": "Min", "secs": "Sec"
         }
     };
 
@@ -186,63 +167,40 @@
     let currentTheme = localStorage.getItem('theme') || 'dark';
 
     function updateUI() {
-        // 1. تحديث النصوص (بما فيها الآيات)
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
             if (i18n[currentLang][key]) el.innerText = i18n[currentLang][key];
         });
+        document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
         
-        // 2. تحديث اتجاه الصفحة
-        document.getElementById('main-html').dir = currentLang === 'ar' ? 'rtl' : 'ltr';
-        
-        // 3. تحديث النمط (ليلي / نهاري)
-        applyTheme();
-
-        // 4. تحديث حالة أزرار الإشعارات
-        ['ramadan', 'eid1', 'hajj', 'eid2'].forEach(key => {
-            const savedState = localStorage.getItem('notif_' + key);
-            const checkbox = document.getElementById('notif-' + key);
-            if (checkbox && savedState === 'true') checkbox.checked = true;
-        });
-    }
-
-    function applyTheme() {
-        const root = document.documentElement;
+        // تطبيق الألوان بدقة (ليلي ونهاري)
         if (currentTheme === 'light') {
-            root.style.setProperty('--bg-color', '#f8fafc'); // خلفية بيضاء مريحة
-            root.style.setProperty('--card-bg', '#ffffff'); // بطاقات بيضاء
-            root.style.setProperty('--text-color', '#1e293b'); // نص كحلي غامق
-            root.style.setProperty('--accent-color', '#fbbf24'); // لون الأزرار
-            document.body.classList.add('light-mode');
+            document.documentElement.style.setProperty('--bg-color', '#ffffff');
+            document.documentElement.style.setProperty('--text-color', '#1e293b');
+            document.documentElement.style.setProperty('--card-bg', '#f1f5f9');
         } else {
-            root.style.setProperty('--bg-color', '#0f172a'); // خلفية داكنة
-            root.style.setProperty('--card-bg', '#1e293b'); // بطاقات داكنة
-            root.style.setProperty('--text-color', '#ffffff'); // نص أبيض
-            root.style.setProperty('--accent-color', '#fbbf24');
-            document.body.classList.remove('light-mode');
+            document.documentElement.style.setProperty('--bg-color', '#0f172a');
+            document.documentElement.style.setProperty('--text-color', '#ffffff');
+            document.documentElement.style.setProperty('--card-bg', '#1e293b');
         }
     }
 
-    function toggleTheme() {
-        currentTheme = (currentTheme === 'dark' ? 'light' : 'dark');
-        localStorage.setItem('theme', currentTheme);
-        updateUI();
-    }
-
     function toggleLang() {
-        currentLang = (currentLang === 'ar' ? 'en' : 'ar');
+        currentLang = currentLang === 'ar' ? 'en' : 'ar';
         localStorage.setItem('lang', currentLang);
         updateUI();
     }
 
-    // دوال العداد التنازلي والمشاركة (باقية كما هي لضمان عملها)
-    function update(id, targetDateStr) {
-        const target = new Date(targetDateStr).getTime();
-        const now = new Date().getTime();
-        const utc = now + (new Date().getTimezoneOffset() * 60000);
-        const makkahNow = utc + (3600000 * 3);
-        const diff = target - makkahNow;
+    function toggleTheme() {
+        currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        localStorage.setItem('theme', currentTheme);
+        updateUI();
+    }
 
+    function updateCountdown(id, dateStr) {
+        const target = new Date(dateStr).getTime();
+        const now = new Date().getTime();
+        const diff = target - (now + (new Date().getTimezoneOffset() * 60000) + (3600000 * 3));
         if (diff > 0) {
             document.getElementById('d'+id).innerText = Math.floor(diff / 86400000);
             document.getElementById('h'+id).innerText = Math.floor((diff % 86400000) / 3600000);
@@ -252,10 +210,10 @@
     }
 
     setInterval(() => {
-        update('1', "2026-02-18T00:00:00Z"); // رمضان
-        update('2', "2026-03-20T00:00:00Z"); // فطر
-        update('4', "2026-05-18T00:00:00Z"); // عشر ذي الحجة
-        update('3', "2026-05-27T00:00:00Z"); // أضحى
+        updateCountdown('1', "2026-02-18T00:00:00Z");
+        updateCountdown('2', "2026-03-20T00:00:00Z");
+        updateCountdown('4', "2026-05-18T00:00:00Z");
+        updateCountdown('3', "2026-05-27T00:00:00Z");
     }, 1000);
 
     window.onload = updateUI;
