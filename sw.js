@@ -1,6 +1,7 @@
 self.addEventListener('install', (e) => {
+    // يضمن تحديث المتصفح للملف فوراً عند وجود تغييرات
+    self.skipWaiting(); 
     console.log('Service Worker: Installed');
-    self.skipWaiting();
 });
 
 self.addEventListener('activate', (e) => {
@@ -11,7 +12,7 @@ self.addEventListener('fetch', (e) => {
     e.respondWith(fetch(e.request));
 });
 
-// الكود الجديد لاستقبال الإشعارات في الخلفية
+// الكود المطلوب لاستقبال الإشعارات في الخلفية
 self.addEventListener('push', (event) => {
     const data = event.data ? event.data.text() : 'تنبيه جديد من المتبقي';
     event.waitUntil(
