@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Residual</title>
+    <title id="site-title-tag">المتبقي</title>
     
     <link rel="icon" type="image/png" href="https://i.ibb.co/fzPfcMp0/small-logo.png">
     <link rel="apple-touch-icon" href="https://i.ibb.co/fzPfcMp0/small-logo.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Residual">
+    <meta name="apple-mobile-web-app-title" content="المتبقي">
     <meta name="theme-color" content="#ffd700">
 
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;700&display=swap" rel="stylesheet">
@@ -18,10 +18,16 @@
             --bg: #080c14; --card: #1e293b; --accent: #ffd700; --text: #ffffff; 
             --muted: #94a3b8; --blue: #3b82f6; --box-bg: #0f172a; --nav-btn: #ffd700;
         }
-
+        body.light-mode { 
+            --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --muted: #475569; 
+            --box-bg: #f1f5f9; --accent: #000000; --nav-btn: #000000;
+        }
         
         body { background: var(--bg); color: var(--text); font-family: 'IBM Plex Sans Arabic', sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; transition: 0.3s; }
         
+        .main-logo { width: 160px; height: auto; margin-top: 30px; margin-bottom: 5px; }
+        .site-display-title { color: var(--accent); font-size: 1.8rem; font-weight: bold; margin-bottom: 30px; }
+
         .controls { position: fixed; top: 15px; left: 15px; display: flex; gap: 8px; z-index: 1000; }
         .btn-tool { background: var(--nav-btn); color: var(--card); border: none; padding: 8px 12px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 0.8rem; }
         body.light-mode .btn-tool { color: #fff; }
@@ -58,7 +64,6 @@
         footer { margin-top: auto; padding: 40px 0 20px; text-align: center; width: 100%; max-width: 500px; border-top: 1px solid rgba(148, 163, 184, 0.1); }
         .rights { font-size: 0.8rem; color: var(--muted); margin-bottom: 10px; }
         .dev-link { color: var(--accent); text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 5px; font-size: 0.9rem; transition: 0.2s; }
-        .dev-link:hover { opacity: 0.8; transform: scale(1.05); }
     </style>
 </head>
 <body class="dark-mode">
@@ -68,9 +73,8 @@
         <button class="btn-tool" id="lang-btn" onclick="toggleLang()">English</button>
     </div>
 
-    <div style="text-align: center; margin: 40px 0 20px;">
-        <h2 id="main-title" style="color:var(--accent); margin: 0;">المتبقي | Al-Mutabaqi</h2>
-    </div>
+    <img src="https://i.ibb.co/6R6S90D/main-logo.png" alt="Logo" class="main-logo">
+    <h1 class="site-display-title" id="main-title-text">المتبقي</h1>
 
     <div class="card">
         <button class="share-btn" onclick="shareEvent('ramadan')">مشاركة</button>
@@ -108,7 +112,7 @@
         <span class="verse-ref" id="ref-185">سورة البقرة - آية 185</span>
         <div class="eng-meaning">
             <b>General Meaning:</b><br>
-            Ramadan is the month in which the Quran was revealed as guidance for mankind. Allah intends for you ease and not hardship, so that you may complete the prescribed period and glorify Him for His guidance.
+            Ramadan is the month in which the Quran was revealed as guidance for mankind. Allah intends for you ease and not hardship.
         </div>
     </div>
 
@@ -148,7 +152,7 @@
         <span class="verse-ref" id="ref-197">سورة البقرة - آية 197</span>
         <div class="eng-meaning">
             <b>General Meaning:</b><br>
-            Hajj occurs during well-known months. Whoever commits to Hajj must refrain from obscenity, sin, and quarreling. Take necessary provisions, but the best provision is righteousness.
+            Hajj occurs during well-known months. Take necessary provisions, but the best provision is righteousness.
         </div>
     </div>
 
@@ -187,39 +191,31 @@
                 const perm = await Notification.requestPermission();
                 if (perm === "granted") {
                     localStorage.setItem('notif_' + key, 'true');
-                    new Notification("Al-Mutabaqi", {
+                    new Notification("Residual", {
                         body: isAr ? `تنبيهات ${events[key].name} تعمل بنجاح! ✅` : `Alerts for ${events[key].en} are active! ✅`,
-                        icon: "https://i.ibb.co/fYWfbWBQ/logo.png",
+                        icon: "https://i.ibb.co/fzPfcMp0/small-logo.png",
                         requireInteraction: true
                     });
                 } else { el.checked = false; }
             } else { localStorage.setItem('notif_' + key, 'false'); }
         }
 
-        // ميزة المشاركة والنسخ المزدوجة
         async function shareEvent(key) {
             const ev = events[key];
             const isAr = document.getElementById('app-html').dir === "rtl";
             const d = document.getElementById(`d-${key}`).innerText;
             const h = document.getElementById(`h-${key}`).innerText;
-            const text = `${ev.emj} المتبقي لـ ${isAr ? ev.name : ev.en}:\n⏳ ${d} يوم و ${h} ساعة\n✨ ${ev.dua}\n\n📍 تابع العداد عبر الرابط:\n${window.location.href}`;
+            const text = `${ev.emj} المتبقي لـ ${isAr ? ev.name : ev.en}:\n⏳ ${d} يوم و ${h} ساعة\n✨ ${ev.dua}\n\n📍 تابع العداد:\n${window.location.href}`;
             
-            // نسخ النص دائماً كخطة احتياطية أولى
             try {
                 await navigator.clipboard.writeText(text);
-                const copyMsg = isAr ? "تم نسخ النص تلقائياً! 📋" : "Text copied automatically! 📋";
-                
-                // إذا كان يدعم المشاركة افتحها، وإلا سيكتفي بالنسخ الذي حدث بالأعلى
                 if (navigator.share) {
                     await navigator.share({ text });
                 } else {
-                    alert(copyMsg);
+                    alert(isAr ? "تم نسخ نص المشاركة تلقائياً! 📋" : "Text copied automatically! 📋");
                 }
             } catch (err) {
-                // إذا فشل الكليبورد لسبب أمني في بعض المتصفحات
-                if (navigator.share) {
-                    await navigator.share({ text });
-                }
+                if (navigator.share) await navigator.share({ text });
             }
         }
 
@@ -231,6 +227,8 @@
             html.dir = isAr ? "ltr" : "rtl";
             html.lang = isAr ? "en" : "ar";
             document.getElementById('lang-btn').innerText = isAr ? "عربي" : "English";
+            document.getElementById('main-title-text').innerText = isAr ? "Residual" : "المتبقي";
+            document.getElementById('site-title-tag').innerText = isAr ? "Residual" : "المتبقي";
             
             const keys = Object.keys(events);
             keys.forEach((key, i) => {
@@ -240,7 +238,7 @@
 
             document.getElementById('ref-185').innerText = isAr ? "Surah Al-Baqarah - Ayah 185" : "سورة البقرة - آية 185";
             document.getElementById('ref-197').innerText = isAr ? "Surah Al-Baqarah - Ayah 197" : "سورة البقرة - آية 197";
-            document.getElementById('f-rights').innerText = isAr ? "All rights reserved to Al-Mutabaqi 1447 AH - 2026 AD" : "جميع الحقوق محفوظة للمتبقي 1447 هـ - 2026 م";
+            document.getElementById('f-rights').innerText = isAr ? "All rights reserved to Residual 1447 AH - 2026 AD" : "جميع الحقوق محفوظة للمتبقي 1447 هـ - 2026 م";
             document.getElementById('f-dev').innerText = isAr ? "Contact Developer" : "التواصل مع المطور";
             
             document.querySelectorAll('.lb-d').forEach(el => el.innerText = isAr ? "Days" : "يوم");
@@ -251,28 +249,25 @@
             document.querySelectorAll('.share-btn').forEach(el => el.innerText = isAr ? "Share" : "مشاركة");
         }
 
-        // إشعارات التهنئة التلقائية
         function checkPreNotif() {
             const today = new Date();
             Object.keys(events).forEach(key => {
                 const preDay = new Date(events[key].date);
                 preDay.setDate(preDay.getDate() - 1);
                 if (today.toDateString() === preDay.toDateString() && localStorage.getItem('notif_'+key) === 'true' && !localStorage.getItem('sent_'+key)) {
-                    new Notification("Al-Mutabaqi", { body: events[key].msg, requireInteraction: true });
+                    new Notification("Residual", { body: events[key].msg, requireInteraction: true });
                     localStorage.setItem('sent_'+key, 'true');
                 }
             });
         }
         setInterval(checkPreNotif, 3600000);
 
-        // أضف الكود الجديد هنا
         window.onload = function() {
             if (!window.navigator.standalone && !localStorage.getItem('pwa_tip')) {
                 const isAr = document.getElementById('app-html').dir === "rtl";
                 const msg = isAr ? 
                     "للحصول على تنبيهات دقيقة، اضغط على (مشاركة) ثم (إضافة إلى الشاشة الرئيسية) 📲" : 
                     "For accurate alerts, tap (Share) then (Add to Home Screen) 📲";
-                
                 setTimeout(() => {
                     alert(msg);
                     localStorage.setItem('pwa_tip', 'true');
@@ -280,8 +275,5 @@
             }
         };
     </script>
-</body>
-</html>
-
 </body>
 </html>
