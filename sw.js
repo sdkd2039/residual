@@ -1,25 +1,25 @@
 self.addEventListener('install', (e) => {
-    // يضمن تحديث المتصفح للملف فوراً عند وجود تغييرات
-    self.skipWaiting(); 
-    console.log('Service Worker: Installed');
+    self.skipWaiting();
 });
 
 self.addEventListener('activate', (e) => {
-    console.log('Service Worker: Activated');
+    e.waitUntil(clients.claim());
 });
 
-self.addEventListener('fetch', (e) => {
-    e.respondWith(fetch(e.request));
-});
-
-// الكود المطلوب لاستقبال الإشعارات في الخلفية
+// استقبال التنبيه وعرضه
 self.addEventListener('push', (event) => {
-    const data = event.data ? event.data.text() : 'تنبيه جديد من المتبقي';
-    event.waitUntil(
-        self.registration.showNotification('المتبقي', {
-            body: data,
-            icon: 'https://i.ibb.co/fYWfbWBQ/logo.png',
-            vibrate: [200, 100, 200]
-        })
-    );
+    const data = event.data ? event.data.text() : 'تنبيه من تطبيق المتبقي';
+    const options = {
+        body: data,
+        icon: 'https://i.ibb.co/fYWfbWBQ/logo.png',
+        badge: 'https://i.ibb.co/fYWfbWBQ/logo.png',
+        vibrate: [200, 100, 200]
+    };
+    event.waitUntil(self.registration.showNotification('المتبقي', options));
+});
+
+// فتح الموقع عند الضغط على التنبيه
+self.addEventListener('notificationclick', (event) => {
+    event.notification.close();
+    event.waitUntil(clients.openWindow('https://sdkd2039.github.io/residual/'));
 });
