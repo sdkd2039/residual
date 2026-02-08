@@ -131,13 +131,14 @@
     </footer>
 
 <script>
-    // تسجيل الـ Service Worker
+    // 1. تسجيل الـ Service Worker
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('sw.js').catch(err => console.log('SW Error', err));
         });
     }
 
+    // 2. كائن الترجمة (شامل الآيات والأسماء)
     const i18n = {
         ar: {
             "share": "مشاركة", "days": "يوم", "hours": "ساعة", "mins": "دقيقة", "secs": "ثانية",
@@ -152,12 +153,8 @@
             "eid2-date": "10 ذو الحجة 1447 هـ | 27 مايو 2026 م",
             "notif-msg": "تم تفعيل تنبيهات: ", "lang-btn": "English", "theme-btn": "نمط",
             "rem": "المتبقي لـ", "link": "رابط العداد",
-            "prays": [
-                "اللهم بلغنا الصيام والقيام وصالح الأعمال 🌙",
-                "جعل الله عيدكم فرحة بأعمال قُبلت.. كل عام وأنتم بخير ✨",
-                "اللهم بارك لنا في عشر ذي الحجة 🙌",
-                "عاد عيدكم، تقبل الله منا ومنكم 🐑"
-            ]
+            "verse1": "﴿شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ هُدًى لِّلنَّاسِ وَبَيِّنَاتٍ مِّنَ الْهُدَىٰ وَالْفُرْقَانِ﴾ [سورة البقرة: 185]",
+            "verse2": "﴿وَالْفَجْرِ * وَلَيَالٍ عَشْرٍ﴾ [سورة الفجر: 1-2]"
         },
         en: {
             "share": "Share", "days": "Days", "hours": "Hrs", "mins": "Min", "secs": "Sec",
@@ -172,70 +169,52 @@
             "eid2-date": "10 Dhu al-Hijjah 1447 AH | 27 May 2026",
             "notif-msg": "Notifications activated for: ", "lang-btn": "عربي", "theme-btn": "Theme",
             "rem": "Remaining for", "link": "Link",
-            "prays": ["Reach Ramadan 🌙", "Happy Eid! ✨", "Best days 🙌", "Eid Mubarak 🐑"]
+            "verse1": "“The month of Ramadan [is that] in which was revealed the Qur'an, a guidance for the people and clear proofs of guidance and criterion.” [Al-Baqarah: 185]",
+            "verse2": "“By the dawn; And [by] ten nights.” [Al-Fajr: 1-2]"
         }
     };
 
     let currentLang = localStorage.getItem('lang') || 'ar';
-    let currentTheme = localStorage.getItem('theme') || 'light';
+    let currentTheme = localStorage.getItem('theme') || 'dark';
 
+    // 3. دالة تحديث الواجهة (إصلاح اللغة والنمط)
     function updateUI() {
-        // تحديث النصوص
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
             if (i18n[currentLang][key]) el.innerText = i18n[currentLang][key];
         });
         
-        // اتجاه الصفحة
         document.getElementById('main-html').dir = currentLang === 'ar' ? 'rtl' : 'ltr';
         
-        // تطبيق النمط (ليلي/نهاري)
-        document.body.className = currentTheme + "-mode";
-
-        // تثبيت حالة الإشعارات
-        ['ramadan', 'eid1', 'hajj', 'eid2'].forEach(key => {
-            const savedState = localStorage.getItem('notif_' + key);
-            const checkbox = document.getElementById('notif-' + key);
-            if (checkbox && savedState === 'true') checkbox.checked = true;
-        });
+        // تطبيق النمط (إصلاح مشكلة الأبيض والأسود)
+        const root = document.documentElement;
+        if (currentTheme === 'light') {
+            root.style.setProperty('--bg-color', '#ffffff');
+            root.style.setProperty('--card-bg', '#f1f5f9');
+            root.style.setProperty('--text-color', '#1e293b');
+            document.body.classList.add('light-mode');
+        } else {
+            root.style.setProperty('--bg-color', '#0f172a');
+            root.style.setProperty('--card-bg', '#1e293b');
+            root.style.setProperty('--text-color', '#ffffff');
+            document.body.classList.remove('light-mode');
+        }
     }
 
-    // دالة تغيير اللغة
+    // 4. أزرار التحكم (إصلاح التعطل)
     function toggleLang() {
         currentLang = (currentLang === 'ar' ? 'en' : 'ar');
         localStorage.setItem('lang', currentLang);
         updateUI();
     }
 
-    // دالة تغيير النمط (ليلي/نهاري)
     function toggleTheme() {
-        currentTheme = (currentTheme === 'light' ? 'dark' : 'light');
+        currentTheme = (currentTheme === 'dark' ? 'light' : 'dark');
         localStorage.setItem('theme', currentTheme);
         updateUI();
     }
 
-    function handleToggle(key, el) {
-        if (el.checked) {
-            Notification.requestPermission().then(permission => {
-                if (permission === 'granted') {
-                    localStorage.setItem('notif_' + key, 'true');
-                    const eventTitle = i18n[currentLang][key + '-title'];
-                    navigator.serviceWorker.ready.then(reg => {
-                        reg.showNotification('المتبقي', {
-                            body: i18n[currentLang]['notif-msg'] + "(" + eventTitle + ") 🔔",
-                            icon: 'https://i.ibb.co/fYWfbWBQ/logo.png'
-                        });
-                    });
-                } else {
-                    el.checked = false;
-                    alert("Please enable notifications");
-                }
-            });
-        } else {
-            localStorage.setItem('notif_' + key, 'false');
-        }
-    }
-
+    // 5. نظام العداد (الموجود في صورك مع إصلاحات بسيطة)
     function update(id, targetDateStr) {
         const target = new Date(targetDateStr).getTime();
         const now = new Date().getTime();
@@ -258,6 +237,7 @@
         update('3', "2026-05-27T00:00:00Z");
     }, 1000);
 
+    // 6. نظام المشاركة (إصلاح النص البرمجي)
     function doShare(idx) {
         const ids = ["1", "2", "4", "3"];
         const eventKeys = ['ramadan', 'eid1', 'hajj', 'eid2'];
@@ -267,7 +247,12 @@
         if (navigator.share && /Android|iPhone|iPad/i.test(navigator.userAgent)) {
             navigator.share({ text: msg });
         } else {
-            const t = document.createElement('textarea'); t.value = msg; document.body.appendChild(t); t.select(); document.execCommand('copy'); document.body.removeChild(t);
+            const t = document.createElement('textarea');
+            t.value = msg;
+            document.body.appendChild(t);
+            t.select();
+            document.execCommand('copy');
+            document.body.removeChild(t);
             alert(i18n[currentLang]['copy-msg']);
         }
     }
