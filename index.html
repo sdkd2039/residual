@@ -6,22 +6,29 @@
     <title>المتبقي | صيانة</title>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #0f172a; --card: #1e293b; --accent: #ffd700; --text: #ffffff; }
+        :root { --bg: #080c14; --card: #1e293b; --accent: #ffd700; --text: #ffffff; --muted: #94a3b8; }
         body { background: var(--bg); color: var(--text); font-family: 'IBM Plex Sans Arabic', sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; text-align: center; }
         
-        .maintenance-notice { background: rgba(255, 215, 0, 0.1); border: 1px dashed var(--accent); padding: 15px 25px; border-radius: 15px; margin-bottom: 30px; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { opacity: 0.8; } 50% { opacity: 1; } 100% { opacity: 0.8; } }
+        .maintenance-notice { background: rgba(255, 215, 0, 0.1); border: 1px dashed var(--accent); padding: 12px 20px; border-radius: 12px; margin-bottom: 25px; animation: pulse 2s infinite; font-weight: bold; font-size: 0.9rem; }
+        @keyframes pulse { 0%, 100% { opacity: 0.7; } 50% { opacity: 1; } }
 
-        .logo { width: 100px; margin-bottom: 10px; opacity: 0.5; filter: grayscale(1); }
-        h1 { font-size: 1.5rem; margin-bottom: 5px; color: var(--accent); }
-        p { color: #94a3b8; margin-top: 0; }
+        .logo { width: 90px; margin-bottom: 10px; opacity: 0.4; filter: grayscale(1); }
+        h1 { font-size: 1.4rem; margin-bottom: 5px; color: var(--accent); }
+        .sub-text { color: var(--muted); margin-bottom: 30px; font-size: 0.9rem; }
 
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; max-width: 500px; margin-top: 20px; }
-        .event-card { background: var(--card); padding: 15px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); }
-        .event-name { font-size: 0.9rem; color: #94a3b8; display: block; margin-bottom: 8px; }
-        .timer { font-weight: bold; font-size: 1.1rem; color: var(--accent); }
+        .grid { display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 450px; }
+        .event-card { background: var(--card); padding: 20px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .event-name { font-size: 0.95rem; color: var(--accent); font-weight: bold; display: block; margin-bottom: 12px; }
         
-        footer { margin-top: 40px; font-size: 0.8rem; color: #64748b; }
+        /* تنسيق العداد الصغير */
+        .timer-display { display: flex; justify-content: center; gap: 10px; direction: ltr; }
+        .time-unit { display: flex; flex-direction: column; min-width: 50px; }
+        .time-num { font-size: 1.3rem; font-weight: 700; color: #fff; }
+        .time-label { font-size: 0.6rem; color: var(--muted); text-transform: uppercase; }
+        .separator { color: var(--accent); font-size: 1.2rem; font-weight: bold; padding-top: 2px; }
+
+        footer { margin-top: 40px; font-size: 0.75rem; color: #475569; }
+        footer b { color: var(--accent); }
     </style>
 </head>
 <body>
@@ -33,54 +40,92 @@
     </div>
 
     <h1>المتبقي للمناسبات القادمة</h1>
-    <p>تابع العد التنازلي حتى اكتمال التحديثات</p>
+    <div class="sub-text">نعمل على تحسين تجربتكم، انتظرونا قريباً</div>
 
     <div class="grid">
         <div class="event-card">
             <span class="event-name">شهر رمضان المبارك 🌒</span>
-            <div class="timer" id="timer-ramadan">-- : --</div>
+            <div class="timer-display" id="timer-ramadan">
+                <div class="time-unit"><span class="time-num" id="d1">-</span><span class="time-label">يوم</span></div>
+                <div class="separator">:</div>
+                <div class="time-unit"><span class="time-num" id="h1">-</span><span class="time-label">ساعة</span></div>
+                <div class="separator">:</div>
+                <div class="time-unit"><span class="time-num" id="m1">-</span><span class="time-label">دقيقة</span></div>
+                <div class="separator">:</div>
+                <div class="time-unit"><span class="time-num" id="s1">-</span><span class="time-label">ثانية</span></div>
+            </div>
         </div>
+
         <div class="event-card">
             <span class="event-name">عيد الفطر المبارك 🎈</span>
-            <div class="timer" id="timer-eid1">-- : --</div>
+            <div class="timer-display" id="timer-eid1">
+                <div class="time-unit"><span class="time-num" id="d2">-</span><span class="time-label">يوم</span></div>
+                <div class="separator">:</div>
+                <div class="time-unit"><span class="time-num" id="h2">-</span><span class="time-label">ساعة</span></div>
+                <div class="separator">:</div>
+                <div class="time-unit"><span class="time-num" id="m2">-</span><span class="time-label">دقيقة</span></div>
+                <div class="separator">:</div>
+                <div class="time-unit"><span class="time-num" id="s2">-</span><span class="time-label">ثانية</span></div>
+            </div>
         </div>
+
         <div class="event-card">
             <span class="event-name">عشر ذي الحجة 🌟</span>
-            <div class="timer" id="timer-hajj">-- : --</div>
+            <div class="timer-display" id="timer-hajj">
+                <div class="time-unit"><span class="time-num" id="d4">-</span><span class="time-label">يوم</span></div>
+                <div class="separator">:</div>
+                <div class="time-unit"><span class="time-num" id="h4">-</span><span class="time-label">ساعة</span></div>
+                <div class="separator">:</div>
+                <div class="time-unit"><span class="time-num" id="m4">-</span><span class="time-label">دقيقة</span></div>
+                <div class="separator">:</div>
+                <div class="time-unit"><span class="time-num" id="s4">-</span><span class="time-label">ثانية</span></div>
+            </div>
         </div>
+
         <div class="event-card">
             <span class="event-name">عيد الأضحى المبارك 🐑</span>
-            <div class="timer" id="timer-eid2">-- : --</div>
+            <div class="timer-display" id="timer-eid2">
+                <div class="time-unit"><span class="time-num" id="d3">-</span><span class="time-label">يوم</span></div>
+                <div class="separator">:</div>
+                <div class="time-unit"><span class="time-num" id="h3">-</span><span class="time-label">ساعة</span></div>
+                <div class="separator">:</div>
+                <div class="time-unit"><span class="time-num" id="m3">-</span><span class="time-label">دقيقة</span></div>
+                <div class="separator">:</div>
+                <div class="time-unit"><span class="time-num" id="s3">-</span><span class="time-label">ثانية</span></div>
+            </div>
         </div>
     </div>
 
     <footer>
-        &copy; 2026 موقع المتبقي - جميع الحقوق محفوظة
+        &copy; 2026 موقع <b>المتبقي</b> - جميع الحقوق محفوظة
     </footer>
 
     <script>
-        const events = [
-            { id: 'timer-ramadan', date: "2026-02-18T00:00:00+03:00" },
-            { id: 'timer-eid1', date: "2026-03-20T00:00:00+03:00" },
-            { id: 'timer-hajj', date: "2026-05-18T00:00:00+03:00" },
-            { id: 'timer-eid2', date: "2026-05-27T00:00:00+03:00" }
-        ];
+        const eventDates = {
+            ramadan: "2026-02-18T00:00:00+03:00",
+            eid1: "2026-03-20T00:00:00+03:00",
+            hajj: "2026-05-18T00:00:00+03:00",
+            eid2: "2026-05-27T00:00:00+03:00"
+        };
 
-        function updateTimers() {
-            events.forEach(ev => {
-                const diff = new Date(ev.date).getTime() - Date.now();
+        function update() {
+            Object.keys(eventDates).forEach((key, index) => {
+                const idSuffix = (index === 0 ? '1' : index === 1 ? '2' : index === 2 ? '4' : '3');
+                const diff = new Date(eventDates[key]).getTime() - Date.now();
+                
                 if (diff > 0) {
-                    const days = Math.floor(diff / 86400000);
-                    const hours = Math.floor((diff % 86400000) / 3600000);
-                    document.getElementById(ev.id).innerText = `${days} يوم و ${hours} ساعة`;
+                    document.getElementById('d' + idSuffix).innerText = Math.floor(diff / 86400000);
+                    document.getElementById('h' + idSuffix).innerText = Math.floor((diff % 86400000) / 3600000);
+                    document.getElementById('m' + idSuffix).innerText = Math.floor((diff % 3600000) / 60000);
+                    document.getElementById('s' + idSuffix).innerText = Math.floor((diff % 60000) / 1000);
                 } else {
-                    document.getElementById(ev.id).innerText = "تقبل الله طاعتكم";
+                    document.getElementById('timer-' + key).innerText = "تقبل الله طاعتكم";
                 }
             });
         }
 
-        setInterval(updateTimers, 1000);
-        updateTimers();
+        setInterval(update, 1000);
+        update();
     </script>
 </body>
 </html>
