@@ -59,7 +59,7 @@
         </div>
         <div class="notify-row">
             <span data-i18n="notify">تفعيل التنبيهات</span>
-            <label class="switch"><input type="checkbox" class="notif-check" onchange="handleToggle(this)"><span class="slider"></span></label>
+            <label class="switch"><input type="checkbox" class="notif-check" id="notif-ramadan" onchange="handleToggle('ramadan', this)"><span class="slider"></span></label>
         </div>
     </div>
 
@@ -75,7 +75,7 @@
         </div>
         <div class="notify-row">
             <span data-i18n="notify">تفعيل التنبيهات</span>
-            <label class="switch"><input type="checkbox" class="notif-check" onchange="handleToggle(this)"><span class="slider"></span></label>
+            <label class="switch"><input type="checkbox" class="notif-check" id="notif-eid1" onchange="handleToggle('eid1', this)"><span class="slider"></span></label>
         </div>
     </div>
 
@@ -97,7 +97,7 @@
         </div>
         <div class="notify-row">
             <span data-i18n="notify">تفعيل التنبيهات</span>
-            <label class="switch"><input type="checkbox" class="notif-check" onchange="handleToggle(this)"><span class="slider"></span></label>
+            <label class="switch"><input type="checkbox" class="notif-check" id="notif-hajj" onchange="handleToggle('hajj', this)"><span class="slider"></span></label>
         </div>
     </div>
 
@@ -113,7 +113,7 @@
         </div>
         <div class="notify-row">
             <span data-i18n="notify">تفعيل التنبيهات</span>
-            <label class="switch"><input type="checkbox" class="notif-check" onchange="handleToggle(this)"><span class="slider"></span></label>
+            <label class="switch"><input type="checkbox" class="notif-check" id="notif-eid2" onchange="handleToggle('eid2', this)"><span class="slider"></span></label>
         </div>
     </div>
 
@@ -137,7 +137,10 @@
                 "eid1-pray": "تقبل الله منا ومنكم صالح الأعمال وعساكم من عواده. ✨",
                 "hajj-pray": "خير أيام الدنيا.. أعاننا الله وإياكم فيها على ذكره وشكره. 🙌",
                 "eid2-pray": "عيدكم مبارك، وتقبل الله طاعاتكم وأتم عليكم فرحتكم. 🐑",
-                "lang-btn": "English", "theme-btn": "نمط"
+                "lang-btn": "English", "theme-btn": "نمط",
+                "notif-on": "تم تفعيل التنبيه بنجاح! 🔔",
+                "notif-off": "تم إلغاء التنبيه. 🔕",
+                "notif-err": "يرجى تفعيل الإذن من إعدادات المتصفح"
             },
             en: {
                 "share": "Share", "days": "Days", "hours": "Hrs", "mins": "Min", "secs": "Sec",
@@ -153,7 +156,10 @@
                 "eid1-pray": "May Allah accept our deeds. Happy Eid! ✨",
                 "hajj-pray": "The best days of the world. 🙌",
                 "eid2-pray": "Eid Mubarak! May Allah accept your worship. 🐑",
-                "lang-btn": "عربي", "theme-btn": "Theme"
+                "lang-btn": "عربي", "theme-btn": "Theme",
+                "notif-on": "Notifications activated successfully! 🔔",
+                "notif-off": "Notifications cancelled. 🔕",
+                "notif-err": "Please enable permissions from browser settings"
             }
         };
 
@@ -168,21 +174,29 @@
             document.getElementById('lang-btn').innerText = i18n[currentLang]['lang-btn'];
             document.getElementById('theme-btn').innerText = i18n[currentLang]['theme-btn'];
             document.getElementById('main-html').dir = currentLang === 'ar' ? 'rtl' : 'ltr';
-            const state = localStorage.getItem('notifs_enabled') === 'true';
-            document.querySelectorAll('.notif-check').forEach(btn => btn.checked = state);
+            
+            // تحميل حالة كل زر بشكل مستقل
+            ['ramadan', 'eid1', 'hajj', 'eid2'].forEach(key => {
+                const state = localStorage.getItem('notif_' + key) === 'true';
+                document.getElementById('notif-' + key).checked = state;
+            });
         }
 
-        function handleToggle(el) {
-            if(el.checked) {
+        function handleToggle(key, el) {
+            const isChecked = el.checked;
+            if(isChecked) {
                 Notification.requestPermission().then(p => {
                     if(p === 'granted') {
-                        localStorage.setItem('notifs_enabled', 'true');
-                        document.querySelectorAll('.notif-check').forEach(b => b.checked = true);
-                    } else { el.checked = false; alert("يرجى تفعيل الإذن من إعدادات المتصفح"); }
+                        localStorage.setItem('notif_' + key, 'true');
+                        alert(i18n[currentLang]["notif-on"]);
+                    } else { 
+                        el.checked = false;
+                        alert(i18n[currentLang]["notif-err"]); 
+                    }
                 });
             } else {
-                localStorage.setItem('notifs_enabled', 'false');
-                document.querySelectorAll('.notif-check').forEach(b => b.checked = false);
+                localStorage.setItem('notif_' + key, 'false');
+                alert(i18n[currentLang]["notif-off"]);
             }
         }
 
