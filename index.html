@@ -73,7 +73,7 @@
         <button class="btn-tool" id="lang-btn" onclick="toggleLang()">English</button>
     </div>
 
-    <img src="https://i.ibb.co/6R6S90D/main-logo.png" alt="Logo" class="main-logo">
+    <img src="https://i.ibb.co/WdhBJMG/main-logo.png" alt="Logo" class="main-logo">
     <h1 class="site-display-title" id="main-title-text">المتبقي</h1>
 
     <div class="card">
@@ -88,7 +88,7 @@
         </div>
         <div class="notify-row">
             <span class="n-label">تفعيل التنبيه</span>
-            <label class="switch"><input type="checkbox" onchange="toggleNotify('ramadan', this)"><span class="slider"></span></label>
+            <label class="switch"><input type="checkbox" id="notif-sw-ramadan" onchange="toggleNotify('ramadan', this)"><span class="slider"></span></label>
         </div>
     </div>
 
@@ -104,16 +104,13 @@
         </div>
         <div class="notify-row">
             <span class="n-label">تفعيل التنبيه</span>
-            <label class="switch"><input type="checkbox" onchange="toggleNotify('eid1', this)"><span class="slider"></span></label>
+            <label class="switch"><input type="checkbox" id="notif-sw-eid1" onchange="toggleNotify('eid1', this)"><span class="slider"></span></label>
         </div>
     </div>
     <div class="verse-container">
         <span class="quran-text" dir="rtl">﴿شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ هُدًى لِّلنَّاسِ وَبَيِّنَاتٍ مِّنَ الْهُدَىٰ وَالْفُرْقَانِ ۚ فَمَن شَهِدَ مِنكُمُ الْشَّهْرَ فَلْيَصُمْهُ ۖ وَمَن كَانَ مَرِيضًا أَوْ عَلَىٰ سَفَرٍ فَعِدَّةٌ مِّنْ أَيَّامٍ أُخَرَ ۗ يُرِيدُ اللَّهُ بِكُمُ الْيُسْرَ وَلَا يُرِيدُ بِكُمُ الْعُسْرَ وَلِتُكْمِلُوا الْعِدَّةَ وَلِتُكَبِّرُوا اللَّهَ عَلَىٰ مَا هَدَاكُمْ وَلَعَلَّكُمْ تَشْكُرُونَ﴾</span>
         <span class="verse-ref" id="ref-185">سورة البقرة - آية 185</span>
-        <div class="eng-meaning">
-            <b>General Meaning:</b><br>
-            Ramadan is the month in which the Quran was revealed as guidance for mankind. Allah intends for you ease and not hardship.
-        </div>
+        <div class="eng-meaning"><b>General Meaning:</b><br>Ramadan is the month in which the Quran was revealed as guidance for mankind. Allah intends for you ease and not hardship.</div>
     </div>
 
     <div class="card">
@@ -128,7 +125,7 @@
         </div>
         <div class="notify-row">
             <span class="n-label">تفعيل التنبيه</span>
-            <label class="switch"><input type="checkbox" onchange="toggleNotify('hajj', this)"><span class="slider"></span></label>
+            <label class="switch"><input type="checkbox" id="notif-sw-hajj" onchange="toggleNotify('hajj', this)"><span class="slider"></span></label>
         </div>
     </div>
 
@@ -144,16 +141,13 @@
         </div>
         <div class="notify-row">
             <span class="n-label">تفعيل التنبيه</span>
-            <label class="switch"><input type="checkbox" onchange="toggleNotify('eid2', this)"><span class="slider"></span></label>
+            <label class="switch"><input type="checkbox" id="notif-sw-eid2" onchange="toggleNotify('eid2', this)"><span class="slider"></span></label>
         </div>
     </div>
     <div class="verse-container">
         <span class="quran-text" dir="rtl">﴿الْحَجُّ أَشْهُرٌ مَّعْلُومَاتٌ ۚ فَمَن فَرَضَ فِيهِنَّ الْحَجَّ فَلَا رَفَثَ وَلَا فُسُوقَ وَلَا جِدَالَ فِي الْحَجِّ ۗ وَمَا تَفْعَلُوا مِنْ خَيْرٍ يَعْلَمْهُ اللَّهُ ۗ وَتَزَوَّدُوا فَإِنَّ خَيْرَ الزَّادِ التَّقْوَىٰ ۚ وَاتَّقُونِ يَا أُولِي الْأَلْبَابِ﴾</span>
         <span class="verse-ref" id="ref-197">سورة البقرة - آية 197</span>
-        <div class="eng-meaning">
-            <b>General Meaning:</b><br>
-            Hajj occurs during well-known months. Take necessary provisions, but the best provision is righteousness.
-        </div>
+        <div class="eng-meaning"><b>General Meaning:</b><br>Hajj occurs during well-known months. Take necessary provisions, but the best provision is righteousness.</div>
     </div>
 
     <footer>
@@ -186,16 +180,10 @@
         setInterval(updateTimers, 1000); updateTimers();
 
         async function toggleNotify(key, el) {
-            const isAr = document.getElementById('app-html').dir === "rtl";
             if (el.checked) {
                 const perm = await Notification.requestPermission();
                 if (perm === "granted") {
                     localStorage.setItem('notif_' + key, 'true');
-                    new Notification("Residual", {
-                        body: isAr ? `تنبيهات ${events[key].name} تعمل بنجاح! ✅` : `Alerts for ${events[key].en} are active! ✅`,
-                        icon: "https://i.ibb.co/fzPfcMp0/small-logo.png",
-                        requireInteraction: true
-                    });
                 } else { el.checked = false; }
             } else { localStorage.setItem('notif_' + key, 'false'); }
         }
@@ -206,17 +194,11 @@
             const d = document.getElementById(`d-${key}`).innerText;
             const h = document.getElementById(`h-${key}`).innerText;
             const text = `${ev.emj} المتبقي لـ ${isAr ? ev.name : ev.en}:\n⏳ ${d} يوم و ${h} ساعة\n✨ ${ev.dua}\n\n📍 تابع العداد:\n${window.location.href}`;
-            
             try {
                 await navigator.clipboard.writeText(text);
-                if (navigator.share) {
-                    await navigator.share({ text });
-                } else {
-                    alert(isAr ? "تم نسخ نص المشاركة تلقائياً! 📋" : "Text copied automatically! 📋");
-                }
-            } catch (err) {
                 if (navigator.share) await navigator.share({ text });
-            }
+                else alert(isAr ? "تم نسخ نص المشاركة تلقائياً! 📋" : "Text copied automatically! 📋");
+            } catch (err) { if (navigator.share) await navigator.share({ text }); }
         }
 
         function toggleTheme() { document.body.classList.toggle('light-mode'); }
@@ -229,18 +211,14 @@
             document.getElementById('lang-btn').innerText = isAr ? "عربي" : "English";
             document.getElementById('main-title-text').innerText = isAr ? "Residual" : "المتبقي";
             document.getElementById('site-title-tag').innerText = isAr ? "Residual" : "المتبقي";
-            
-            const keys = Object.keys(events);
-            keys.forEach((key, i) => {
+            Object.keys(events).forEach((key, i) => {
                 document.getElementById(`t-${key}`).innerText = isAr ? events[key].en : events[key].name;
                 document.getElementById(`d-info${i+1}`).innerText = isAr ? events[key].dEn : events[key].dAr;
             });
-
             document.getElementById('ref-185').innerText = isAr ? "Surah Al-Baqarah - Ayah 185" : "سورة البقرة - آية 185";
             document.getElementById('ref-197').innerText = isAr ? "Surah Al-Baqarah - Ayah 197" : "سورة البقرة - آية 197";
             document.getElementById('f-rights').innerText = isAr ? "All rights reserved to Residual 1447 AH - 2026 AD" : "جميع الحقوق محفوظة للمتبقي 1447 هـ - 2026 م";
             document.getElementById('f-dev').innerText = isAr ? "Contact Developer" : "التواصل مع المطور";
-            
             document.querySelectorAll('.lb-d').forEach(el => el.innerText = isAr ? "Days" : "يوم");
             document.querySelectorAll('.lb-h').forEach(el => el.innerText = isAr ? "Hrs" : "ساعة");
             document.querySelectorAll('.lb-m').forEach(el => el.innerText = isAr ? "Min" : "دقيقة");
@@ -263,15 +241,18 @@
         setInterval(checkPreNotif, 3600000);
 
         window.onload = function() {
+            // استرجاع حالة مفاتيح التنبيه
+            Object.keys(events).forEach(key => {
+                if (localStorage.getItem('notif_' + key) === 'true') {
+                    const sw = document.getElementById('notif-sw-' + key);
+                    if (sw) sw.checked = true;
+                }
+            });
+            // رسالة التثبيت
             if (!window.navigator.standalone && !localStorage.getItem('pwa_tip')) {
                 const isAr = document.getElementById('app-html').dir === "rtl";
-                const msg = isAr ? 
-                    "للحصول على تنبيهات دقيقة، اضغط على (مشاركة) ثم (إضافة إلى الشاشة الرئيسية) 📲" : 
-                    "For accurate alerts, tap (Share) then (Add to Home Screen) 📲";
-                setTimeout(() => {
-                    alert(msg);
-                    localStorage.setItem('pwa_tip', 'true');
-                }, 3000);
+                const msg = isAr ? "للحصول على تنبيهات دقيقة، اضغط على (مشاركة) ثم (إضافة إلى الشاشة الرئيسية) 📲" : "For accurate alerts, tap (Share) then (Add to Home Screen) 📲";
+                setTimeout(() => { alert(msg); localStorage.setItem('pwa_tip', 'true'); }, 3000);
             }
         };
     </script>
