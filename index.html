@@ -3,17 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المتبقي | Al-Mutabaqi</title>
+    <title>Residual</title>
+    
+    <link rel="icon" type="image/png" href="https://i.ibb.co/fzPfcMp0/small-logo.png">
+    <link rel="apple-touch-icon" href="https://i.ibb.co/fzPfcMp0/small-logo.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Residual">
+    <meta name="theme-color" content="#ffd700">
+
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root { 
             --bg: #080c14; --card: #1e293b; --accent: #ffd700; --text: #ffffff; 
             --muted: #94a3b8; --blue: #3b82f6; --box-bg: #0f172a; --nav-btn: #ffd700;
         }
-        body.light-mode { 
-            --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --muted: #475569; 
-            --box-bg: #f1f5f9; --accent: #000000; --nav-btn: #000000;
-        }
+
         
         body { background: var(--bg); color: var(--text); font-family: 'IBM Plex Sans Arabic', sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; transition: 0.3s; }
         
@@ -259,6 +264,24 @@
             });
         }
         setInterval(checkPreNotif, 3600000);
+
+        // أضف الكود الجديد هنا
+        window.onload = function() {
+            if (!window.navigator.standalone && !localStorage.getItem('pwa_tip')) {
+                const isAr = document.getElementById('app-html').dir === "rtl";
+                const msg = isAr ? 
+                    "للحصول على تنبيهات دقيقة، اضغط على (مشاركة) ثم (إضافة إلى الشاشة الرئيسية) 📲" : 
+                    "For accurate alerts, tap (Share) then (Add to Home Screen) 📲";
+                
+                setTimeout(() => {
+                    alert(msg);
+                    localStorage.setItem('pwa_tip', 'true');
+                }, 3000);
+            }
+        };
     </script>
+</body>
+</html>
+
 </body>
 </html>
