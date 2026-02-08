@@ -13,7 +13,7 @@
     <style>
         :root { --bg-body: #080c14; --bg-card: #1e293b; --text-main: #ffffff; --text-muted: #94a3b8; --accent: #ffd700; --box-bg: #0f172a; --blue-notif: #3b82f6; }
         [data-theme="light"] { --bg-body: #f8fafc; --bg-card: #ffffff; --text-main: #0f172a; --text-muted: #64748b; --accent: #10b981; --box-bg: #f1f5f9; --blue-notif: #2563eb; }
-        body { background-color: var(--bg-body); color: var(--text-main); font-family: 'IBM Plex Sans Arabic', 'Inter', sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; padding: 20px; transition: 0.3s; }
+        body { background-color: var(--bg-body); color: var(--text-main); font-family: 'IBM Plex Sans Arabic', 'Inter', sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; padding: 20px; transition: 0.3s; min-height: 100vh; }
         .controls { position: fixed; top: 20px; left: 20px; display: flex; gap: 10px; z-index: 1000; }
         .btn-tool { background: var(--accent); color: #000; border: none; padding: 10px; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 0.8rem; }
         .main-logo { width: 150px; margin: 20px 0; }
@@ -36,6 +36,10 @@
         .quran-text { display: block; font-size: 1.15rem; color: var(--accent); direction: rtl !important; margin-bottom: 15px; }
         .translation-text { display: block; font-size: 0.9rem; color: var(--text-muted); font-style: italic; line-height: 1.5; margin-bottom: 10px; }
         .verse-ref { display: block; font-weight: bold; color: var(--text-muted); font-size: 0.8rem; }
+        
+        /* التذييل الجديد */
+        footer { margin-top: auto; padding: 40px 20px 20px; text-align: center; color: var(--text-muted); font-size: 0.85rem; line-height: 1.6; width: 100%; }
+        footer b { color: var(--accent); }
     </style>
 </head>
 <body>
@@ -123,6 +127,11 @@
         <span class="verse-ref" data-i18n="v2-ref"></span>
     </div>
 
+    <footer>
+        <p>*حسب توقيت مكة المكرمة</p>
+        <p>جميع الحقوق محفوظة لـ <b>المتبقي</b> 1447 هـ - 2026 م</p>
+    </footer>
+
     <script>
         const i18n = {
             ar: {
@@ -138,9 +147,7 @@
                 "hajj-pray": "خير أيام الدنيا.. أعاننا الله وإياكم فيها على ذكره وشكره. 🙌",
                 "eid2-pray": "عيدكم مبارك، وتقبل الله طاعاتكم وأتم عليكم فرحتكم. 🐑",
                 "lang-btn": "English", "theme-btn": "نمط",
-                "notif-on": "تم تفعيل التنبيه بنجاح! 🔔",
-                "notif-off": "تم إلغاء التنبيه. 🔕",
-                "notif-err": "يرجى تفعيل الإذن من إعدادات المتصفح"
+                "notif-on": "تم تفعيل التنبيه بنجاح! 🔔", "notif-off": "تم إلغاء التنبيه. 🔕", "notif-err": "يرجى تفعيل الإذن من الإعدادات"
             },
             en: {
                 "share": "Share", "days": "Days", "hours": "Hrs", "mins": "Min", "secs": "Sec",
@@ -150,16 +157,14 @@
                 "hajj-title": "10 Days of Hajj", "hajj-date": "May 18, 2026",
                 "eid2-title": "Eid Al-Adha", "eid2-date": "May 27, 2026",
                 "v1-ref": "[Al-Baqarah: 185]", "v2-ref": "[Al-Baqarah: 197]",
-                "trans-1": "“The month of Ramadhan [is that] in which was revealed the Qur'an... so whoever sights [the new moon of] the month, let him fast it.”",
-                "trans-2": "“Hajj is [during] well-known months, so whoever has made Hajj obligatory upon himself therein... then there is [to be for him] no sexual relations and no disobedience and no disputing during Hajj.”",
+                "trans-1": "“The month of Ramadhan [is that] in which was revealed the Qur'an...”",
+                "trans-2": "“Hajj is [during] well-known months...”",
                 "ramadan-pray": "May Allah let us reach Ramadan in peace. 🌙",
                 "eid1-pray": "May Allah accept our deeds. Happy Eid! ✨",
                 "hajj-pray": "The best days of the world. 🙌",
-                "eid2-pray": "Eid Mubarak! May Allah accept your worship. 🐑",
+                "eid2-pray": "Eid Mubarak! 🐑",
                 "lang-btn": "عربي", "theme-btn": "Theme",
-                "notif-on": "Notifications activated successfully! 🔔",
-                "notif-off": "Notifications cancelled. 🔕",
-                "notif-err": "Please enable permissions from browser settings"
+                "notif-on": "Activated! 🔔", "notif-off": "Cancelled. 🔕", "notif-err": "Enable permissions"
             }
         };
 
@@ -175,7 +180,6 @@
             document.getElementById('theme-btn').innerText = i18n[currentLang]['theme-btn'];
             document.getElementById('main-html').dir = currentLang === 'ar' ? 'rtl' : 'ltr';
             
-            // تحميل حالة كل زر بشكل مستقل
             ['ramadan', 'eid1', 'hajj', 'eid2'].forEach(key => {
                 const state = localStorage.getItem('notif_' + key) === 'true';
                 document.getElementById('notif-' + key).checked = state;
@@ -183,8 +187,7 @@
         }
 
         function handleToggle(key, el) {
-            const isChecked = el.checked;
-            if(isChecked) {
+            if(el.checked) {
                 Notification.requestPermission().then(p => {
                     if(p === 'granted') {
                         localStorage.setItem('notif_' + key, 'true');
@@ -202,15 +205,12 @@
 
         function doShare(idx) {
             const ids = ["1", "2", "4", "3"];
-            const titlesAr = ["شهر رمضان المبارك", "عيد الفطر المبارك", "عشر ذي الحجة", "عيد الأضحى المبارك"];
-            const titlesEn = ["Holy Ramadan", "Eid Al-Fitr", "10 Days of Hajj", "Eid Al-Adha"];
             const prays = [i18n[currentLang]["ramadan-pray"], i18n[currentLang]["eid1-pray"], i18n[currentLang]["hajj-pray"], i18n[currentLang]["eid2-pray"]];
-            const eventName = currentLang === 'ar' ? titlesAr[idx] : titlesEn[idx];
+            const eventName = i18n[currentLang][Object.keys(i18n[currentLang]).filter(k => k.includes('-title'))[idx]];
             const d = document.getElementById('d' + ids[idx]).innerText;
             const h = document.getElementById('h' + ids[idx]).innerText;
             const labels = currentLang === 'ar' ? {rem: "المتبقي لـ", d: "يوم", h: "ساعة", link: "رابط العداد"} : {rem: "Remaining for", d: "Days", h: "Hrs", link: "Link"};
-
-            const msg = `⌛ ${labels.rem} ${eventName}:\n🗓️ ${d} ${labels.d} و ${h} ${labels.h}\n\n✨ ${prays[idx]}\n\n📍 ${labels.link}:\n${window.location.href}`;
+            const msg = `⌛ ${labels.rem} ${eventName}:\n🗓️ ${d} ${labels.d} و ${h} ${labels.h}\n\n✨ ${prays[idx]}\n\n📍 ${window.location.href}`;
             
             if (navigator.share && /iPhone|Android/i.test(navigator.userAgent)) {
                 navigator.share({text: msg});
@@ -223,8 +223,10 @@
         function toggleLang() { currentLang = (currentLang === 'ar' ? 'en' : 'ar'); localStorage.setItem('lang', currentLang); updateUI(); }
         function toggleTheme() { document.body.hasAttribute('data-theme') ? document.body.removeAttribute('data-theme') : document.body.setAttribute('data-theme', 'light'); localStorage.setItem('theme', document.body.hasAttribute('data-theme') ? 'light' : 'dark'); }
 
-        function update(id, date) {
-            const diff = new Date(date).getTime() - new Date().getTime();
+        function update(id, dateStr) {
+            // توقيت مكة المكرمة هو UTC+3
+            const target = new Date(dateStr + " GMT+0300");
+            const diff = target - new Date();
             if (diff > 0) {
                 document.getElementById('d'+id).innerText = Math.floor(diff / 86400000);
                 document.getElementById('h'+id).innerText = Math.floor((diff % 86400000) / 3600000);
@@ -234,8 +236,11 @@
         }
 
         setInterval(() => {
-            update('1', "2026-02-18T00:00:00"); update('2', "2026-03-20T00:00:00");
-            update('3', "2026-05-27T00:00:00"); update('4', "2026-05-18T00:00:00");
+            // تم ضبط الوقت على غروب الشمس (المغرب) بتوقيت مكة المكرمة
+            update('1', "2026-02-18T18:30:00"); 
+            update('2', "2026-03-20T18:30:00");
+            update('3', "2026-05-27T18:30:00"); 
+            update('4', "2026-05-18T18:30:00");
         }, 1000);
 
         window.onload = () => {
