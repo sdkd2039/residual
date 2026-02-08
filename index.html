@@ -16,8 +16,8 @@
         body { background-color: var(--bg-body); color: var(--text-main); font-family: 'IBM Plex Sans Arabic', 'Inter', sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; padding: 20px; transition: 0.3s; min-height: 100vh; }
         .controls { position: fixed; top: 20px; left: 20px; display: flex; gap: 10px; z-index: 1000; }
         .btn-tool { background: var(--accent); color: #000; border: none; padding: 10px; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 0.8rem; }
-        .main-logo { width: 120px; margin: 20px 0; }
-        .card { background: var(--bg-card); border-radius: 20px; padding: 25px; margin-bottom: 20px; width: 100%; max-width: 450px; text-align: center; position: relative; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .main-logo { width: 150px; margin: 20px 0; }
+        .card { background: var(--bg-card); border-radius: 20px; padding: 25px; margin-bottom: 20px; width: 100%; max-width: 450px; text-align: center; position: relative; }
         .share-mini { position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.05); border: 1px solid var(--accent); color: var(--accent); padding: 5px 8px; border-radius: 8px; cursor: pointer; font-size: 0.7rem; }
         html[dir="ltr"] .share-mini { left: auto; right: 15px; }
         .event-title { color: var(--accent); font-size: 1.4rem; font-weight: bold; }
@@ -32,9 +32,10 @@
         .slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
         input:checked + .slider { background-color: var(--blue-notif); }
         input:checked + .slider:before { transform: translateX(14px); }
-        .verse-box { background: var(--bg-card); padding: 25px; border-radius: 15px; width: 100%; max-width: 450px; text-align: center; line-height: 1.8; margin: 10px 0 30px 0; border: 1px solid rgba(255, 215, 0, 0.2); box-sizing: border-box; }
-        .quran-text { display: block; font-size: 1rem; color: var(--accent); direction: rtl !important; margin-bottom: 15px; text-align: justify; }
-        .verse-ref { display: block; font-weight: bold; color: var(--text-muted); font-size: 0.8rem; margin-top: 10px; }
+        .verse-box { background: var(--bg-card); padding: 25px; border-radius: 15px; max-width: 500px; text-align: center; line-height: 1.8; margin: 10px 0 30px 0; border: 1px solid rgba(255, 215, 0, 0.2); box-sizing: border-box; }
+        .quran-text { display: block; font-size: 1.15rem; color: var(--accent); direction: rtl !important; margin-bottom: 15px; }
+        .translation-text { display: block; font-size: 0.9rem; color: var(--text-muted); font-style: italic; line-height: 1.5; margin-bottom: 10px; }
+        .verse-ref { display: block; font-weight: bold; color: var(--text-muted); font-size: 0.8rem; }
         footer { margin-top: auto; padding: 40px 20px 20px; text-align: center; color: var(--text-muted); font-size: 0.8rem; line-height: 1.6; width: 100%; }
         footer b { color: var(--accent); }
     </style>
@@ -81,7 +82,8 @@
     </div>
 
     <div class="verse-box">
-        <span class="quran-text">﴿شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ هُدًى لِّلنَّاسِ وَبَيِّنَاتٍ مِّنَ الْهُدَىٰ وَالْفُرْقَانِ ۚ فَمَن شَهِدَ مِنكُمُ الشَّهْرَ فَلْيَصُمْهُ ۖ وَمَن كَانَ مَرِيضًا أَوْ عَلَىٰ سَفَرٍ فَعِدَّةٌ مِّنْ أَيَّامٍ أُخَرَ ۗ يُرِيدُ اللَّهُ بِكُمُ الْيُسْرَ وَلَا يُرِيدُ بِكُمُ الْعُسْرَ وَلِتُكْمِلُوا الْعِدَّةَ وَلِتُكَبِّرُوا اللَّهَ عَلَىٰ مَا هَدَاكُمْ وَلَعَلَّكُمْ تَشْكُرُونَ﴾</span>
+        <span class="quran-text">﴿شَهرُ رَمَضانَ الَّذي أُنزِلَ فيهِ القُرآنُ هُدًى لِلنّاسِ وَبَيِّناتٍ مِنَ الهُدى وَالفُرقانِ فَمَن شَهِدَ مِنكُمُ الشَّهرَ فَليَصُمهُ وَمَن كانَ مَريضًا أَو عَلى سَفَرٍ فَعِدَّةٌ مِن أَيّامٍ أُخَرَ يُريدُ اللَّهُ بِكُمُ اليُسرَ وَلا يُريدُ بِكُمُ العُسرَ وَلِتُكمِلُوا العِدَّةَ وَلِتُكَبِّرُوا اللَّهَ عَلى ما هَداكُم وَلَعَلَّكُم تَشكُرونَ﴾</span>
+        <span id="trans-1" class="translation-text"></span>
         <span class="verse-ref" data-i18n="v1-ref"></span>
     </div>
 
@@ -118,7 +120,9 @@
     </div>
 
     <div class="verse-box">
-        <span class="quran-text">﴿الْحَجُّ أَشْهُرٌ مَّعْلُومَاتٌ ۚ فَمَن فَرَضَ فِيهِنَّ الْحَجَّ فَلَا رَفَثَ وَلَا فُسُوقَ وَلَا جِدَالَ فِي الْحَجِّ ۗ وَمَا تَفْعَلُوا مِنْ خَيْرٍ يَعْلَمْهُ اللَّهُ ۗ وَتَزَوَّدُوا فَإِنَّ خَيْرَ الزَّادِ التَّقْوَىٰ ۚ وَاتَّقُونِ يَا أُولِي الْأَلْبَابِ﴾</span>
+        <span class="quran-text">﴿الحَجُّ أَشهُرٌ مَعلوماتٌ فَمَن فَرَضَ فيهِنَّ الحَجَّ فَلا رَفَثَ وَلا فُسوقَ وَلا جِدالَ فِي الحَجِّ وَما تَفعَلوا مِن خَيرٍ يَعلَمهُ اللَّهُ وَتَزَوَّدوا فَإِنَّ خَيرَ الزّادِ التَّقوى وَاتَّقونِ يا أُولِي الأَلبابِ﴾
+</span>
+        <span id="trans-2" class="translation-text"></span>
         <span class="verse-ref" data-i18n="v2-ref"></span>
     </div>
 
@@ -128,22 +132,37 @@
     </footer>
 
     <script>
+        // تسجيل الـ Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('SW Registered'))
+                    .catch(err => console.log('SW Failed', err));
+            });
+        }
+
         const i18n = {
             ar: {
                 "share": "مشاركة", "days": "يوم", "hours": "ساعة", "mins": "دقيقة", "secs": "ثانية",
-                "notify": "تفعيل التنبيهات", "copy-msg": "تم نسخ التفاصيل بنجاح!",
-                "ramadan-title": "شهر رمضان المبارك", "ramadan-date": "1 رمضان 1447 هـ | 18 فبراير 2026 م",
-                "eid1-title": "عيد الفطر المبارك", "eid1-date": "1 شوال 1447 هـ | 20 مارس 2026 م",
-                "hajj-title": "عشر ذي الحجة", "hajj-date": "1 ذو الحجة 1447 هـ | 18 مايو 2026 م",
-                "eid2-title": "عيد الأضحى المبارك", "eid2-date": "10 ذو الحجة 1447 هـ | 27 مايو 2026 م",
-                "v1-ref": "[سورة البقرة: ١٨٥]", "v2-ref": "[سورة البقرة: ١٩٧]", "lang-btn": "English", "theme-btn": "نمط"
+                "notify": "تفعيل التنبيهات", "copy-msg": "تم نسخ التفاصيل!",
+                "ramadan-title": "شهر رمضان المبارك", "ramadan-date": "18 فبراير 2026",
+                "eid1-title": "عيد الفطر المبارك", "eid1-date": "20 مارس 2026",
+                "hajj-title": "عشر ذي الحجة", "hajj-date": "18 مايو 2026",
+                "eid2-title": "عيد الأضحى المبارك", "eid2-date": "27 مايو 2026",
+                "v1-ref": "[سورة البقرة: ١٨٥]", "v2-ref": "[سورة البقرة: ١٩٧]",
+                "notif-msg": "سيصلك تنبيه عند اقتراب الموعد!", "lang-btn": "English", "theme-btn": "نمط"
             },
             en: {
                 "share": "Share", "days": "Days", "hours": "Hrs", "mins": "Min", "secs": "Sec",
-                "notify": "Notify", "ramadan-title": "Ramadan", "ramadan-date": "Feb 18, 2026",
-                "eid1-title": "Eid Al-Fitr", "eid1-date": "Mar 20, 2026", "hajj-title": "Hajj Days",
-                "hajj-date": "May 18, 2026", "eid2-title": "Eid Al-Adha", "eid2-date": "May 27, 2026",
-                "v1-ref": "[Al-Baqarah: 185]", "v2-ref": "[Al-Baqarah: 197]", "lang-btn": "عربي", "theme-btn": "Theme"
+                "notify": "Notify", "copy-msg": "Copied!",
+                "ramadan-title": "Holy Ramadan", "ramadan-date": "Feb 18, 2026",
+                "eid1-title": "Eid Al-Fitr", "eid1-date": "Mar 20, 2026",
+                "hajj-title": "10 Days of Hajj", "hajj-date": "May 18, 2026",
+                "eid2-title": "Eid Al-Adha", "eid2-date": "May 27, 2026",
+                "v1-ref": "[Al-Baqarah: 185]", "v2-ref": "[Al-Baqarah: 197]",
+                "trans-1": "The month of Ramadan in which was revealed the Quran.",
+                "trans-2": "Hajj is in the well-known months.",
+                "notif-msg": "You will be notified soon!", "lang-btn": "عربي", "theme-btn": "Theme"
             }
         };
 
@@ -153,6 +172,8 @@
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 el.innerText = i18n[currentLang][el.getAttribute('data-i18n')];
             });
+            document.getElementById('trans-1').innerText = currentLang === 'en' ? i18n.en["trans-1"] : "";
+            document.getElementById('trans-2').innerText = currentLang === 'en' ? i18n.en["trans-2"] : "";
             document.getElementById('main-html').dir = currentLang === 'ar' ? 'rtl' : 'ltr';
             ['ramadan', 'eid1', 'hajj', 'eid2'].forEach(key => {
                 document.getElementById('notif-' + key).checked = localStorage.getItem('notif_' + key) === 'true';
@@ -162,19 +183,33 @@
         function handleToggle(key, el) {
             if(el.checked) {
                 Notification.requestPermission().then(p => {
-                    if(p === 'granted') localStorage.setItem('notif_' + key, 'true');
-                    else { el.checked = false; alert("يرجى تفعيل التنبيهات"); }
+                    if(p === 'granted') {
+                        localStorage.setItem('notif_' + key, 'true');
+                        // إرسال إشعار تجريبي فوري
+                        navigator.serviceWorker.ready.then(reg => {
+                            reg.showNotification(i18n[currentLang][key + '-title'], {
+                                body: i18n[currentLang]['notif-msg'],
+                                icon: 'https://i.ibb.co/fYWfbWBQ/logo.png',
+                                badge: 'https://i.ibb.co/fYWfbWBQ/logo.png'
+                            });
+                        });
+                    } else { 
+                        el.checked = false; 
+                        alert("يرجى تفعيل الإذن من إعدادات المتصفح"); 
+                    }
                 });
-            } else localStorage.setItem('notif_' + key, 'false');
+            } else {
+                localStorage.setItem('notif_' + key, 'false');
+            }
         }
 
         function doShare(idx) {
             const ids = ["1", "2", "4", "3"];
             const d = document.getElementById('d' + ids[idx]).innerText;
             const h = document.getElementById('h' + ids[idx]).innerText;
-            const msg = `المتبقي: ${d} يوم و ${h} ساعة\n📍 ${window.location.href}`;
+            const msg = `⌛ المتبقي: ${d} يوم و ${h} ساعة\n📍 ${window.location.href}`;
             if (navigator.share) navigator.share({text: msg});
-            else alert("تم النسخ!");
+            else { alert(i18n[currentLang]['copy-msg']); }
         }
 
         function toggleLang() { currentLang = (currentLang === 'ar' ? 'en' : 'ar'); localStorage.setItem('lang', currentLang); updateUI(); }
@@ -184,7 +219,7 @@
             const target = new Date(targetDateStr);
             const now = new Date();
             const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
-            const makkahNow = new Date(utc + (3600000 * 3)); 
+            const makkahNow = new Date(utc + (3600000 * 3));
             const diff = target - makkahNow;
 
             if (diff > 0) {
@@ -192,11 +227,6 @@
                 document.getElementById('h'+id).innerText = Math.floor((diff % 86400000) / 3600000);
                 document.getElementById('m'+id).innerText = Math.floor((diff % 3600000) / 60000);
                 document.getElementById('s'+id).innerText = Math.floor((diff % 60000) / 1000);
-            } else {
-                document.getElementById('d'+id).innerText = "0";
-                document.getElementById('h'+id).innerText = "0";
-                document.getElementById('m'+id).innerText = "0";
-                document.getElementById('s'+id).innerText = "0";
             }
         }
 
