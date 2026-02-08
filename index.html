@@ -15,7 +15,6 @@
             --bg-body: #080c14; --bg-card: #1e293b; --text-main: #ffffff; 
             --text-muted: #94a3b8; --accent: #ffd700; --box-bg: #0f172a; --blue-notif: #3b82f6; 
         }
-        /* تعديل النمط الفاتح ليعمل مع JavaScript */
         body.light-mode { 
             --bg-body: #f8fafc; --bg-card: #ffffff; --text-main: #0f172a; 
             --text-muted: #64748b; --accent: #10b981; --box-bg: #f1f5f9; --blue-notif: #2563eb; 
@@ -91,7 +90,7 @@
     <div class="verse-box">
         <span class="quran-text">﴿شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ هُدًى لِّلنَّاسِ وَبَيِّنَاتٍ مِّنَ الْهُدَىٰ وَالْفُرْقَانِ ۚ فَمَن شَهِدَ مِنكُمُ الشَّهْرَ فَلْيَصُمْهُ ۖ وَمَن كَانَ مَرِيضًا أَوْ عَلَىٰ سَفَرٍ فَعِدَّةٌ مِّنْ أَيَّامٍ أُخَرَ ۗ يُرِيدُ اللَّهُ بِكُمُ الْيُسْرَ وَلَا يُرِيدُ بِكُمُ الْعُسْرَ وَلِتُكْمِلُوا الْعِدَّةَ وَلِتُكَبِّرُوا اللَّهَ عَلَىٰ مَا هَدَاكُمْ وَلَعَلَّكُمْ تَشْكُرُونَ﴾</span>
         <span id="trans-1" class="translation-text" data-i18n="trans1"></span>
-        <span class="verse-ref" data-i18n="v1-ref">آية ١٨٥</span>
+        <span class="verse-ref" data-i18n="v1-ref"></span>
     </div>
 
     <div class="card">
@@ -129,7 +128,7 @@
     <div class="verse-box">
         <span class="quran-text">﴿الْحَجُّ أَشْهُرٌ مَّعْلُومَاتٌ ۚ فَمَن فَرَضَ فِيهِنَّ الْحَجَّ فَلَا رَفَثَ وَلَا فُسُوقَ وَلَا جِدَالَ فِي الْحَجِّ ۗ وَمَا تَفْعَلُوا مِنْ خَيْرٍ يَعْلَمْهُ اللَّهُ ۗ وَتَزَوَّدُوا فَإِنَّ خَيْرَ الزَّادِ التَّقْوَىٰ ۚ وَاتَّقُونِ يَا أُولِي الْأَلْبَابِ﴾</span>
         <span id="trans-2" class="translation-text" data-i18n="trans2"></span>
-        <span class="verse-ref" data-i18n="v2-ref">آية ١٩٧</span>
+        <span class="verse-ref" data-i18n="v2-ref"></span>
     </div>
 
     <footer>
@@ -138,12 +137,6 @@
     </footer>
 
 <script>
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('sw.js').catch(() => console.log('SW Error'));
-        });
-    }
-
     const i18n = {
         ar: {
             "lang-btn": "English", "theme-btn": "نمط", "notify": "تفعيل التنبيهات", "share": "مشاركة",
@@ -152,8 +145,11 @@
             "hajj-title": "عشر ذي الحجة", "hajj-date": "1 ذو الحجة 1447 هـ | 18 مايو 2026 م",
             "eid2-title": "عيد الأضحى المبارك", "eid2-date": "10 ذو الحجة 1447 هـ | 27 مايو 2026 م",
             "days": "يوم", "hours": "ساعة", "mins": "دقيقة", "secs": "ثانية",
-            "v1-ref": "آية ١٨٥", "v2-ref": "آية ١٩٧", "trans1": "", "trans2": "",
-            "copy-msg": "تم النسخ بنجاح! ✅", "rem": "المتبقي لـ", "footer-time": "*حسب توقيت مكة المكرمة", "footer-rights": "جميع الحقوق محفوظة لـ"
+            "v1-ref": "سورة البقرة: ١٨٥", "v2-ref": "سورة البقرة: ١٩٧", 
+            "trans1": "", "trans2": "",
+            "copy-msg": "تم النسخ بنجاح! ✅", "rem": "المتبقي لـ",
+            "notif-confirm": "تم تفعيل التنبيهات لـ ",
+            "footer-time": "*حسب توقيت مكة المكرمة", "footer-rights": "جميع الحقوق محفوظة لـ"
         },
         en: {
             "lang-btn": "عربي", "theme-btn": "Mode", "notify": "Enable Alerts", "share": "Share",
@@ -162,10 +158,12 @@
             "hajj-title": "10 Days of Dhu al-Hijjah", "hajj-date": "1 Dhu al-Hijjah 1447 AH | 18 May 2026",
             "eid2-title": "Eid al-Adha", "eid2-date": "10 Dhu al-Hijjah 1447 AH | 27 May 2026",
             "days": "Days", "hours": "Hrs", "mins": "Min", "secs": "Sec",
-            "v1-ref": "Verse 185", "v2-ref": "Verse 197",
-            "trans1": "Meanings Translation: The month of Ramadan [is that] in which was revealed the Qur'an, a guidance for the people and clear proofs of guidance and criterion...",
-            "trans2": "Meanings Translation: Hajj is [during] well-known months, so whoever has made Hajj obligatory upon himself therein...",
-            "copy-msg": "Link Copied! ✅", "rem": "Remaining for", "footer-time": "*Makkah Timezone", "footer-rights": "All rights reserved for"
+            "v1-ref": "Surah Al-Baqarah: 185", "v2-ref": "Surah Al-Baqarah: 197",
+            "trans1": "Meanings: The month of Ramadan [is that] in which was revealed the Qur'an, a guidance for the people and clear proofs of guidance and criterion.",
+            "trans2": "Meanings: Hajj is [during] well-known months, so whoever has made Hajj obligatory upon himself therein, there is [to be for him] no sexual relations and no disobedience and no disputing during Hajj.",
+            "copy-msg": "Link Copied! ✅", "rem": "Remaining for",
+            "notif-confirm": "Notifications enabled for: ",
+            "footer-time": "*Based on Makkah Time", "footer-rights": "All rights reserved for"
         }
     };
 
@@ -179,13 +177,9 @@
         });
         document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
         
-        if (currentTheme === 'light') {
-            document.body.classList.add('light-mode');
-        } else {
-            document.body.classList.remove('light-mode');
-        }
+        if (currentTheme === 'light') { document.body.classList.add('light-mode'); } 
+        else { document.body.classList.remove('light-mode'); }
 
-        // ثبات أزرار التنبيهات
         ['ramadan', 'eid1', 'hajj', 'eid2'].forEach(key => {
             const saved = localStorage.getItem('notif_' + key);
             const checkbox = document.getElementById('notif-' + key);
@@ -193,26 +187,32 @@
         });
     }
 
-    function toggleLang() {
-        currentLang = (currentLang === 'ar' ? 'en' : 'ar');
-        localStorage.setItem('lang', currentLang);
-        updateUI();
-    }
-
-    function toggleTheme() {
-        currentTheme = (currentTheme === 'dark' ? 'light' : 'dark');
-        localStorage.setItem('theme', currentTheme);
-        updateUI();
-    }
-
     function handleToggle(key, el) {
         if (el.checked) {
             Notification.requestPermission().then(perm => {
                 if (perm === 'granted') {
                     localStorage.setItem('notif_' + key, 'true');
-                    new Notification("المتبقي", { body: "تم تفعيل التنبيه بنجاح! 🔔" });
+                    const eventName = i18n[currentLang][key + '-title'];
+                    
+                    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+                        navigator.serviceWorker.ready.then(reg => {
+                            reg.showNotification("المتبقي | Al-Mutabaqi", {
+                                body: i18n[currentLang]['notif-confirm'] + "(" + eventName + ")",
+                                icon: 'https://i.ibb.co/fYWfbWBQ/logo.png',
+                                badge: 'https://i.ibb.co/fYWfbWBQ/logo.png',
+                                vibrate: [200, 100, 200]
+                            });
+                        });
+                    } else {
+                        // تنبيه بديل في حال عدم وجود SW
+                        new Notification("المتبقي | Al-Mutabaqi", {
+                            body: i18n[currentLang]['notif-confirm'] + "(" + eventName + ")"
+                        });
+                    }
                 } else {
                     el.checked = false;
+                    localStorage.setItem('notif_' + key, 'false');
+                    alert(currentLang === 'ar' ? "يرجى السماح بالتنبيهات من إعدادات المتصفح" : "Please enable notifications in your browser settings");
                 }
             });
         } else {
@@ -233,6 +233,9 @@
             alert(i18n[currentLang]['copy-msg']);
         }
     }
+
+    function toggleLang() { currentLang = (currentLang === 'ar' ? 'en' : 'ar'); localStorage.setItem('lang', currentLang); updateUI(); }
+    function toggleTheme() { currentTheme = (currentTheme === 'dark' ? 'light' : 'dark'); localStorage.setItem('theme', currentTheme); updateUI(); }
 
     function updateCountdown(id, dateStr) {
         const target = new Date(dateStr).getTime();
