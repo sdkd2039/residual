@@ -131,7 +131,7 @@
     </footer>
 
 <script>
-    // تسجيل الـ Service Worker
+    // تسجيل الـ Service Worker لضمان عمل الإشعارات
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('sw.js').catch(err => console.log('SW Error', err));
@@ -142,16 +142,20 @@
         ar: {
             "share": "مشاركة", "days": "يوم", "hours": "ساعة", "mins": "دقيقة", "secs": "ثانية",
             "notify": "تفعيل التنبيهات", "copy-msg": "تم نسخ نص المشاركة بنجاح! ✅",
-            "ramadan-title": "شهر رمضان المبارك", "ramadan-date": "18 فبراير 2026",
-            "eid1-title": "عيد الفطر المبارك", "eid1-date": "20 مارس 2026",
-            "hajj-title": "عشر ذي الحجة", "hajj-date": "18 مايو 2026",
-            "eid2-title": "عيد الأضحى المبارك", "eid2-date": "27 مايو 2026",
+            "ramadan-title": "شهر رمضان المبارك", 
+            "ramadan-date": "رمضان 1447 هـ | 18 فبراير 2026 م",
+            "eid1-title": "عيد الفطر المبارك", 
+            "eid1-date": "شوال 1447 هـ | 20 مارس 2026 م",
+            "hajj-title": "عشر ذي الحجة", 
+            "hajj-date": "ذو الحجة 1447 هـ | 18 مايو 2026 م",
+            "eid2-title": "عيد الأضحى المبارك", 
+            "eid2-date": "ذو الحجة 1447 هـ | 27 مايو 2026 م",
             "v1-ref": "[سورة البقرة: ١٨٥]", "v2-ref": "[سورة البقرة: ١٩٧]",
             "notif-msg": "تم تفعيل التنبيهات بنجاح! 🔔", "lang-btn": "English", "theme-btn": "نمط",
             "rem": "المتبقي لـ", "link": "رابط العداد",
             "prays": [
                 "اللهم بلغنا الصيام والقيام وصالح الأعمال 🌙",
-                "جعل الله عيدكم فرحة بأعمال قُبلت، وذنوب مُحيت، ودرجات رُفعت.. كل عام وأنتم بخير ✨",
+                "جعل الله عيدكم فرحة بأعمال قُبلت، وذنوب مُحيت.. كل عام وأنتم بخير ✨",
                 "اللهم بارك لنا في عشر ذي الحجة، واجعل لنا نصيباً في كل خير تقسمه 🙌",
                 "عاد عيدكم، تقبل الله منا ومنكم 🐑"
             ]
@@ -159,13 +163,25 @@
         en: {
             "share": "Share", "days": "Days", "hours": "Hrs", "mins": "Min", "secs": "Sec",
             "notify": "Notify", "copy-msg": "Text copied successfully! ✅",
-            "ramadan-title": "Holy Ramadan", "ramadan-date": "Feb 18, 2026",
-            "eid1-title": "Eid Al-Fitr", "eid1-date": "Mar 20, 2026",
-            "hajj-title": "10 Days of Hajj", "hajj-date": "May 18, 2026",
-            "eid2-title": "Eid Al-Adha", "eid2-date": "May 27, 2026",
+            "ramadan-title": "Holy Ramadan", 
+            "ramadan-date": "Ramadan 1447 AH | Feb 18, 2026",
+            "eid1-title": "Eid Al-Fitr", 
+            "eid1-date": "Shawwal 1447 AH | Mar 20, 2026",
+            "hajj-title": "10 Days of Hajj", 
+            "hajj-date": "Dhu al-Hijjah 1447 AH | May 18, 2026",
+            "eid2-title": "Eid Al-Adha", 
+            "eid2-date": "Dhu al-Hijjah 1447 AH | May 27, 2026",
+            "v1-ref": "[Al-Baqarah: 185]", "v2-ref": "[Al-Baqarah: 197]",
+            "trans-1": "The month of Ramadan in which was revealed the Quran.",
+            "trans-2": "Hajj is in the well-known months.",
             "notif-msg": "Notification activated! 🔔", "lang-btn": "عربي", "theme-btn": "Theme",
             "rem": "Remaining for", "link": "Link",
-            "prays": ["Reach Ramadan 🌙", "Happy Eid ✨", "Best days 🙌", "Eid Mubarak 🐑"]
+            "prays": [
+                "May Allah let us reach Ramadan. 🌙",
+                "Happy Eid! ✨",
+                "Best days of the world. 🙌",
+                "Eid Mubarak. 🐑"
+            ]
         }
     };
 
@@ -173,10 +189,14 @@
 
     function updateUI() {
         document.querySelectorAll('[data-i18n]').forEach(el => {
-            el.innerText = i18n[currentLang][el.getAttribute('data-i18n')];
+            const key = el.getAttribute('data-i18n');
+            if (i18n[currentLang][key]) {
+                el.innerText = i18n[currentLang][key];
+            }
         });
         document.getElementById('main-html').dir = currentLang === 'ar' ? 'rtl' : 'ltr';
         
+        // تثبيت حالة الإشعارات
         ['ramadan', 'eid1', 'hajj', 'eid2'].forEach(key => {
             const savedState = localStorage.getItem('notif_' + key);
             const checkbox = document.getElementById('notif-' + key);
@@ -184,28 +204,13 @@
         });
     }
 
-    function handleToggle(key, el) {
-        if (el.checked) {
-            Notification.requestPermission().then(permission => {
-                if (permission === 'granted') {
-                    localStorage.setItem('notif_' + key, 'true');
-                    navigator.serviceWorker.ready.then(reg => {
-                        reg.showNotification('المتبقي', {
-                            body: i18n[currentLang]['notif-msg'],
-                            icon: 'https://i.ibb.co/fYWfbWBQ/logo.png'
-                        });
-                    });
-                } else {
-                    el.checked = false;
-                    alert("يرجى تفعيل الإذن من إعدادات المتصفح");
-                }
-            });
-        } else {
-            localStorage.setItem('notif_' + key, 'false');
-        }
+    function toggleLang() { 
+        currentLang = (currentLang === 'ar' ? 'en' : 'ar'); 
+        localStorage.setItem('lang', currentLang); 
+        updateUI(); 
     }
 
-    // تعديل الحسابات لتنتهي عند الساعة 12 منتصف الليل (00:00:00)
+    // حساب الوقت حتى الساعة 12 ليلاً (توقيت مكة)
     function update(id, targetDateStr) {
         const target = new Date(targetDateStr).getTime();
         const now = new Date().getTime();
@@ -222,25 +227,25 @@
     }
 
     setInterval(() => {
-        // التوقيت الآن مضبوط على الساعة 12 ليلاً تماماً (00:00)
-        update('1', "2026-02-18T00:00:00Z");
-        update('2', "2026-03-20T00:00:00Z");
-        update('3', "2026-05-27T00:00:00Z");
-        update('4', "2026-05-18T00:00:00Z");
+        update('1', "2026-02-18T00:00:00Z"); // رمضان
+        update('2', "2026-03-20T00:00:00Z"); // فطر
+        update('3', "2026-05-27T00:00:00Z"); // أضحى
+        update('4', "2026-05-18T00:00:00Z"); // عشر ذي الحجة
     }, 1000);
 
-    // ميزة النسخ التلقائي للكمبيوتر والمشاركة للجوال
     function doShare(idx) {
         const ids = ["1", "2", "4", "3"];
-        const eventKey = idx==0?'ramadan':idx==1?'eid1':idx==2?'hajj':'eid2';
-        const eventName = i18n[currentLang][eventKey+'-title'];
+        const eventKeys = ['ramadan', 'eid1', 'hajj', 'eid2'];
+        const key = eventKeys[idx];
+        
+        const eventName = i18n[currentLang][key + '-title'];
+        const eventDate = i18n[currentLang][key + '-date'];
         const d = document.getElementById('d' + ids[idx]).innerText;
         const h = document.getElementById('h' + ids[idx]).innerText;
         const pray = i18n[currentLang]['prays'][idx];
         
-        const msg = `⌛ ${i18n[currentLang].rem} ${eventName}:\n🗓️ ${d} ${i18n[currentLang].days} و ${h} ${i18n[currentLang].hours}\n\n✨ ${pray}\n\n📍 ${i18n[currentLang].link}:\n${window.location.href}`;
+        const msg = `⌛ ${i18n[currentLang].rem} ${eventName}:\n📅 ${eventDate}\n🗓️ ${d} ${i18n[currentLang].days} و ${h} ${i18n[currentLang].hours}\n\n✨ ${pray}\n\n📍 ${i18n[currentLang].link}:\n${window.location.href}`;
         
-        // التحقق إذا كان المستخدم يستخدم موبايل أو كمبيوتر
         if (navigator.share && /Android|iPhone|iPad/i.test(navigator.userAgent)) {
             navigator.share({ text: msg }).catch(() => copyToClipboard(msg));
         } else {
