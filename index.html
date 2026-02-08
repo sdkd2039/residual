@@ -1,150 +1,86 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" id="main-html">
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>المتبقي | Al-Mutabaqi</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المتبقي | صيانة</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0f172a; --card: #1e293b; --accent: #ffd700; --text: #ffffff; }
+        body { background: var(--bg); color: var(--text); font-family: 'IBM Plex Sans Arabic', sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; text-align: center; }
+        
+        .maintenance-notice { background: rgba(255, 215, 0, 0.1); border: 1px dashed var(--accent); padding: 15px 25px; border-radius: 15px; margin-bottom: 30px; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 0.8; } 50% { opacity: 1; } 100% { opacity: 0.8; } }
 
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#ffd700">
-<link rel="apple-touch-icon" href="https://i.ibb.co/fYWfbWBQ/logo.png">
-<link rel="icon" type="image/png" href="https://i.ibb.co/fYWfbWBQ/logo.png">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+        .logo { width: 100px; margin-bottom: 10px; opacity: 0.5; filter: grayscale(1); }
+        h1 { font-size: 1.5rem; margin-bottom: 5px; color: var(--accent); }
+        p { color: #94a3b8; margin-top: 0; }
 
-<style>
-:root { 
---bg-body:#080c14; --bg-card:#1e293b; --text-main:#ffffff; 
---text-muted:#94a3b8; --accent:#ffd700; --box-bg:#0f172a; --blue-notif:#3b82f6; 
-}
-body.light-mode { 
---bg-body:#f8fafc; --bg-card:#ffffff; --text-main:#0f172a; 
---text-muted:#64748b; --accent:#10b981; --box-bg:#f1f5f9; --blue-notif:#2563eb; 
-}
-body { background:var(--bg-body); color:var(--text-main); font-family:'IBM Plex Sans Arabic','Inter',sans-serif; margin:0; display:flex; flex-direction:column; align-items:center; padding:20px; transition:.3s; min-height:100vh; }
-.controls { position:fixed; top:20px; left:20px; display:flex; gap:10px; z-index:1000; }
-.btn-tool { background:var(--accent); color:#000; border:none; padding:10px; border-radius:12px; font-weight:bold; cursor:pointer; font-size:.8rem; }
-.main-logo { width:120px; margin:20px 0; }
-.card { background:var(--bg-card); border-radius:20px; padding:25px; margin-bottom:20px; width:100%; max-width:450px; text-align:center; box-shadow:0 4px 15px rgba(0,0,0,.3); position:relative; }
-.share-mini { position:absolute; top:15px; left:15px; background:rgba(255,255,255,.05); border:1px solid var(--accent); color:var(--accent); padding:5px 8px; border-radius:8px; cursor:pointer; font-size:.7rem; }
-html[dir="ltr"] .share-mini { left:auto; right:15px; }
-.event-title { color:var(--accent); font-size:1.4rem; font-weight:bold; }
-.timer-grid { display:flex; gap:8px; margin-top:15px; }
-.box { background:var(--box-bg); padding:10px 5px; border-radius:12px; flex:1; }
-.num { font-size:1.4rem; color:var(--accent); font-weight:bold; display:block; }
-.label { font-size:.65rem; color:var(--text-muted); }
-.notify-row { margin-top:20px; display:flex; justify-content:center; gap:10px; font-size:.85rem; color:var(--text-muted); border-top:1px solid rgba(255,255,255,.05); padding-top:15px; }
-.switch { width:34px; height:20px; position:relative; }
-.switch input { opacity:0; }
-.slider { position:absolute; inset:0; background:#475569; border-radius:34px; transition:.4s; }
-.slider:before { content:""; width:14px; height:14px; background:white; border-radius:50%; position:absolute; left:3px; bottom:3px; transition:.4s; }
-input:checked + .slider { background:var(--blue-notif); }
-input:checked + .slider:before { transform:translateX(14px); }
-footer { margin-top:auto; padding:40px 20px 20px; text-align:center; color:var(--text-muted); font-size:.8rem; }
-footer b { color:var(--accent); }
-</style>
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; max-width: 500px; margin-top: 20px; }
+        .event-card { background: var(--card); padding: 15px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); }
+        .event-name { font-size: 0.9rem; color: #94a3b8; display: block; margin-bottom: 8px; }
+        .timer { font-weight: bold; font-size: 1.1rem; color: var(--accent); }
+        
+        footer { margin-top: 40px; font-size: 0.8rem; color: #64748b; }
+    </style>
 </head>
-
 <body>
 
-<div class="controls">
-<button class="btn-tool" onclick="toggleTheme()" id="theme-btn">نمط</button>
-<button class="btn-tool" onclick="toggleLang()" id="lang-btn">English</button>
-</div>
+    <img src="https://i.ibb.co/fYWfbWBQ/logo.png" class="logo" alt="Logo">
+    
+    <div class="maintenance-notice">
+        ⚠️ الموقع لا يزال في الصيانة.. سنعود قريباً
+    </div>
 
-<img src="https://i.ibb.co/fYWfbWBQ/logo.png" class="main-logo">
+    <h1>المتبقي للمناسبات القادمة</h1>
+    <p>تابع العد التنازلي حتى اكتمال التحديثات</p>
 
-<footer>
-<p>*حسب توقيت مكة المكرمة</p>
-<p>جميع الحقوق محفوظة لـ <b>المتبقي</b> 1447 هـ - 2026 م</p>
-</footer>
+    <div class="grid">
+        <div class="event-card">
+            <span class="event-name">شهر رمضان المبارك 🌒</span>
+            <div class="timer" id="timer-ramadan">-- : --</div>
+        </div>
+        <div class="event-card">
+            <span class="event-name">عيد الفطر المبارك 🎈</span>
+            <div class="timer" id="timer-eid1">-- : --</div>
+        </div>
+        <div class="event-card">
+            <span class="event-name">عشر ذي الحجة 🌟</span>
+            <div class="timer" id="timer-hajj">-- : --</div>
+        </div>
+        <div class="event-card">
+            <span class="event-name">عيد الأضحى المبارك 🐑</span>
+            <div class="timer" id="timer-eid2">-- : --</div>
+        </div>
+    </div>
 
-<script>
-// ===== توقيت مكة الثابت =====
-function meccaNow() {
-  return Date.now() + (3 * 60 * 60 * 1000);
-}
+    <footer>
+        &copy; 2026 موقع المتبقي - جميع الحقوق محفوظة
+    </footer>
 
-// ===== التواريخ =====
-const eventDates = {
-  ramadan:"2026-02-18T00:00:00",
-  eid1:"2026-03-20T00:00:00",
-  hajj:"2026-05-18T00:00:00",
-  eid2:"2026-05-27T00:00:00"
-};
+    <script>
+        const events = [
+            { id: 'timer-ramadan', date: "2026-02-18T00:00:00+03:00" },
+            { id: 'timer-eid1', date: "2026-03-20T00:00:00+03:00" },
+            { id: 'timer-hajj', date: "2026-05-18T00:00:00+03:00" },
+            { id: 'timer-eid2', date: "2026-05-27T00:00:00+03:00" }
+        ];
 
-const eventNames = {
-  ramadan:"رمضان المبارك",
-  eid1:"عيد الفطر المبارك",
-  hajj:"موسم الحج",
-  eid2:"عيد الأضحى المبارك"
-};
+        function updateTimers() {
+            events.forEach(ev => {
+                const diff = new Date(ev.date).getTime() - Date.now();
+                if (diff > 0) {
+                    const days = Math.floor(diff / 86400000);
+                    const hours = Math.floor((diff % 86400000) / 3600000);
+                    document.getElementById(ev.id).innerText = `${days} يوم و ${hours} ساعة`;
+                } else {
+                    document.getElementById(ev.id).innerText = "تقبل الله طاعتكم";
+                }
+            });
+        }
 
-// ===== تسجيل Service Worker =====
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js');
-}
-
-// ===== العدّاد =====
-function updateCountdown(id, dateStr) {
-  const target = new Date(dateStr).getTime();
-  const now = meccaNow();
-  const diff = target - now;
-  if (diff <= 0) return;
-
-  document.getElementById('d'+id).innerText = Math.floor(diff / 86400000);
-  document.getElementById('h'+id).innerText = Math.floor((diff % 86400000) / 3600000);
-  document.getElementById('m'+id).innerText = Math.floor((diff % 3600000) / 60000);
-  document.getElementById('s'+id).innerText = Math.floor((diff % 60000) / 1000);
-}
-
-setInterval(()=>{
-  updateCountdown('1', eventDates.ramadan);
-  updateCountdown('2', eventDates.eid1);
-  updateCountdown('4', eventDates.hajj);
-  updateCountdown('3', eventDates.eid2);
-},1000);
-
-// ===== إشعارات ثابتة =====
-function checkNotifications() {
-  Object.keys(eventDates).forEach(key => {
-    if (localStorage.getItem('notif_'+key) !== 'true') return;
-
-    const eventTime = new Date(eventDates[key]).getTime();
-    const notifyTime = eventTime - (24 * 60 * 60 * 1000);
-    const now = meccaNow();
-
-    if (!localStorage.getItem('notified_'+key) && now >= notifyTime) {
-      sendNotification(key);
-      localStorage.setItem('notified_'+key, 'true');
-    }
-  });
-}
-
-function sendNotification(key) {
-  navigator.serviceWorker.ready.then(reg=>{
-    reg.showNotification("المتبقي | Al-Mutabaqi", {
-      body: "تبقى يوم على " + eventNames[key],
-      icon: "https://i.ibb.co/fYWfbWBQ/logo.png",
-      vibrate:[200,100,200],
-      tag:key
-    });
-  });
-}
-
-function handleToggle(key, el) {
-  if (el.checked) {
-    Notification.requestPermission().then(p=>{
-      if (p==='granted') {
-        localStorage.setItem('notif_'+key,'true');
-      } else el.checked=false;
-    });
-  } else {
-    localStorage.setItem('notif_'+key,'false');
-  }
-}
-
-setInterval(checkNotifications,60000);
-</script>
-
+        setInterval(updateTimers, 1000);
+        updateTimers();
+    </script>
 </body>
 </html>
