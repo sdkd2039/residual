@@ -1,33 +1,45 @@
+// كود ملف sw.js المطور لجميع البطاقات
+self.addEventListener('install', (e) => self.skipWaiting());
+self.addEventListener('activate', (e) => e.waitUntil(clients.claim()));
+
 self.addEventListener('push', (event) => {
-    // التأكد من وجود بيانات في التنبيه المرسل، وإلا وضع نص افتراضي
-    let msg = "تنبيه جديد من تطبيق المتبقي";
-    if (event.data) {
-        msg = event.data.text();
-    }
+    // تعريف تواريخ المناسبات (توقيت مكة)
+    const events = [
+        { name: "شهر رمضان المبارك 🌙", date: "2026-02-18T00:00:00Z" },
+        { name: "عيد الفطر المبارك ✨", date: "2026-03-20T00:00:00Z" },
+        { name: "عشر ذي الحجة 🙌", date: "2026-05-18T00:00:00Z" },
+        { name: "عيد الأضحى المبارك 🐑", date: "2026-05-27T00:00:00Z" }
+    ];
+
+    const now = new Date().getTime();
+    let title = "تطبيق المتبقي";
+    let body = event.data ? event.data.text() : "تنبيه من التطبيق";
+
+    // فحص كل البطاقات: هل اقتربت إحداها (بقي أقل من يوم)؟
+    events.forEach(ev => {
+        const eventTime = new Date(ev.date).getTime();
+        const diff = eventTime - now;
+
+        // إذا بقي أقل من 24 ساعة وأكثر من صفر
+        if (diff > 0 && diff <= 86400000) {
+            title = `اقترب الموعد: ${ev.name}`;
+            body = `بقي أقل من يوم على ${ev.name}، تقبل الله منا ومنكم صالح الأعمال.`;
+        }
+    });
 
     const options = {
-        body: msg,
-        icon: 'https://i.ibb.co/fYWfbWBQ/logo.png', // استخدم الرابط المباشر للصورة لضمان ظهورها
-        badge: 'https://i.ibb.co/fYWfbWBQ/logo.png', // أيقونة صغيرة تظهر في شريط التنبيهات
-        vibrate: [200, 100, 200],
-        data: {
-            dateOfArrival: Date.now(),
-            primaryKey: '1'
-        },
-        actions: [
-            {action: 'explore', title: 'فتح الموقع'}
-        ]
+        body: body,
+        icon: 'https://i.ibb.co/fYWfbWBQ/logo.png',
+        badge: 'https://i.ibb.co/fYWfbWBQ/logo.png',
+        vibrate: [300, 100, 300],
+        data: { url: 'https://sdkd2039.github.io/residual/' }
     };
 
-    event.waitUntil(
-        self.registration.showNotification('تطبيق المتبقي', options)
-    );
+    event.waitUntil(self.registration.showNotification(title, options));
 });
 
-// فتح الموقع عند الضغط على الإشعار
+// عند الضغط على الإشعار يفتح الموقع
 self.addEventListener('notificationclick', (event) => {
     event.notification.close();
-    event.waitUntil(
-        clients.openWindow('https://sdkd2039.github.io/residual/')
-    );
+    event.waitUntil(clients.openWindow(event.notification.data.url));
 });
