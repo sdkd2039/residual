@@ -59,10 +59,10 @@
 
     <div class="quran-section">
         <div id="quran-content">
-            <div class="quran-text">"شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ"</div>
+            <div class="quran-text">"شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ"</div>
             <div class="quran-translation">"The month of Ramadhan [is that] in which was revealed the Qur'an"</div>
             <hr style="opacity: 0.1; margin: 15px 0;">
-            <div class="quran-text">"وَأَتِمُّوا الْحَجَّ وَالْعُمْرَةَ لِلَّهِ"</div>
+            <div class="quran-text">"وَأَتِمُّوا الْحَجَّ وَالْعُمْرَةَ لِلَّهِ"</div>
             <div class="quran-translation">"And complete the Hajj and 'umrah for Allah"</div>
         </div>
     </div>
@@ -196,6 +196,7 @@
             if (el.checked) {
                 const p = await Notification.requestPermission();
                 if (p === "granted") {
+                    // التعديل هنا: دمج اسم الحدث في رسالة الإشعار
                     const eventName = isEn ? events[key].en : events[key].name;
                     showToast(isEn ? `Notifications enabled for ${eventName}` : `تم تفعيل التنبيه لـ ${eventName}`);
                 } else {
