@@ -36,7 +36,6 @@
         input:checked + .slider { background: var(--blue); }
         input:checked + .slider:before { transform: translateX(14px); }
         
-        /* قسم الآيات الجديد */
         .quran-section { max-width: 500px; width: 100%; margin: 20px 0; padding: 20px; background: rgba(59, 130, 246, 0.05); border-radius: 20px; border: 1px dashed var(--blue); text-align: center; }
         .quran-text { font-size: 1.1rem; color: var(--accent); margin-bottom: 10px; font-weight: bold; }
         .quran-translation { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
@@ -56,8 +55,7 @@
     <img src="https://i.ibb.co/DDJWNdj1/main-logo.png" alt="Logo" class="main-logo">
     <h1 class="site-display-title" id="main-title-text">المتبقي</h1>
 
-    <div id="events-container">
-        </div>
+    <div id="events-container"></div>
 
     <div class="quran-section">
         <div id="quran-content">
@@ -83,7 +81,6 @@
             eid2: { date: "2026-05-26T00:00:00+03:00", name: "عيد الأضحى المبارك", en: "Eid al-Adha", dAr: "10 ذو الحجة 1447هـ | 26 مايو 2026م", dEn: "May 26, 2026" }
         };
 
-        // إنشاء البطاقات برمجياً لضمان الدقة
         function renderCards() {
             const container = document.getElementById('events-container');
             container.innerHTML = Object.keys(events).map((key, index) => `
@@ -106,10 +103,11 @@
         }
 
         function copyLink(key) {
-            const url = window.location.href.split('?')[0] + "?event=" + key;
-            navigator.clipboard.writeText(url);
-            const isEn = document.getElementById('app-html').lang === "en";
-            showToast(isEn ? "Link Copied!" : "تم نسخ رابط المناسبة!");
+            const url = window.location.origin + window.location.pathname + "?event=" + key;
+            navigator.clipboard.writeText(url).then(() => {
+                const isEn = document.getElementById('app-html').lang === "en";
+                showToast(isEn ? "Link Copied!" : "تم نسخ الرابط بنجاح!");
+            });
         }
 
         function saveSettings() {
@@ -162,16 +160,15 @@
                     document.getElementById(`s-${key}`).innerText = Math.floor((diff % 60000) / 1000);
                 }
             });
-            // تحديث تاريخ التذييل
             const now = new Date();
-            document.getElementById('footer-dates').innerText = `اليوم: ${now.toLocaleDateString('ar-SA')} | ${now.toLocaleDateString('en-GB')}`;
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('footer-dates').innerText = `اليوم: ${now.toLocaleDateString('ar-SA', options)} | ${now.toLocaleDateString('en-GB', options)}`;
         }
 
         window.onload = function() {
             renderCards();
             const savedLang = localStorage.getItem('al_mutabaqi_lang') || "ar";
             applyLang(savedLang);
-
             const savedMode = localStorage.getItem('al_mutabaqi_mode');
             if (savedMode === 'light') document.body.classList.add('light-mode');
 
@@ -200,8 +197,7 @@
                 const p = await Notification.requestPermission();
                 if (p === "granted") {
                     const eventName = isEn ? events[key].en : events[key].name;
-                    const msg = isEn ? `Notifications enabled for ${eventName}` : `تم تفعيل التنبيه لـ ${eventName}`;
-                    showToast(msg);
+                    showToast(isEn ? `Notifications enabled for ${eventName}` : `تم تفعيل التنبيه لـ ${eventName}`);
                 } else {
                     el.checked = false;
                     localStorage.setItem('notif_sw_' + key, false);
