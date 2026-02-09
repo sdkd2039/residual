@@ -272,23 +272,31 @@
         }
 
 window.onload = function() {
-
+            // 1. استرجاع اللغة المحفوظة وتطبيقها فوراً
             const savedLang = localStorage.getItem('al_mutabaqi_lang');
-            if (savedLang) applyLang(savedLang);
-
-            const savedMode = localStorage.getItem('al_mutabaqi_mode');
-            if (savedMode === 'light') {
-                document.documentElement.classList.add('light-mode-active');
-                document.body.classList.add('light-mode');
+            if (savedLang) {
+                applyLang(savedLang);
             }
 
+            // 2. استرجاع وضع النمط (فاتح/داكن)
+            const savedMode = localStorage.getItem('al_mutabaqi_mode');
+            if (savedMode === 'light') {
+                document.body.classList.add('light-mode');
+            } else {
+                document.body.classList.remove('light-mode');
+            }
+
+            // 3. استرجاع حالة مفاتيح التنبيهات
+            Object.keys(events).forEach(key => {
+                const isNotifOn = localStorage.getItem('notif_' + key) === 'true';
+                const checkbox = document.getElementById('notif-sw-' + key);
+                if (checkbox) checkbox.checked = isNotifOn;
+            });
+
+            // 4. تشغيل العدادات
             setInterval(updateTimers, 1000); 
             updateTimers();
-
-            Object.keys(events).forEach(key => {
-                const sw = document.getElementById('notif-sw-' + key);
-                if (sw) sw.checked = localStorage.getItem('notif_' + key) === 'true';
-            });
+        };
         };
                 }
             });
