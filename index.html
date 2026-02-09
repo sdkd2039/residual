@@ -91,7 +91,6 @@
             eid1: { date: "2026-03-20T00:00:00+03:00", name: "عيد الفطر المبارك", en: "Eid al-Fitr", emj: "🎈", dAr: "1 شوال 1447هـ | 20 مارس 2026م", dEn: "March 20, 2026" }
         };
 
-        // --- الدوال الأساسية ---
         function saveSettings() {
             localStorage.setItem('al_mutabaqi_lang', document.getElementById('app-html').lang);
             localStorage.setItem('al_mutabaqi_mode', document.body.classList.contains('light-mode') ? 'light' : 'dark');
@@ -136,13 +135,19 @@
             });
         }
 
-        // --- عند تحميل الصفحة (الحل هنا) ---
         window.onload = function() {
             const savedLang = localStorage.getItem('al_mutabaqi_lang');
             if (savedLang) applyLang(savedLang);
 
             const savedMode = localStorage.getItem('al_mutabaqi_mode');
             if (savedMode === 'light') document.body.classList.add('light-mode');
+
+            // --- استرجاع حالة مفاتيح التنبيهات ---
+            Object.keys(events).forEach(key => {
+                const isChecked = localStorage.getItem('notif_sw_' + key) === 'true';
+                const el = document.getElementById('notif-sw-' + key);
+                if (el) el.checked = isChecked;
+            });
 
             setInterval(updateTimers, 1000);
             updateTimers();
@@ -156,9 +161,17 @@
         }
 
         async function toggleNotify(key, el) {
+            // حفظ حالة السويتش فوراً عند التغيير اليدوي
+            localStorage.setItem('notif_sw_' + key, el.checked);
+
             if (el.checked) {
                 const p = await Notification.requestPermission();
-                if (p === "granted") showToast("تم التفعيل"); else el.checked = false;
+                if (p === "granted") {
+                    showToast(document.getElementById('app-html').lang === "en" ? "Enabled" : "تم التفعيل");
+                } else {
+                    el.checked = false;
+                    localStorage.setItem('notif_sw_' + key, false);
+                }
             }
         }
     </script>
