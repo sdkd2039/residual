@@ -110,7 +110,7 @@
         </div>
     </div>
     <div class="verse-container">
-        <span class="quran-text" dir="rtl">﴿شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ هُدًى لِّلنَّاسِ وَبَيِّنَاتٍ مِّنَ الْهُدَىٰ وَالْفُرْقَانِ ۚ فَمَن شَهِدَ مِنكُمُ الْشَّهْرَ فَلْيَصُمْهُ ۖ وَمَن كَانَ مَرِيضًا أَوْ عَلَىٰ سَفَرٍ فَعِدَّةٌ مِّنْ أَيَّامٍ أُخَرَ ۗ يُرِيدُ اللَّهُ بِكُمُ الْيُسْرَ وَلَا يُرِيدُ بِكُمُ الْعُسْرَ وَلِتُكْمِلُوا الْعِدَّةَ وَلِتُكَبِّرُوا اللَّهَ عَلَىٰ مَا هَدَاكُمْ وَلَعَلَّكُمْ تَشْكُرُونَ﴾</span>
+        <span class="quran-text" dir="rtl">﴿شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ هُدًى لِّلنَّاسِ وَبَيِّنَاتٍ مِّنَ الْهُدَىٰ وَالْفُرْقَانِ ۚ فَمَن شَهِدَ مِنكُمُ الْشَّهْرَ فَلْيَصُمْهُ ۖ وَمَن كَانَ مَرِيضًا أَوْ عَلَىٰ سَفَرٍ فَعِدَّةٌ مِّن أَيَّامٍ أُخَرَ ۗ يُرِيدُ اللَّهُ بِكُمُ الْيُسْرَ وَلَا يُرِيدُ بِكُمُ الْعُسْرَ وَلِتُكْمِلُوا الْعِدَّةَ وَلِتُكَبِّرُوا اللَّهَ عَلَىٰ مَا هَدَاكُمْ وَلَعَلَّكُمْ تَشْكُرُونَ﴾</span>
         <span class="verse-ref" id="ref-185">سورة البقرة - آية 185</span>
         <div class="eng-meaning"><b>General Meaning:</b><br>Ramadan is the time that God chose for the revelation of the Quran as guidance for humanity. Because this month is so great, God made fasting obligatory for every able-bodied resident. Out of His mercy, He granted permission to the sick and the traveler to break their fast and make it up later. This is so that you may complete the fast of the entire month (29 or 30 days), whether by performing it during Ramadan or by making it up afterward. This is so that you may glorify God in your hearts and with your tongues at the end of the month (which is the origin of the Eid takbirs), thanking Him for enabling you to perform this great act of worship.</div>
     </div>
@@ -162,10 +162,38 @@
 
     <script>
         const events = {
-            ramadan: { date: "2026-02-18T00:00:00+03:00", name: "شهر رمضان المبارك", en: "Holy Ramadan", emj: "🌒", dua: "اللهم بلغنا رمضان وبارك لنا فيه", msg: "تهنئ منصة المتبقي الأمة الإسلامية بقدوم شهر رمضان المبارك 🌙", dAr: "1 رمضان 1447هـ | 18 فبراير 2026م", dEn: "Ramadan 1, 1447 | Feb 18, 2026" },
-            eid1: { date: "2026-03-20T00:00:00+03:00", name: "عيد الفطر المبارك", en: "Eid al-Fitr", emj: "🎈", dua: "تقبل الله منا ومنكم صالح الأعمال", msg: "تهنئ منصة المتبقي الأمة الإسلامية بقدوم عيد الفطر المبارك ✨", dAr: "1 شوال 1447هـ | 20 مارس 2026م", dEn: "Shawwal 1, 1447 | March 20, 2026" },
-            hajj: { date: "2026-05-18T00:00:00+03:00", name: "عشر ذي الحجة", en: "10 Days of Dhu al-Hijjah", emj: "🕋", dua: "لبيك اللهم لبيك", msg: "تهنئ منصة المتبقي بقدوم عشر ذي الحجة المباركة 🌟", dAr: "1 ذو الحجة 1447هـ | 18 مايو 2026م", dEn: "Dhu al-Hijjah 1, 1447 | May 18, 2026" },
-            eid2: { date: "2026-05-27T00:00:00+03:00", name: "عيد الأضحى المبارك", en: "Eid al-Adha", emj: "🐑", dua: "عيد مبارك وأيامكم سعيدة", msg: "تهنئ منصة المتبقي الأمة الإسلامية بقدوم عيد الأضحى المبارك 🕋", dAr: "10 ذو الحجة 1447هـ | 27 مايو 2026م", dEn: "Dhu al-Hijjah 10, 1447 | May 27, 2026" }
+            ramadan: { 
+                date: "2026-02-18T00:00:00+03:00", 
+                name: "شهر رمضان المبارك", en: "Holy Ramadan", emj: "🌒", 
+                dua: "اللهم تقبل الصيام والقيام وصالح الأعمال.",
+                duaEn: "O God, accept our fasting, prayers, and good deeds.",
+                msg: "تهنئ منصة المتبقي الأمة الإسلامية بقدوم شهر رمضان المبارك 🌙", 
+                dAr: "1 رمضان 1447هـ | 18 فبراير 2026م", dEn: "Ramadan 1, 1447 | Feb 18, 2026" 
+            },
+            eid1: { 
+                date: "2026-03-20T00:00:00+03:00", 
+                name: "عيد الفطر المبارك", en: "Eid al-Fitr", emj: "🎈", 
+                dua: "تقبل الله منا ومنكم، أعاد الله علينا باليمن والبركات.",
+                duaEn: "May God accept from us and from you, and may God bring it back to us with blessings and prosperity.",
+                msg: "تهنئ منصة المتبقي الأمة الإسلامية بقدوم عيد الفطر المبارك ✨", 
+                dAr: "1 شوال 1447هـ | 20 مارس 2026م", dEn: "Shawwal 1, 1447 | March 20, 2026" 
+            },
+            hajj: { 
+                date: "2026-05-18T00:00:00+03:00", 
+                name: "عشر ذي الحجة", en: "10 Days of Dhu al-Hijjah", emj: "🕋", 
+                dua: "اللهم بلغنا عشر ذي الحجة واجعل لنا دعوة لا ترد، ورزقا لا يعد وارزقنا فيهم العفو والعافية.",
+                duaEn: "O Allah, let us reach the first ten days of Dhul-Hijjah and grant us a supplication that will not be rejected.",
+                msg: "تهنئ منصة المتبقي بقدوم عشر ذي الحجة المباركة 🌟", 
+                dAr: "1 ذو الحجة 1447هـ | 18 مايو 2026م", dEn: "Dhu al-Hijjah 1, 1447 | May 18, 2026" 
+            },
+            eid2: { 
+                date: "2026-05-27T00:00:00+03:00", 
+                name: "عيد الأضحى المبارك", en: "Eid al-Adha", emj: "🐑", 
+                dua: "اللهم اجعل هذا العيد عيد خير وسلام، واغفر لنا ما مضى، وبارك لنا فيما هو آتٍ.",
+                duaEn: "O God, make this Eid an Eid of goodness and peace, forgive us for what has passed, and bless us in what is to come.",
+                msg: "تهنئ منصة المتبقي الأمة الإسلامية بقدوم عيد الأضحى المبارك 🕋", 
+                dAr: "10 ذو الحجة 1447هـ | 27 مايو 2026م", dEn: "Dhu al-Hijjah 10, 1447 | May 27, 2026" 
+            }
         };
 
         function updateTimers() {
@@ -203,12 +231,24 @@
             const isAr = document.getElementById('app-html').dir === "rtl";
             const d = document.getElementById(`d-${key}`).innerText;
             const h = document.getElementById(`h-${key}`).innerText;
-            const text = `${ev.emj} المتبقي لـ ${isAr ? ev.name : ev.en}:\n⏳ ${d} يوم و ${h} ساعة\n✨ ${ev.dua}\n\n📍 تابع العداد عبر الرابط:\n${window.location.href}`;
+            
+            let text = "";
+            if (isAr) {
+                text = `${ev.emj} المتبقي لـ ${ev.name}:\n⏳ ${d} يوم و ${h} ساعة\n✨ ${ev.dua}\n\n📍 تابع العداد عبر الرابط:\n${window.location.href}`;
+            } else {
+                text = `${ev.emj} Remaining for ${ev.en}:\n⏳ ${d} Days and ${h} Hours\n✨ ${ev.duaEn}\n\n📍 Follow the countdown here:\n${window.location.href}`;
+            }
+
             try {
-                await navigator.clipboard.writeText(text);
-                if (navigator.share) await navigator.share({ text });
-                else alert(isAr ? "تم نسخ نص المشاركة تلقائياً! 📋" : "Text copied automatically! 📋");
-            } catch (err) { if (navigator.share) await navigator.share({ text }); }
+                if (navigator.share) {
+                    await navigator.share({ text });
+                } else {
+                    await navigator.clipboard.writeText(text);
+                    alert(isAr ? "تم نسخ نص المشاركة تلقائياً! 📋" : "Text copied automatically! 📋");
+                }
+            } catch (err) {
+                console.error("Error sharing:", err);
+            }
         }
 
         function toggleTheme() { document.body.classList.toggle('light-mode'); }
@@ -244,26 +284,4 @@
                 preDay.setDate(preDay.getDate() - 1);
                 if (today.toDateString() === preDay.toDateString() && localStorage.getItem('notif_'+key) === 'true' && !localStorage.getItem('sent_'+key)) {
                     new Notification("Residual", { body: events[key].msg, icon: "https://i.ibb.co/fzPfcMp0/small-logo.png" });
-                    localStorage.setItem('sent_'+key, 'true');
-                }
-            });
-        }
-        setInterval(checkPreNotif, 3600000);
-
-        window.onload = function() {
-            Object.keys(events).forEach(key => {
-                const savedStatus = localStorage.getItem('notif_' + key);
-                if (savedStatus === 'true') {
-                    const sw = document.getElementById('notif-sw-' + key);
-                    if (sw) sw.checked = true;
-                }
-            });
-            if (!window.navigator.standalone && !localStorage.getItem('pwa_tip')) {
-                const isAr = document.getElementById('app-html').dir === "rtl";
-                const msg = isAr ? "للحصول على تنبيهات دقيقة، اضغط على (مشاركة) ثم (إضافة إلى الشاشة الرئيسية) 📲" : "For accurate alerts, tap (Share) then (Add to Home Screen) 📲";
-                setTimeout(() => { alert(msg); localStorage.setItem('pwa_tip', 'true'); }, 3000);
-            }
-        };
-    </script>
-</body>
-</html>
+   
