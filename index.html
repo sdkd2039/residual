@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="google-site-verification" content="bztaHOs2gKqd5jfU05FOoaqldzClgyxQNJCKkX4YNQc" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="site-title-tag">... المتبقي</title>
-    <meta name="description" content="[Residual Process] المتبقي من الأرشفة الرقمية للمناسبات... 1447 - 2026">
+    <title id="site-title-tag">المتبقي</title>
+    <meta name="description" content="[Residual Process] المتبقي من الأرشفة الرقمية للمناسبات 1447 - 2026">
     
     <link rel="icon" type="image/png" href="https://i.ibb.co/fzPfcMp0/small-logo.png">
     <link rel="apple-touch-icon" href="https://i.ibb.co/fzPfcMp0/small-logo.png">
@@ -31,7 +31,8 @@
         .site-display-title { color: var(--accent); font-size: 1.8rem; font-weight: bold; margin-bottom: 30px; }
 
         .controls { position: fixed; top: 15px; left: 15px; display: flex; gap: 8px; z-index: 1000; }
-        .btn-tool { background: var(--nav-btn); color: var(--card); border: none; padding: 8px 12px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 0.8rem; }
+        .btn-tool { background: var(--nav-btn); color: var(--card); border: none; padding: 8px 12px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 0.8rem; transition: 0.2s; }
+        .btn-tool:active { transform: scale(0.95); }
         body.light-mode .btn-tool { color: #fff; }
 
         .card { background: var(--card); border-radius: 20px; padding: 25px; margin-bottom: 15px; width: 100%; max-width: 500px; text-align: center; position: relative; box-shadow: 0 4px 15px rgba(0,0,0,0.1); box-sizing: border-box; }
@@ -71,7 +72,7 @@
 <body class="dark-mode">
 
     <div class="controls">
-        <button class="btn-tool" onclick="toggleTheme()">نمط</button>
+        <button class="btn-tool" onclick="toggleTheme()" id="theme-btn">نمط</button>
         <button class="btn-tool" id="lang-btn" onclick="toggleLang()">English</button>
     </div>
 
@@ -109,10 +110,11 @@
             <label class="switch"><input type="checkbox" id="notif-sw-eid1" onchange="toggleNotify('eid1', this)"><span class="slider"></span></label>
         </div>
     </div>
+
     <div class="verse-container">
-        <span class="quran-text" dir="rtl">﴿شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ هُدًى لِّلنَّاسِ وَبَيِّنَاتٍ مِّنَ الْهُدَىٰ وَالْفُرْقَانِ ۚ فَمَن شَهِدَ مِنكُمُ الْشَّهْرَ فَلْيَصُمْهُ ۖ وَمَن كَانَ مَرِيضًا أَوْ عَلَىٰ سَفَرٍ فَعِدَّةٌ مِّن أَيَّامٍ أُخَرَ ۗ يُرِيدُ اللَّهُ بِكُمُ الْيُسْرَ وَلَا يُرِيدُ بِكُمُ الْعُسْرَ وَلِتُكْمِلُوا الْعِدَّةَ وَلِتُكَبِّرُوا اللَّهَ عَلَىٰ مَا هَدَاكُمْ وَلَعَلَّكُمْ تَشْكُرُونَ﴾</span>
+        <span class="quran-text" dir="rtl">﴿شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ هُدًى لِّلنَّاسِ وَبَيِّنَاتٍ مِّنَ الْهُدَىٰ وَالْفُرْقَانِ ۚ فَمَن شَهِدَ مِنكُمُ الْشَّهْرَ فَلْيَصُمْهُ ۖ وَمَن كَانَ مَرِيضًا أَوْ عَلَىٰ سَفَرٍ فَعِدَّةٌ مِّنْ أَيَّامٍ أُخَرَ ۗ يُرِيدُ اللَّهُ بِكُمُ الْيُسْرَ وَلَا يُرِيدُ بِكُمُ الْعُسْرَ وَلِتُكْمِلُوا الْعِدَّةَ وَلِتُكَبِّرُوا اللَّهَ عَلَىٰ مَا هَدَاكُمْ وَلَعَلَّكُمْ تَشْكُرُونَ﴾</span>
         <span class="verse-ref" id="ref-185">سورة البقرة - آية 185</span>
-        <div class="eng-meaning"><b>General Meaning:</b><br>Ramadan is the time that God chose for the revelation of the Quran as guidance for humanity. Because this month is so great, God made fasting obligatory for every able-bodied resident. Out of His mercy, He granted permission to the sick and the traveler to break their fast and make it up later. This is so that you may complete the fast of the entire month (29 or 30 days), whether by performing it during Ramadan or by making it up afterward. This is so that you may glorify God in your hearts and with your tongues at the end of the month (which is the origin of the Eid takbirs), thanking Him for enabling you to perform this great act of worship.</div>
+        <div class="eng-meaning"><b>General Meaning:</b><br>Ramadan is the time that God chose for the revelation of the Quran as guidance for humanity. Because this month is so great, God made fasting obligatory for every able-bodied resident. Out of His mercy, He granted permission to the sick and the traveler to break their fast and make it up later. This is so that you may complete the fast of the entire month (29 or 30 days).</div>
     </div>
 
     <div class="card">
@@ -146,11 +148,6 @@
             <label class="switch"><input type="checkbox" id="notif-sw-eid2" onchange="toggleNotify('eid2', this)"><span class="slider"></span></label>
         </div>
     </div>
-    <div class="verse-container">
-        <span class="quran-text" dir="rtl">﴿الْحَجُّ أَشْهُرٌ مَّعْلُومَاتٌ ۚ فَمَن فَرَضَ فِيهِنَّ الْحَجَّ فَلَا رَفَثَ وَلَا فُسُوقَ وَلَا جِدَالَ فِي الْحَجِّ ۗ وَمَا تَفْعَلُوا مِنْ خَيْرٍ يَعْلَمْهُ اللَّهُ ۗ وَتَزَوَّدُوا فَإِنَّ خَيْرَ الزَّادِ التَّقْوَىٰ ۚ وَاتَّقُونِ يَا أُولِي الْأَلْبَابِ﴾</span>
-        <span class="verse-ref" id="ref-197">سورة البقرة - آية 197</span>
-        <div class="eng-meaning"><b>General Meaning:</b><br>This means that the state of ihram for Hajj, and the timing of its rituals, takes place during specific months well-known to Muslims: Shawwal, Dhu al-Qi'dah, and the first ten days of Dhu al-Hijjah. During these months, the intention for Hajj and the wearing of ihram garments are prescribed, and the pilgrim is obligated to abstain from sexual intercourse and its preliminaries, sins, and arguments.</div>
-    </div>
 
     <footer>
         <div class="rights" id="f-rights">جميع الحقوق محفوظة للمتبقي 1447 هـ - 2026 م</div>
@@ -163,36 +160,32 @@
     <script>
         const events = {
             ramadan: { 
-                date: "2026-02-18T00:00:00+03:00", 
-                name: "شهر رمضان المبارك", en: "Holy Ramadan", emj: "🌒", 
+                date: "2026-02-18T00:00:00+03:00", name: "شهر رمضان المبارك", en: "Holy Ramadan", emj: "🌒", 
                 dua: "اللهم تقبل الصيام والقيام وصالح الأعمال.",
                 duaEn: "O God, accept our fasting, prayers, and good deeds.",
-                msg: "تهنئ منصة المتبقي الأمة الإسلامية بقدوم شهر رمضان المبارك 🌙", 
+                msg: "🌙 اقترب شهر الخير.. اللهم بلغنا رمضان.",
                 dAr: "1 رمضان 1447هـ | 18 فبراير 2026م", dEn: "Ramadan 1, 1447 | Feb 18, 2026" 
             },
             eid1: { 
-                date: "2026-03-20T00:00:00+03:00", 
-                name: "عيد الفطر المبارك", en: "Eid al-Fitr", emj: "🎈", 
+                date: "2026-03-20T00:00:00+03:00", name: "عيد الفطر المبارك", en: "Eid al-Fitr", emj: "🎈", 
                 dua: "تقبل الله منا ومنكم، أعاد الله علينا باليمن والبركات.",
                 duaEn: "May God accept from us and from you, and may God bring it back to us with blessings and prosperity.",
-                msg: "تهنئ منصة المتبقي الأمة الإسلامية بقدوم عيد الفطر المبارك ✨", 
+                msg: "✨ أيام قليلة ويطل علينا عيد الفطر.. كل عام وأنتم بخير.",
                 dAr: "1 شوال 1447هـ | 20 مارس 2026م", dEn: "Shawwal 1, 1447 | March 20, 2026" 
             },
             hajj: { 
-                date: "2026-05-18T00:00:00+03:00", 
-                name: "عشر ذي الحجة", en: "10 Days of Dhu al-Hijjah", emj: "🕋", 
-                dua: "اللهم بلغنا عشر ذي الحجة واجعل لنا دعوة لا ترد، ورزقا لا يعد وارزقنا فيهم العفو والعافية.",
+                date: "2026-05-18T00:00:00+03:00", name: "عشر ذي الحجة", en: "10 Days of Dhul-Hijjah", emj: "🕋", 
+                dua: "اللهم بلغنا عشر ذي الحجة واجعل لنا دعوة لا ترد، ورزقاً لا يعد.",
                 duaEn: "O Allah, let us reach the first ten days of Dhul-Hijjah and grant us a supplication that will not be rejected.",
-                msg: "تهنئ منصة المتبقي بقدوم عشر ذي الحجة المباركة 🌟", 
-                dAr: "1 ذو الحجة 1447هـ | 18 مايو 2026م", dEn: "Dhu al-Hijjah 1, 1447 | May 18, 2026" 
+                msg: "🌟 عشر ذي الحجة على الأبواب.. خير أيام الدنيا.",
+                dAr: "1 ذو الحجة 1447هـ | 18 مايو 2026م", dEn: "Dhul-Hijjah 1, 1447 | May 18, 2026" 
             },
             eid2: { 
-                date: "2026-05-27T00:00:00+03:00", 
-                name: "عيد الأضحى المبارك", en: "Eid al-Adha", emj: "🐑", 
-                dua: "اللهم اجعل هذا العيد عيد خير وسلام، واغفر لنا ما مضى، وبارك لنا فيما هو آتٍ.",
-                duaEn: "O God, make this Eid an Eid of goodness and peace, forgive us for what has passed, and bless us in what is to come.",
-                msg: "تهنئ منصة المتبقي الأمة الإسلامية بقدوم عيد الأضحى المبارك 🕋", 
-                dAr: "10 ذو الحجة 1447هـ | 27 مايو 2026م", dEn: "Dhu al-Hijjah 10, 1447 | May 27, 2026" 
+                date: "2026-05-27T00:00:00+03:00", name: "عيد الأضحى المبارك", en: "Eid al-Adha", emj: "🐑", 
+                dua: "اللهم اجعل هذا العيد عيد خير وسلام، وبارك لنا فيما هو آتٍ.",
+                duaEn: "O God, make this Eid an Eid of goodness and peace, and bless us in what is to come.",
+                msg: "🕋 اقترب عيد الأضحى المبارك.. لبيك اللهم لبيك.",
+                dAr: "10 ذو الحجة 1447هـ | 27 مايو 2026م", dEn: "Dhul-Hijjah 10, 1447 | May 27, 2026" 
             }
         };
 
@@ -211,15 +204,14 @@
 
         async function toggleNotify(key, el) {
             const isAr = document.getElementById('app-html').dir === "rtl";
-            const eventName = isAr ? events[key].name : events[key].en;
             if (el.checked) {
                 const perm = await Notification.requestPermission();
                 if (perm === "granted") {
                     localStorage.setItem('notif_' + key, 'true');
-                    alert(isAr ? `يعمل الآن الإشعارات لـ ${eventName}` : `Notifications now active for ${eventName}`);
                 } else { 
                     el.checked = false; 
                     localStorage.setItem('notif_' + key, 'false');
+                    alert(isAr ? "يرجى تفعيل صلاحية الإشعارات من إعدادات المتصفح" : "Please enable notifications in browser settings");
                 }
             } else { 
                 localStorage.setItem('notif_' + key, 'false'); 
@@ -233,10 +225,10 @@
             const h = document.getElementById(`h-${key}`).innerText;
             
             let text = "";
-            if (isAr) {
+            if(isAr) {
                 text = `${ev.emj} المتبقي لـ ${ev.name}:\n⏳ ${d} يوم و ${h} ساعة\n✨ ${ev.dua}\n\n📍 تابع العداد عبر الرابط:\n${window.location.href}`;
             } else {
-                text = `${ev.emj} Remaining for ${ev.en}:\n⏳ ${d} Days and ${h} Hours\n✨ ${ev.duaEn}\n\n📍 Follow the countdown here:\n${window.location.href}`;
+                text = `${ev.emj} Remaining for ${ev.en}:\n⏳ ${d} Days and ${h} Hours\n✨ ${ev.duaEn}\n\n📍 Follow the countdown:\n${window.location.href}`;
             }
 
             try {
@@ -244,44 +236,85 @@
                     await navigator.share({ text });
                 } else {
                     await navigator.clipboard.writeText(text);
-                    alert(isAr ? "تم نسخ نص المشاركة تلقائياً! 📋" : "Text copied automatically! 📋");
+                    alert(isAr ? "تم نسخ نص المشاركة! 📋" : "Text copied! 📋");
                 }
-            } catch (err) {
-                console.error("Error sharing:", err);
-            }
+            } catch (err) {}
         }
 
-        function toggleTheme() { document.body.classList.toggle('light-mode'); }
+        function toggleTheme() {
+            const body = document.body;
+            body.classList.toggle('light-mode');
+            localStorage.setItem('site_theme', body.classList.contains('light-mode') ? 'light' : 'dark');
+        }
 
         function toggleLang() {
             const html = document.getElementById('app-html');
             const isAr = html.dir === "rtl";
-            html.dir = isAr ? "ltr" : "rtl";
-            html.lang = isAr ? "en" : "ar";
-            document.getElementById('lang-btn').innerText = isAr ? "عربي" : "English";
-            document.getElementById('main-title-text').innerText = isAr ? "Residual" : "المتبقي";
-            document.getElementById('site-title-tag').innerText = isAr ? "... Residual" : "... المتبقي";
-            Object.keys(events).forEach((key, i) => {
-                document.getElementById(`t-${key}`).innerText = isAr ? events[key].en : events[key].name;
-                document.getElementById(`d-info${i+1}`).innerText = isAr ? events[key].dEn : events[key].dAr;
-            });
-            document.getElementById('ref-185').innerText = isAr ? "Surah Al-Baqarah - Ayah 185" : "سورة البقرة - آية 185";
-            document.getElementById('ref-197').innerText = isAr ? "Surah Al-Baqarah - Ayah 197" : "سورة البقرة - آية 197";
-            document.getElementById('f-rights').innerText = isAr ? "All rights reserved to Residual 1447 AH - 2026 AD" : "جميع الحقوق محفوظة للمتبقي 1447 هـ - 2026 م";
-            document.getElementById('f-dev').innerText = isAr ? "Contact Developer" : "التواصل مع المطور";
-            document.querySelectorAll('.lb-d').forEach(el => el.innerText = isAr ? "Days" : "يوم");
-            document.querySelectorAll('.lb-h').forEach(el => el.innerText = isAr ? "Hrs" : "ساعة");
-            document.querySelectorAll('.lb-m').forEach(el => el.innerText = isAr ? "Min" : "دقيقة");
-            document.querySelectorAll('.lb-s').forEach(el => el.innerText = isAr ? "Sec" : "ثانية");
-            document.querySelectorAll('.n-label').forEach(el => el.innerText = isAr ? "Enable Alert" : "تفعيل التنبيه");
-            document.querySelectorAll('.share-btn').forEach(el => el.innerText = isAr ? "Share" : "مشاركة");
+            const newLang = isAr ? "en" : "ar";
+            applyLang(newLang);
+            localStorage.setItem('site_lang', newLang);
         }
 
-        function checkPreNotif() {
-            const today = new Date();
+        function applyLang(lang) {
+            const html = document.getElementById('app-html');
+            const isAr = lang === "ar";
+            html.dir = isAr ? "rtl" : "ltr";
+            html.lang = lang;
+            document.getElementById('lang-btn').innerText = isAr ? "English" : "عربي";
+            document.getElementById('main-title-text').innerText = isAr ? "المتبقي" : "Residual";
+            document.getElementById('site-title-tag').innerText = isAr ? "المتبقي" : "Residual";
+            
+            Object.keys(events).forEach((key, i) => {
+                document.getElementById(`t-${key}`).innerText = isAr ? events[key].name : events[key].en;
+                document.getElementById(`d-info${i+1}`).innerText = isAr ? events[key].dAr : events[key].dEn;
+            });
+
+            // تحديث التسميات
+            document.querySelectorAll('.lb-d').forEach(el => el.innerText = isAr ? "يوم" : "Days");
+            document.querySelectorAll('.lb-h').forEach(el => el.innerText = isAr ? "ساعة" : "Hrs");
+            document.querySelectorAll('.lb-m').forEach(el => el.innerText = isAr ? "دقيقة" : "Min");
+            document.querySelectorAll('.lb-s').forEach(el => el.innerText = isAr ? "ثانية" : "Sec");
+            document.querySelectorAll('.n-label').forEach(el => el.innerText = isAr ? "تفعيل التنبيه" : "Enable Alert");
+            document.querySelectorAll('.share-btn').forEach(el => el.innerText = isAr ? "مشاركة" : "Share");
+            document.getElementById('f-rights').innerText = isAr ? "جميع الحقوق محفوظة للمتبقي 1447 هـ - 2026 م" : "All rights reserved to Residual 1447 AH - 2026 AD";
+            document.getElementById('f-dev').innerText = isAr ? "التواصل مع المطور" : "Contact Developer";
+            document.getElementById('theme-btn').innerText = isAr ? "نمط" : "Theme";
+        }
+
+        window.onload = function() {
+            // 1. استرجاع اللغة
+            const savedLang = localStorage.getItem('site_lang') || 'ar';
+            applyLang(savedLang);
+
+            // 2. استرجاع النمط
+            const savedTheme = localStorage.getItem('site_theme');
+            if (savedTheme === 'light') document.body.classList.add('light-mode');
+
+            // 3. استرجاع حالة الإشعارات
             Object.keys(events).forEach(key => {
-                const preDay = new Date(events[key].date);
-                preDay.setDate(preDay.getDate() - 1);
-                if (today.toDateString() === preDay.toDateString() && localStorage.getItem('notif_'+key) === 'true' && !localStorage.getItem('sent_'+key)) {
-                    new Notification("Residual", { body: events[key].msg, icon: "https://i.ibb.co/fzPfcMp0/small-logo.png" });
-   
+                if (localStorage.getItem('notif_' + key) === 'true') {
+                    const sw = document.getElementById('notif-sw-' + key);
+                    if (sw) sw.checked = true;
+                }
+            });
+        };
+
+        // فحص الإشعارات (كمثال رسالة بسيطة عند اقتراب الموعد)
+        function checkNotifs() {
+            Object.keys(events).forEach(key => {
+                if (localStorage.getItem('notif_' + key) === 'true') {
+                    const diff = new Date(events[key].date) - Date.now();
+                    // إذا بقي أقل من يوم ولم يتم إرسال الإشعار اليوم
+                    if (diff > 0 && diff < 86400000 && !localStorage.getItem('sent_'+key)) {
+                        if (Notification.permission === "granted") {
+                            new Notification("تذكير المتبقي", { body: events[key].msg });
+                            localStorage.setItem('sent_'+key, 'true');
+                        }
+                    }
+                }
+            });
+        }
+        setInterval(checkNotifs, 60000);
+    </script>
+</body>
+</html>
