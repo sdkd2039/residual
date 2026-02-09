@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="site-title-tag">المتبقي</title>
     
+    <title id="site-title-tag">... المتبقي</title>
+    <meta name="description" content="[Residual Process] المتبقي من الأرشفة الرقمية للمناسبات... 2026">
+    <meta name="robots" content="index, follow">
+
     <link rel="icon" type="image/png" href="https://i.ibb.co/fzPfcMp0/small-logo.png">
     <link rel="apple-touch-icon" href="https://i.ibb.co/fzPfcMp0/small-logo.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -180,7 +183,6 @@
         }
         setInterval(updateTimers, 1000); updateTimers();
 
-        // تفعيل الإشعارات بصمت دون رسائل تأكيد
         async function toggleNotify(key, el) {
             if (el.checked) {
                 const perm = await Notification.requestPermission();
@@ -217,7 +219,7 @@
             html.lang = isAr ? "en" : "ar";
             document.getElementById('lang-btn').innerText = isAr ? "عربي" : "English";
             document.getElementById('main-title-text').innerText = isAr ? "Residual" : "المتبقي";
-            document.getElementById('site-title-tag').innerText = isAr ? "Residual" : "المتبقي";
+            document.getElementById('site-title-tag').innerText = isAr ? "... Residual" : "... المتبقي";
             Object.keys(events).forEach((key, i) => {
                 document.getElementById(`t-${key}`).innerText = isAr ? events[key].en : events[key].name;
                 document.getElementById(`d-info${i+1}`).innerText = isAr ? events[key].dEn : events[key].dAr;
@@ -248,7 +250,6 @@
         setInterval(checkPreNotif, 3600000);
 
         window.onload = function() {
-            // استرجاع حالة مفاتيح التنبيه المحفوظة
             Object.keys(events).forEach(key => {
                 const savedStatus = localStorage.getItem('notif_' + key);
                 if (savedStatus === 'true') {
@@ -256,7 +257,6 @@
                     if (sw) sw.checked = true;
                 }
             });
-            // رسالة إرشادية للتثبيت (تظهر مرة واحدة)
             if (!window.navigator.standalone && !localStorage.getItem('pwa_tip')) {
                 const isAr = document.getElementById('app-html').dir === "rtl";
                 const msg = isAr ? "للحصول على تنبيهات دقيقة، اضغط على (مشاركة) ثم (إضافة إلى الشاشة الرئيسية) 📲" : "For accurate alerts, tap (Share) then (Add to Home Screen) 📲";
