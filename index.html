@@ -192,39 +192,12 @@
         };
 
         function showToast(msg, icon = "🔔") {
-                    const isAr = document.getElementById('app-html').dir === "rtl";
-        const month = new Date(events[key].date).getMonth() + 1;
-        let maghribMin = (month >= 5 && month <= 8) ? 55 : 40; 
-
-        const preDay = new Date(events[key].date);
-        preDay.setDate(preDay.getDate() - 1);
-        preDay.setHours(18, maghribMin, 0);
-
-        if (diff > 0) {
-            document.getElementById(`d-${key}`).innerText = Math.floor(diff / 86400000);
-            document.getElementById(`h-${key}`).innerText = Math.floor((diff % 86400000) / 3600000);
-            document.getElementById(`m-${key}`).innerText = Math.floor((diff % 3600000) / 60000);
-            document.getElementById(`s-${key}`).innerText = Math.floor((diff % 60000) / 1000);
-
-            if (Date.now() >= preDay && !localStorage.getItem('pre_' + key)) {
-                if (localStorage.getItem('notif_' + key) === 'true') {
-                    new Notification(isAr ? "اقترب الموعد! ✨" : "Almost there! ✨", {
-                        body: isAr ? `غداً أول أيام ${events[key].name}، نبارك لكم مقدماً.` : `Tomorrow is the first day of ${events[key].en}.`,
-                        icon: "https://i.ibb.co/fzPfcMp0/small-logo.png"
-                    });
-                    localStorage.setItem('pre_' + key, 'true');
-                }
-            }
-        } else {
-            if (localStorage.getItem('notif_' + key) === 'true' && !localStorage.getItem('sent_' + key)) {
-                new Notification(isAr ? "مبارك عليكم! 🌙" : "Congratulations! 🌙", {
-                    body: isAr ? `تهنئكم منصة المتبقي بقدوم ${events[key].name}، تقبل الله منا ومنكم.` : `Residual site congratulates you on ${events[key].en}.`,
-                    icon: "https://i.ibb.co/fzPfcMp0/small-logo.png"
-                });
-                localStorage.setItem('sent_' + key, 'true');
-            }
+            const toast = document.getElementById('top-toast');
+            document.getElementById('toast-text').innerText = msg;
+            document.getElementById('toast-icon').innerText = icon;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3500);
         }
-
 
         function updateTimers() {
             Object.keys(events).forEach(key => {
