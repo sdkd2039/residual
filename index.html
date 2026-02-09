@@ -272,7 +272,7 @@
         }
 
 window.onload = function() {
-            // --- الإضافة هنا لحل مشكلة اللغة والوضع عند التحديث ---
+
             const savedLang = localStorage.getItem('al_mutabaqi_lang');
             if (savedLang) applyLang(savedLang);
 
@@ -281,12 +281,10 @@ window.onload = function() {
                 document.documentElement.classList.add('light-mode-active');
                 document.body.classList.add('light-mode');
             }
-            // ---------------------------------------------------
 
             setInterval(updateTimers, 1000); 
             updateTimers();
 
-            // تحميل حالة التنبيهات (إذا كنت تستخدمها)
             Object.keys(events).forEach(key => {
                 const sw = document.getElementById('notif-sw-' + key);
                 if (sw) sw.checked = localStorage.getItem('notif_' + key) === 'true';
