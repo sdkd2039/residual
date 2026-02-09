@@ -81,14 +81,48 @@
         </div>
     </div>
 
+    <div class="card">
+        <button class="share-btn" onclick="shareEvent('hajj10')">مشاركة</button>
+        <div class="event-title" id="t-hajj10">عشر ذي الحجة</div>
+        <div class="event-date-info" id="d-info3">1 ذو الحجة 1447هـ | 17 مايو 2026م</div>
+        <div class="timer-grid">
+            <div class="box"><span class="num" id="d-hajj10">0</span><span class="label lb-d">يوم</span></div>
+            <div class="box"><span class="num" id="h-hajj10">0</span><span class="label lb-h">ساعة</span></div>
+            <div class="box"><span class="num" id="m-hajj10">0</span><span class="label lb-m">دقيقة</span></div>
+            <div class="box"><span class="num" id="s-hajj10">0</span><span class="label lb-s">ثانية</span></div>
+        </div>
+        <div class="notify-row">
+            <span class="n-label">تفعيل التنبيه</span>
+            <label class="switch"><input type="checkbox" id="notif-sw-hajj10" onchange="toggleNotify('hajj10', this)"><span class="slider"></span></label>
+        </div>
+    </div>
+
+    <div class="card">
+        <button class="share-btn" onclick="shareEvent('eid2')">مشاركة</button>
+        <div class="event-title" id="t-eid2">عيد الأضحى المبارك</div>
+        <div class="event-date-info" id="d-info4">10 ذو الحجة 1447هـ | 26 مايو 2026م</div>
+        <div class="timer-grid">
+            <div class="box"><span class="num" id="d-eid2">0</span><span class="label lb-d">يوم</span></div>
+            <div class="box"><span class="num" id="h-eid2">0</span><span class="label lb-h">ساعة</span></div>
+            <div class="box"><span class="num" id="m-eid2">0</span><span class="label lb-m">دقيقة</span></div>
+            <div class="box"><span class="num" id="s-eid2">0</span><span class="label lb-s">ثانية</span></div>
+        </div>
+        <div class="notify-row">
+            <span class="n-label">تفعيل التنبيه</span>
+            <label class="switch"><input type="checkbox" id="notif-sw-eid2" onchange="toggleNotify('eid2', this)"><span class="slider"></span></label>
+        </div>
+    </div>
+
     <footer>
         <div class="rights" id="f-rights">جميع الحقوق محفوظة للمتبقي 2026 م</div>
     </footer>
 
     <script>
         const events = {
-            ramadan: { date: "2026-02-18T00:00:00+03:00", name: "شهر رمضان المبارك", en: "Holy Ramadan", emj: "🌒", dAr: "1 رمضان 1447هـ | 18 فبراير 2026م", dEn: "Feb 18, 2026" },
-            eid1: { date: "2026-03-20T00:00:00+03:00", name: "عيد الفطر المبارك", en: "Eid al-Fitr", emj: "🎈", dAr: "1 شوال 1447هـ | 20 مارس 2026م", dEn: "March 20, 2026" }
+            ramadan: { date: "2026-02-18T00:00:00+03:00", name: "شهر رمضان المبارك", en: "Holy Ramadan", dAr: "1 رمضان 1447هـ | 18 فبراير 2026م", dEn: "Feb 18, 2026" },
+            eid1: { date: "2026-03-20T00:00:00+03:00", name: "عيد الفطر المبارك", en: "Eid al-Fitr", dAr: "1 شوال 1447هـ | 20 مارس 2026م", dEn: "March 20, 2026" },
+            hajj10: { date: "2026-05-17T00:00:00+03:00", name: "عشر ذي الحجة", en: "10 Days of Dhul-Hijjah", dAr: "1 ذو الحجة 1447هـ | 17 مايو 2026م", dEn: "May 17, 2026" },
+            eid2: { date: "2026-05-26T00:00:00+03:00", name: "عيد الأضحى المبارك", en: "Eid al-Adha", dAr: "10 ذو الحجة 1447هـ | 26 مايو 2026م", dEn: "May 26, 2026" }
         };
 
         function saveSettings() {
@@ -113,21 +147,28 @@
             html.lang = lang; html.dir = isEn ? "ltr" : "rtl";
             document.getElementById('lang-btn').innerText = isEn ? "عربي" : "English";
             document.getElementById('main-title-text').innerText = isEn ? "Residual" : "المتبقي";
-            document.getElementById('t-ramadan').innerText = isEn ? events.ramadan.en : events.ramadan.name;
-            document.getElementById('d-info1').innerText = isEn ? events.ramadan.dEn : events.ramadan.dAr;
-            document.getElementById('t-eid1').innerText = isEn ? events.eid1.en : events.eid1.name;
-            document.getElementById('d-info2').innerText = isEn ? events.eid1.dEn : events.eid1.dAr;
+            
+            // تحديث العناوين والتواريخ لكل المناسبات
+            Object.keys(events).forEach((key, index) => {
+                const titleEl = document.getElementById(`t-${key}`);
+                const dateEl = document.getElementById(`d-info${index + 1}`);
+                if(titleEl) titleEl.innerText = isEn ? events[key].en : events[key].name;
+                if(dateEl) dateEl.innerText = isEn ? events[key].dEn : events[key].dAr;
+            });
+
             document.querySelectorAll('.lb-d').forEach(el => el.innerText = isEn ? "Days" : "يوم");
             document.querySelectorAll('.lb-h').forEach(el => el.innerText = isEn ? "Hrs" : "ساعة");
             document.querySelectorAll('.lb-m').forEach(el => el.innerText = isEn ? "Min" : "دقيقة");
             document.querySelectorAll('.lb-s').forEach(el => el.innerText = isEn ? "Sec" : "ثانية");
+            document.querySelectorAll('.n-label').forEach(el => el.innerText = isEn ? "Notify Me" : "تفعيل التنبيه");
         }
 
         function updateTimers() {
             Object.keys(events).forEach(key => {
                 const diff = new Date(events[key].date) - Date.now();
-                if (diff > 0) {
-                    document.getElementById(`d-${key}`).innerText = Math.floor(diff / 86400000);
+                const dEl = document.getElementById(`d-${key}`);
+                if (diff > 0 && dEl) {
+                    dEl.innerText = Math.floor(diff / 86400000);
                     document.getElementById(`h-${key}`).innerText = Math.floor((diff % 86400000) / 3600000);
                     document.getElementById(`m-${key}`).innerText = Math.floor((diff % 3600000) / 60000);
                     document.getElementById(`s-${key}`).innerText = Math.floor((diff % 60000) / 1000);
@@ -136,13 +177,12 @@
         }
 
         window.onload = function() {
-            const savedLang = localStorage.getItem('al_mutabaqi_lang');
-            if (savedLang) applyLang(savedLang);
+            const savedLang = localStorage.getItem('al_mutabaqi_lang') || "ar";
+            applyLang(savedLang);
 
             const savedMode = localStorage.getItem('al_mutabaqi_mode');
             if (savedMode === 'light') document.body.classList.add('light-mode');
 
-            // --- استرجاع حالة مفاتيح التنبيهات ---
             Object.keys(events).forEach(key => {
                 const isChecked = localStorage.getItem('notif_sw_' + key) === 'true';
                 const el = document.getElementById('notif-sw-' + key);
@@ -161,9 +201,7 @@
         }
 
         async function toggleNotify(key, el) {
-            // حفظ حالة السويتش فوراً عند التغيير اليدوي
             localStorage.setItem('notif_sw_' + key, el.checked);
-
             if (el.checked) {
                 const p = await Notification.requestPermission();
                 if (p === "granted") {
