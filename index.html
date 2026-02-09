@@ -161,10 +161,34 @@
 
     <script>
         const events = {
-            ramadan: { date: "2026-02-18T00:00:00+03:00", name: "شهر رمضان المبارك", en: "Holy Ramadan", emj: "🌒", dua: "اللهم بلغنا رمضان وبارك لنا فيه", msg: "تهنئ منصة المتبقي الأمة الإسلامية بقدوم شهر رمضان المبارك 🌙", dAr: "1 رمضان 1447هـ | 18 فبراير 2026م", dEn: "Ramadan 1, 1447 | Feb 18, 2026" },
-            eid1: { date: "2026-03-20T00:00:00+03:00", name: "عيد الفطر المبارك", en: "Eid al-Fitr", emj: "🎈", dua: "تقبل الله منا ومنكم صالح الأعمال", msg: "تهنئ منصة المتبقي الأمة الإسلامية بقدوم عيد الفطر المبارك ✨", dAr: "1 شوال 1447هـ | 20 مارس 2026م", dEn: "Shawwal 1, 1447 | March 20, 2026" },
-            hajj: { date: "2026-05-18T00:00:00+03:00", name: "عشر ذي الحجة", en: "10 Days of Dhu al-Hijjah", emj: "🕋", dua: "لبيك اللهم لبيك", msg: "تهنئ منصة المتبقي بقدوم عشر ذي الحجة المباركة 🌟", dAr: "1 ذو الحجة 1447هـ | 18 مايو 2026م", dEn: "Dhu al-Hijjah 1, 1447 | May 18, 2026" },
-            eid2: { date: "2026-05-27T00:00:00+03:00", name: "عيد الأضحى المبارك", en: "Eid al-Adha", emj: "🐑", dua: "عيد مبارك وأيامكم سعيدة", msg: "تهنئ منصة المتبقي الأمة الإسلامية بقدوم عيد الأضحى المبارك 🕋", dAr: "10 ذو الحجة 1447هـ | 27 مايو 2026م", dEn: "Dhu al-Hijjah 10, 1447 | May 27, 2026" }
+            ramadan: { 
+                date: "2026-02-18T00:00:00+03:00", 
+                name: "شهر رمضان المبارك", en: "Holy Ramadan", emj: "🌒", 
+                duaAr: "اللهم تقبل الصيام والقيام وصالح الأعمال", 
+                duaEn: "O God, accept our fasting, prayers, and good deeds",
+                dAr: "1 رمضان 1447هـ | 18 فبراير 2026م", dEn: "Ramadan 1, 1447 | Feb 18, 2026" 
+            },
+            eid1: { 
+                date: "2026-03-20T00:00:00+03:00", 
+                name: "عيد الفطر المبارك", en: "Eid al-Fitr", emj: "🎈", 
+                duaAr: "تقبل الله منا ومنكم، أعاد الله علينا باليمن والبركات", 
+                duaEn: "May God accept from us and from you, and may God bring it back to us with blessings and prosperity",
+                dAr: "1 شوال 1447هـ | 20 مارس 2026م", dEn: "Shawwal 1, 1447 | March 20, 2026" 
+            },
+            hajj: { 
+                date: "2026-05-18T00:00:00+03:00", 
+                name: "عشر ذي الحجة", en: "10 Days of Dhu al-Hijjah", emj: "🕋", 
+                duaAr: "اللهم بلغنا عشر ذي الحجة واجعل لنا دعوة لا ترد، ورزقا لا يعد وارزقنا فيهم العفو والعافية", 
+                duaEn: "O Allah, let us reach the first ten days of Dhul-Hijjah and grant us a supplication that will not be rejected",
+                dAr: "1 ذو الحجة 1447هـ | 18 مايو 2026م", dEn: "Dhu al-Hijjah 1, 1447 | May 18, 2026" 
+            },
+            eid2: { 
+                date: "2026-05-27T00:00:00+03:00", 
+                name: "عيد الأضحى المبارك", en: "Eid al-Adha", emj: "🐑", 
+                duaAr: "اللهم اجعل هذا العيد عيد خير وسلام، واغفر لنا ما مضى، وبارك لنا فيما هو آتٍ", 
+                duaEn: "O God, make this Eid an Eid of goodness and peace, forgive us for what has passed, and bless us in what is to come",
+                dAr: "10 ذو الحجة 1447هـ | 27 مايو 2026م", dEn: "Dhu al-Hijjah 10, 1447 | May 27, 2026" 
+            }
         };
 
         function showToast(msg, icon = "🔔") {
@@ -205,12 +229,21 @@
         async function shareEvent(key) {
             const ev = events[key];
             const isAr = document.getElementById('app-html').dir === "rtl";
-            const text = `${ev.emj} المتبقي لـ ${isAr ? ev.name : ev.en}:\n⏳ ${document.getElementById('d-'+key).innerText} يوم\n✨ ${ev.dua}\n\n${window.location.href}`;
+            const d = document.getElementById(`d-${key}`).innerText;
+            const h = document.getElementById(`h-${key}`).innerText;
+            
+            let text = "";
+            if (isAr) {
+                text = `${ev.emj} المتبقي لـ ${ev.name}:\n⏳ ${d} يوم و ${h} ساعة\n✨ ${ev.duaAr}\n\n📍 تابع العداد عبر الرابط:\n${window.location.href}`;
+            } else {
+                text = `${ev.emj} Remaining for ${ev.en}:\n⏳ ${d} Days and ${h} Hours\n✨ ${ev.duaEn}\n\n📍 Follow the countdown via:\n${window.location.href}`;
+            }
+
             try {
                 await navigator.clipboard.writeText(text);
-                showToast(isAr ? "تم نسخ النص تلقائياً! 📋" : "Copied automatically! 📋", "📋");
-                if (navigator.share) await navigator.share({ text });
-            } catch (err) { if (navigator.share) await navigator.share({ text }); }
+                showToast(isAr ? "تم نسخ نص المشاركة تلقائياً! 📋" : "Copied automatically! 📋", "📋");
+                if (navigator.share) await navigator.share({ text: text });
+            } catch (err) { if (navigator.share) await navigator.share({ text: text }); }
         }
 
         function toggleTheme() { document.body.classList.toggle('light-mode'); }
@@ -221,12 +254,21 @@
             html.lang = isAr ? "en" : "ar";
             document.getElementById('lang-btn').innerText = isAr ? "عربي" : "English";
             document.getElementById('main-title-text').innerText = isAr ? "Residual" : "المتبقي";
+            document.getElementById('site-title-tag').innerText = isAr ? "Residual" : "المتبقي";
             Object.keys(events).forEach((key, i) => {
                 document.getElementById(`t-${key}`).innerText = isAr ? events[key].en : events[key].name;
                 document.getElementById(`d-info${i+1}`).innerText = isAr ? events[key].dEn : events[key].dAr;
             });
             document.querySelectorAll('.lb-d').forEach(el => el.innerText = isAr ? "Days" : "يوم");
+            document.querySelectorAll('.lb-h').forEach(el => el.innerText = isAr ? "Hrs" : "ساعة");
+            document.querySelectorAll('.lb-m').forEach(el => el.innerText = isAr ? "Min" : "دقيقة");
+            document.querySelectorAll('.lb-s').forEach(el => el.innerText = isAr ? "Sec" : "ثانية");
             document.querySelectorAll('.n-label').forEach(el => el.innerText = isAr ? "Enable Alert" : "تفعيل التنبيه");
+            document.querySelectorAll('.share-btn').forEach(el => el.innerText = isAr ? "Share" : "مشاركة");
+            document.getElementById('ref-185').innerText = isAr ? "Surah Al-Baqarah - Ayah 185" : "سورة البقرة - آية 185";
+            document.getElementById('ref-197').innerText = isAr ? "Surah Al-Baqarah - Ayah 197" : "سورة البقرة - آية 197";
+            document.getElementById('f-rights').innerText = isAr ? "All rights reserved to Residual 1447 AH - 2026 AD" : "جميع الحقوق محفوظة للمتبقي 1447 هـ - 2026 م";
+            document.getElementById('f-dev').innerText = isAr ? "Contact Developer" : "التواصل مع المطور";
         }
 
         window.onload = function() {
