@@ -271,11 +271,27 @@
             document.getElementById('f-dev').innerText = isAr ? "Contact Developer" : "التواصل مع المطور";
         }
 
-        window.onload = function() {
+window.onload = function() {
+            // --- الإضافة هنا لحل مشكلة اللغة والوضع عند التحديث ---
+            const savedLang = localStorage.getItem('al_mutabaqi_lang');
+            if (savedLang) applyLang(savedLang);
+
+            const savedMode = localStorage.getItem('al_mutabaqi_mode');
+            if (savedMode === 'light') {
+                document.documentElement.classList.add('light-mode-active');
+                document.body.classList.add('light-mode');
+            }
+            // ---------------------------------------------------
+
+            setInterval(updateTimers, 1000); 
+            updateTimers();
+
+            // تحميل حالة التنبيهات (إذا كنت تستخدمها)
             Object.keys(events).forEach(key => {
-                if (localStorage.getItem('notif_' + key) === 'true') {
-                    const sw = document.getElementById('notif-sw-' + key);
-                    if (sw) sw.checked = true;
+                const sw = document.getElementById('notif-sw-' + key);
+                if (sw) sw.checked = localStorage.getItem('notif_' + key) === 'true';
+            });
+        };
                 }
             });
         };
