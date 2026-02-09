@@ -4,30 +4,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="site-title-tag">المتبقي</title>
+
+    <script>
+        /* سكريبت منع الوميض وتثبيت الإعدادات - ينفذ قبل رسم الصفحة */
+        (function() {
+            const savedMode = localStorage.getItem('al_mutabaqi_mode');
+            const savedLang = localStorage.getItem('al_mutabaqi_lang');
+            
+            // تطبيق الوضع الليلي/النهاري فوراً
+            if (savedMode === 'light') {
+                document.documentElement.classList.add('light-mode-active');
+            }
+            
+            // تطبيق اللغة فوراً لمنع القفز في النصوص
+            if (savedLang === 'en') {
+                document.documentElement.lang = 'en';
+                document.documentElement.dir = 'ltr';
+            }
+        })();
+    </script>
     
     <link rel="icon" type="image/png" href="https://i.ibb.co/fzPfcMp0/small-logo.png">
+    <link rel="apple-touch-icon" href="https://i.ibb.co/fzPfcMp0/small-logo.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#ffd700">
+
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
         :root { --bg: #080c14; --card: #1e293b; --accent: #ffd700; --text: #ffffff; --muted: #94a3b8; --blue: #3b82f6; --box-bg: #0f172a; --nav-btn: #ffd700; }
-        body.light-mode { --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --muted: #475569; --box-bg: #f1f5f9; --accent: #000000; --nav-btn: #000000; }
-        body { background: var(--bg); color: var(--text); font-family: 'IBM Plex Sans Arabic', sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; transition: 0.3s; }
+        
+        /* التعديل المهم هنا: استخدام الكلاس المضاف للـ html */
+        .light-mode-active body, body.light-mode { 
+            --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --muted: #475569; --box-bg: #f1f5f9; --accent: #000000; --nav-btn: #000000; 
+        }
 
-        .toast-notification { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: var(--blue); color: white; padding: 12px 25px; border-radius: 50px; font-weight: bold; font-size: 0.9rem; box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 9999; transition: top 0.5s; display: flex; align-items: center; gap: 8px; }
+        body { background: var(--bg); color: var(--text); font-family: 'IBM Plex Sans Arabic', sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; transition: background 0.3s; }
+        
+        .toast-notification { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: var(--blue); color: white; padding: 12px 25px; border-radius: 50px; font-weight: bold; font-size: 0.9rem; box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 9999; transition: top 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28); display: flex; align-items: center; gap: 8px; white-space: nowrap; }
         .toast-notification.show { top: 25px; }
-        .main-logo { width: 160px; height: auto; margin-top: 30px; }
+        .main-logo { width: 160px; height: auto; margin-top: 30px; margin-bottom: 5px; }
         .site-display-title { color: var(--accent); font-size: 1.8rem; font-weight: bold; margin-bottom: 30px; }
         .controls { position: fixed; top: 15px; left: 15px; display: flex; gap: 8px; z-index: 1000; }
-        .btn-tool { background: var(--nav-btn); color: var(--card); border: none; padding: 8px 12px; border-radius: 10px; cursor: pointer; font-weight: bold; }
-        body.light-mode .btn-tool { color: #fff; }
-        .card { background: var(--card); border-radius: 20px; padding: 25px; margin-bottom: 15px; width: 100%; max-width: 500px; text-align: center; position: relative; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .share-btn { position: absolute; top: 15px; left: 15px; background: none; border: 1px solid var(--accent); color: var(--accent); padding: 4px 8px; border-radius: 8px; cursor: pointer; font-size: 0.7rem; }
-        .event-title { color: var(--accent); font-size: 1.4rem; font-weight: bold; }
-        .event-date-info { font-size: 0.8rem; color: var(--muted); margin-bottom: 15px; }
+        .btn-tool { background: var(--nav-btn); color: var(--card); border: none; padding: 8px 12px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 0.8rem; }
+        .light-mode-active .btn-tool { color: #fff; }
+        .card { background: var(--card); border-radius: 20px; padding: 25px; margin-bottom: 15px; width: 100%; max-width: 500px; text-align: center; position: relative; box-shadow: 0 4px 15px rgba(0,0,0,0.1); box-sizing: border-box; }
+        .share-btn { position: absolute; top: 15px; left: 15px; background: none; border: 1px solid var(--accent); color: var(--accent); padding: 4px 8px; border-radius: 8px; cursor: pointer; font-size: 0.7rem; font-weight: bold; }
+        .event-title { color: var(--accent); font-size: 1.4rem; font-weight: bold; margin-bottom: 5px; }
+        .event-date-info { font-size: 0.8rem; color: var(--muted); margin-bottom: 15px; font-weight: bold; }
         .timer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; direction: ltr; }
         .box { background: var(--box-bg); padding: 8px 5px; border-radius: 12px; }
         .num { display: block; font-size: 1.2rem; font-weight: bold; color: var(--accent); }
-        .label { font-size: 0.6rem; color: var(--muted); }
+        .label { font-size: 0.6rem; color: var(--muted); font-weight: bold; }
+        .verse-container { background: var(--card); padding: 20px; border-radius: 15px; margin-bottom: 30px; border-right: 4px solid var(--accent); width: 100%; max-width: 500px; box-sizing: border-box; }
+        .quran-text { font-size: 1.15rem; line-height: 2; color: var(--text); display: block; margin-bottom: 10px; font-weight: 500; text-align: center; }
+        .verse-ref { color: var(--accent); font-weight: bold; font-size: 0.85rem; display: block; margin-bottom: 10px; text-align: center; }
+        .eng-meaning { display: none; background: rgba(0,0,0,0.05); padding: 12px; border-radius: 8px; font-size: 0.85rem; color: var(--muted); line-height: 1.6; border-left: 3px solid var(--blue); margin-top: 10px; direction: ltr; text-align: left; }
+        html[lang="en"] .eng-meaning { display: block; }
         .notify-row { margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 12px; }
         .switch { position: relative; width: 34px; height: 20px; }
         .switch input { opacity: 0; width: 0; height: 0; }
@@ -35,17 +69,16 @@
         .slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background: white; transition: .4s; border-radius: 50%; }
         input:checked + .slider { background: var(--blue); }
         input:checked + .slider:before { transform: translateX(14px); }
-        
-        .quran-section { max-width: 500px; width: 100%; margin: 20px 0; padding: 20px; background: rgba(59, 130, 246, 0.05); border-radius: 20px; border: 1px dashed var(--blue); text-align: center; }
-        .quran-text { font-size: 1.1rem; color: var(--accent); margin-bottom: 10px; font-weight: bold; }
-        .quran-translation { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
-
-        footer { margin-top: auto; padding: 25px; text-align: center; width: 100%; border-top: 1px solid rgba(148, 163, 184, 0.1); }
-        .dev-link { color: var(--blue); text-decoration: none; font-size: 0.85rem; display: block; margin-top: 10px; }
+        footer { margin-top: auto; padding: 40px 0 20px; text-align: center; width: 100%; max-width: 500px; border-top: 1px solid rgba(148, 163, 184, 0.1); }
+        .rights { font-size: 0.8rem; color: var(--muted); margin-bottom: 10px; }
+        .dev-link { color: var(--accent); text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 5px; font-size: 0.9rem; }
     </style>
 </head>
 <body>
-    <div id="top-toast" class="toast-notification"><span id="toast-icon">🔔</span><span id="toast-text"></span></div>
+    <div id="top-toast" class="toast-notification">
+        <span id="toast-icon">🔔</span>
+        <span id="toast-text">تم التفعيل</span>
+    </div>
 
     <div class="controls">
         <button class="btn-tool" onclick="toggleTheme()">نمط</button>
@@ -55,155 +88,134 @@
     <img src="https://i.ibb.co/DDJWNdj1/main-logo.png" alt="Logo" class="main-logo">
     <h1 class="site-display-title" id="main-title-text">المتبقي</h1>
 
-    <div id="events-container"></div>
+    <div class="card">
+        <button class="share-btn" onclick="shareEvent('ramadan')">مشاركة</button>
+        <div class="event-title" id="t-ramadan">شهر رمضان المبارك</div>
+        <div class="event-date-info" id="d-info1">1 رمضان 1447هـ | 18 فبراير 2026م</div>
+        <div class="timer-grid">
+            <div class="box"><span class="num" id="d-ramadan">0</span><span class="label lb-d">يوم</span></div>
+            <div class="box"><span class="num" id="h-ramadan">0</span><span class="label lb-h">ساعة</span></div>
+            <div class="box"><span class="num" id="m-ramadan">0</span><span class="label lb-m">دقيقة</span></div>
+            <div class="box"><span class="num" id="s-ramadan">0</span><span class="label lb-s">ثانية</span></div>
+        </div>
+        <div class="notify-row">
+            <span class="n-label">تفعيل التنبيه</span>
+            <label class="switch"><input type="checkbox" id="notif-sw-ramadan" onchange="toggleNotify('ramadan', this)"><span class="slider"></span></label>
+        </div>
+    </div>
 
-    <div class="quran-section">
-        <div id="quran-content">
-            <div class="quran-text">"شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ"</div>
-            <div class="quran-translation">"The month of Ramadhan [is that] in which was revealed the Qur'an"</div>
-            <hr style="opacity: 0.1; margin: 15px 0;">
-            <div class="quran-text">"وَأَتِمُّوا الْحَجَّ وَالْعُمْرَةَ لِلَّهِ"</div>
-            <div class="quran-translation">"And complete the Hajj and 'umrah for Allah"</div>
+    <div class="card">
+        <button class="share-btn" onclick="shareEvent('eid1')">مشاركة</button>
+        <div class="event-title" id="t-eid1">عيد الفطر المبارك</div>
+        <div class="event-date-info" id="d-info2">1 شوال 1447هـ | 20 مارس 2026م</div>
+        <div class="timer-grid">
+            <div class="box"><span class="num" id="d-eid1">0</span><span class="label lb-d">يوم</span></div>
+            <div class="box"><span class="num" id="h-eid1">0</span><span class="label lb-h">ساعة</span></div>
+            <div class="box"><span class="num" id="m-eid1">0</span><span class="label lb-m">دقيقة</span></div>
+            <div class="box"><span class="num" id="s-eid1">0</span><span class="label lb-s">ثانية</span></div>
+        </div>
+        <div class="notify-row">
+            <span class="n-label">تفعيل التنبيه</span>
+            <label class="switch"><input type="checkbox" id="notif-sw-eid1" onchange="toggleNotify('eid1', this)"><span class="slider"></span></label>
         </div>
     </div>
 
     <footer>
-        <div class="rights" id="f-rights">جميع الحقوق محفوظة للمتبقي 2026 م</div>
-        <div id="footer-dates" style="font-size: 0.8rem; color: var(--muted); margin-top: 5px;"></div>
-        <a href="https://t.me/yourlink" class="dev-link" id="dev-contact">تواصل مع المطور | Contact Developer</a>
+        <div class="rights" id="f-rights">جميع الحقوق محفوظة للمتبقي 1447 هـ - 2026 م</div>
+        <a href="https://x.com/sult2009an" target="_blank" class="dev-link">
+            <span id="f-dev">التواصل مع المطور</span>
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.045 4.126H5.078z"/></svg>
+        </a>
     </footer>
 
     <script>
         const events = {
-            ramadan: { date: "2026-02-18T00:00:00+03:00", name: "شهر رمضان المبارك", en: "Holy Ramadan", dAr: "1 رمضان 1447هـ | 18 فبراير 2026م", dEn: "Feb 18, 2026" },
-            eid1: { date: "2026-03-20T00:00:00+03:00", name: "عيد الفطر المبارك", en: "Eid al-Fitr", dAr: "1 شوال 1447هـ | 20 مارس 2026م", dEn: "March 20, 2026" },
-            hajj10: { date: "2026-05-17T00:00:00+03:00", name: "عشر ذي الحجة", en: "10 Days of Dhul-Hijjah", dAr: "1 ذو الحجة 1447هـ | 17 مايو 2026م", dEn: "May 17, 2026" },
-            eid2: { date: "2026-05-26T00:00:00+03:00", name: "عيد الأضحى المبارك", en: "Eid al-Adha", dAr: "10 ذو الحجة 1447هـ | 26 مايو 2026م", dEn: "May 26, 2026" }
+            ramadan: { date: "2026-02-18T00:00:00+03:00", name: "شهر رمضان المبارك", en: "Holy Ramadan", emj: "🌒", duaAr: "اللهم تقبل الصيام والقيام وصالح الأعمال", duaEn: "O God, accept our fasting, prayers, and good deeds", dAr: "1 رمضان 1447هـ | 18 فبراير 2026م", dEn: "Ramadan 1, 1447 | Feb 18, 2026" },
+            eid1: { date: "2026-03-20T00:00:00+03:00", name: "عيد الفطر المبارك", en: "Eid al-Fitr", emj: "🎈", duaAr: "تقبل الله منا ومنكم", duaEn: "May God accept from us", dAr: "1 شوال 1447هـ | 20 مارس 2026م", dEn: "Shawwal 1, 1447 | March 20, 2026" }
         };
 
-        function renderCards() {
-            const container = document.getElementById('events-container');
-            container.innerHTML = Object.keys(events).map((key, index) => `
-                <div class="card">
-                    <button class="share-btn" onclick="copyLink('${key}')">نسخ الرابط</button>
-                    <div class="event-title" id="t-${key}">${events[key].name}</div>
-                    <div class="event-date-info" id="d-info${index + 1}">${events[key].dAr}</div>
-                    <div class="timer-grid">
-                        <div class="box"><span class="num" id="d-${key}">0</span><span class="label lb-d">يوم</span></div>
-                        <div class="box"><span class="num" id="h-${key}">0</span><span class="label lb-h">ساعة</span></div>
-                        <div class="box"><span class="num" id="m-${key}">0</span><span class="label lb-m">دقيقة</span></div>
-                        <div class="box"><span class="num" id="s-${key}">0</span><span class="label lb-s">ثانية</span></div>
-                    </div>
-                    <div class="notify-row">
-                        <span class="n-label">تفعيل التنبيه</span>
-                        <label class="switch"><input type="checkbox" id="notif-sw-${key}" onchange="toggleNotify('${key}', this)"><span class="slider"></span></label>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function copyLink(key) {
-            const url = window.location.origin + window.location.pathname + "?event=" + key;
-            navigator.clipboard.writeText(url).then(() => {
-                const isEn = document.getElementById('app-html').lang === "en";
-                showToast(isEn ? "Link Copied!" : "تم نسخ الرابط بنجاح!");
-            });
-        }
-
         function saveSettings() {
-            localStorage.setItem('al_mutabaqi_lang', document.getElementById('app-html').lang);
-            localStorage.setItem('al_mutabaqi_mode', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+            const html = document.getElementById('app-html');
+            const isLight = document.documentElement.classList.contains('light-mode-active');
+            localStorage.setItem('al_mutabaqi_lang', html.lang);
+            localStorage.setItem('al_mutabaqi_mode', isLight ? 'light' : 'dark');
         }
 
         function toggleTheme() { 
-            document.body.classList.toggle('light-mode'); 
+            document.documentElement.classList.toggle('light-mode-active'); 
+            document.body.classList.toggle('light-mode');
             saveSettings();
         }
 
         function toggleLang() {
-            const newLang = document.getElementById('app-html').lang === "ar" ? "en" : "ar";
+            const html = document.getElementById('app-html');
+            const newLang = html.lang === "ar" ? "en" : "ar";
             applyLang(newLang);
             saveSettings();
         }
 
         function applyLang(lang) {
-            const isEn = lang === "en";
             const html = document.getElementById('app-html');
-            html.lang = lang; html.dir = isEn ? "ltr" : "rtl";
+            const isEn = lang === "en";
+            html.dir = isEn ? "ltr" : "rtl";
+            html.lang = lang;
             document.getElementById('lang-btn').innerText = isEn ? "عربي" : "English";
             document.getElementById('main-title-text').innerText = isEn ? "Residual" : "المتبقي";
+            document.getElementById('site-title-tag').innerText = isEn ? "Residual" : "المتبقي";
             
-            Object.keys(events).forEach((key, index) => {
+            Object.keys(events).forEach((key, i) => {
                 const titleEl = document.getElementById(`t-${key}`);
-                const dateEl = document.getElementById(`d-info${index + 1}`);
-                const shareEl = document.querySelectorAll('.share-btn')[index];
+                const infoEl = document.getElementById(`d-info${i+1}`);
                 if(titleEl) titleEl.innerText = isEn ? events[key].en : events[key].name;
-                if(dateEl) dateEl.innerText = isEn ? events[key].dEn : events[key].dAr;
-                if(shareEl) shareEl.innerText = isEn ? "Copy Link" : "نسخ الرابط";
+                if(infoEl) infoEl.innerText = isEn ? events[key].dEn : events[key].dAr;
             });
 
             document.querySelectorAll('.lb-d').forEach(el => el.innerText = isEn ? "Days" : "يوم");
             document.querySelectorAll('.lb-h').forEach(el => el.innerText = isEn ? "Hrs" : "ساعة");
             document.querySelectorAll('.lb-m').forEach(el => el.innerText = isEn ? "Min" : "دقيقة");
             document.querySelectorAll('.lb-s').forEach(el => el.innerText = isEn ? "Sec" : "ثانية");
-            document.querySelectorAll('.n-label').forEach(el => el.innerText = isEn ? "Notify Me" : "تفعيل التنبيه");
+            document.querySelectorAll('.n-label').forEach(el => el.innerText = isEn ? "Enable Alert" : "تفعيل التنبيه");
+            document.querySelectorAll('.share-btn').forEach(el => el.innerText = isEn ? "Share" : "مشاركة");
+            document.getElementById('f-rights').innerText = isEn ? "All rights reserved 2026" : "جميع الحقوق محفوظة 2026 م";
+            document.getElementById('f-dev').innerText = isEn ? "Contact Developer" : "التواصل مع المطور";
         }
 
         function updateTimers() {
             Object.keys(events).forEach(key => {
                 const diff = new Date(events[key].date) - Date.now();
-                const dEl = document.getElementById(`d-${key}`);
-                if (diff > 0 && dEl) {
-                    dEl.innerText = Math.floor(diff / 86400000);
-                    document.getElementById(`h-${key}`).innerText = Math.floor((diff % 86400000) / 3600000);
-                    document.getElementById(`m-${key}`).innerText = Math.floor((diff % 3600000) / 60000);
-                    document.getElementById(`s-${key}`).innerText = Math.floor((diff % 60000) / 1000);
+                if (diff > 0) {
+                    const d = document.getElementById(`d-${key}`);
+                    if(d) {
+                        d.innerText = Math.floor(diff / 86400000);
+                        document.getElementById(`h-${key}`).innerText = Math.floor((diff % 86400000) / 3600000);
+                        document.getElementById(`m-${key}`).innerText = Math.floor((diff % 3600000) / 60000);
+                        document.getElementById(`s-${key}`).innerText = Math.floor((diff % 60000) / 1000);
+                    }
                 }
             });
-            const now = new Date();
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            document.getElementById('footer-dates').innerText = `اليوم: ${now.toLocaleDateString('ar-SA', options)} | ${now.toLocaleDateString('en-GB', options)}`;
         }
 
         window.onload = function() {
-            renderCards();
-            const savedLang = localStorage.getItem('al_mutabaqi_lang') || "ar";
-            applyLang(savedLang);
-            const savedMode = localStorage.getItem('al_mutabaqi_mode');
-            if (savedMode === 'light') document.body.classList.add('light-mode');
+            // تحميل اللغة المخزنة وتطبيق نصوصها
+            const savedLang = localStorage.getItem('al_mutabaqi_lang');
+            if (savedLang) applyLang(savedLang);
 
-            Object.keys(events).forEach(key => {
-                const isChecked = localStorage.getItem('notif_sw_' + key) === 'true';
-                const el = document.getElementById('notif-sw-' + key);
-                if (el) el.checked = isChecked;
-            });
+            // مزامنة حالة كلاس الـ body مع الـ html (للتوافق مع الـ CSS)
+            if (document.documentElement.classList.contains('light-mode-active')) {
+                document.body.classList.add('light-mode');
+            }
 
-            setInterval(updateTimers, 1000);
+            setInterval(updateTimers, 1000); 
             updateTimers();
         };
 
-        function showToast(msg) {
-            const t = document.getElementById('top-toast');
+        // بقية دوال المشاركة والتنبيهات...
+        function showToast(msg, icon = "🔔") {
+            const toast = document.getElementById('top-toast');
             document.getElementById('toast-text').innerText = msg;
-            t.classList.add('show');
-            setTimeout(() => t.classList.remove('show'), 4000);
-        }
-
-        async function toggleNotify(key, el) {
-            const isEn = document.getElementById('app-html').lang === "en";
-            localStorage.setItem('notif_sw_' + key, el.checked);
-            
-            if (el.checked) {
-                const p = await Notification.requestPermission();
-                if (p === "granted") {
-                    // التعديل هنا: دمج اسم الحدث في رسالة الإشعار
-                    const eventName = isEn ? events[key].en : events[key].name;
-                    showToast(isEn ? `Notifications enabled for ${eventName}` : `تم تفعيل التنبيه لـ ${eventName}`);
-                } else {
-                    el.checked = false;
-                    localStorage.setItem('notif_sw_' + key, false);
-                }
-            }
+            document.getElementById('toast-icon').innerText = icon;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3500);
         }
     </script>
 </body>
