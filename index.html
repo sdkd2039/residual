@@ -2,12 +2,11 @@
 <html lang="ar" dir="rtl" id="app-html">
 <head>
     <meta charset="UTF-8">
+    <meta name="google-site-verification" content="bztaHOs2gKqd5jfU05FOoaqldzClgyxQNJCKkX4YNQc" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <title id="site-title-tag">... المتبقي</title>
-    <meta name="description" content="[Residual Process] المتبقي من الأرشفة الرقمية للمناسبات... 2026">
-    <meta name="robots" content="index, follow">
-
+    <meta name="description" content="[Residual Process] المتبقي من الأرشفة الرقمية للمناسبات... 1447 - 2026">
+    
     <link rel="icon" type="image/png" href="https://i.ibb.co/fzPfcMp0/small-logo.png">
     <link rel="apple-touch-icon" href="https://i.ibb.co/fzPfcMp0/small-logo.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -28,7 +27,6 @@
         
         body { background: var(--bg); color: var(--text); font-family: 'IBM Plex Sans Arabic', sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; transition: 0.3s; }
         
-        /* الشعار الجديد */
         .main-logo { width: 160px; height: auto; margin-top: 30px; margin-bottom: 5px; }
         .site-display-title { color: var(--accent); font-size: 1.8rem; font-weight: bold; margin-bottom: 30px; }
 
@@ -184,10 +182,13 @@
         setInterval(updateTimers, 1000); updateTimers();
 
         async function toggleNotify(key, el) {
+            const isAr = document.getElementById('app-html').dir === "rtl";
+            const eventName = isAr ? events[key].name : events[key].en;
             if (el.checked) {
                 const perm = await Notification.requestPermission();
                 if (perm === "granted") {
                     localStorage.setItem('notif_' + key, 'true');
+                    alert(isAr ? `يعمل الآن الإشعارات لـ ${eventName}` : `Notifications now active for ${eventName}`);
                 } else { 
                     el.checked = false; 
                     localStorage.setItem('notif_' + key, 'false');
