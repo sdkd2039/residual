@@ -19,7 +19,6 @@
         body.light-mode { --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --muted: #475569; --box-bg: #f1f5f9; --accent: #000000; --nav-btn: #000000; }
         body { background: var(--bg); color: var(--text); font-family: 'IBM Plex Sans Arabic', sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; transition: 0.3s; }
 
-        /* إشعار منبثق علوي احترافي */
         .toast-notification {
             position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
             background: var(--blue); color: white; padding: 12px 25px;
@@ -60,9 +59,7 @@
         .dev-link { color: var(--accent); text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 5px; font-size: 0.9rem; }
     </style>
 </head>
-<body class="dark-mode">
-
-    <div id="top-toast" class="toast-notification">
+<body> <div id="top-toast" class="toast-notification">
         <span id="toast-icon">🔔</span>
         <span id="toast-text">تم التفعيل</span>
     </div>
@@ -110,7 +107,7 @@
     <div class="verse-container">
         <span class="quran-text" dir="rtl">﴿شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ هُدًى لِّلنَّاسِ وَبَيِّنَاتٍ مِّنَ الْهُدَىٰ وَالْفُرْقَانِ ۚ فَمَن شَهِدَ مِنكُمُ الْشَّهْرَ فَلْيَصُمْهُ ۖ وَمَن كَانَ مَرِيضًا أَوْ عَلَىٰ سَفَرٍ فَعِدَّةٌ مِّنْ أَيَّامٍ أُخَرَ ۗ يُرِيدُ اللَّهُ بِكُمُ الْيُسْرَ وَلَا يُرِيدُ بِكُمُ الْعُسْرَ وَلِتُكْمِلُوا الْعِدَّةَ وَلِتُكَبِّرُوا اللَّهَ عَلَىٰ مَا هَدَاكُمْ وَلَعَلَّكُمْ تَشْكُرُونَ﴾</span>
         <span class="verse-ref" id="ref-185">سورة البقرة - آية 185</span>
-        <div class="eng-meaning"><b>General Meaning:</b><br>Ramadan is the time that God chose for the revelation of the Quran as guidance for humanity. Because this month is so great, God made fasting obligatory for every able-bodied resident. Out of His mercy, He granted permission to the sick and the traveler to break their fast and make it up later. This is so that you may complete the fast of the entire month (29 or 30 days), whether by performing it during Ramadan or by making it up afterward. This is so that you may glorify God in your hearts and with your tongues at the end of the month (which is the origin of the Eid takbirs), thanking Him for enabling you to perform this great act of worship.</div>
+        <div class="eng-meaning"><b>General Meaning:</b><br>Ramadan is the time that God chose for the revelation of the Quran as guidance for humanity...</div>
     </div>
 
     <div class="card">
@@ -148,7 +145,7 @@
     <div class="verse-container">
         <span class="quran-text" dir="rtl">﴿الْحَجُّ أَشْهُرٌ مَّعْلُومَاتٌ ۚ فَمَن فَرَضَ فِيهِنَّ الْحَجَّ فَلَا رَفَثَ وَلَا فُسُوقَ وَلَا جِدَالَ فِي الْحَجِّ ۗ وَمَا تَفْعَلُوا مِنْ خَيْرٍ يَعْلَمْهُ اللَّهُ ۗ وَتَزَوَّدُوا فَإِنَّ خَيْرَ الزَّادِ التَّقْوَىٰ ۚ وَاتَّقُونِ يَا أُولِي الْأَلْبَابِ﴾</span>
         <span class="verse-ref" id="ref-197">سورة البقرة - آية 197</span>
-        <div class="eng-meaning"><b>General Meaning:</b><br>It was said that the entire month of Dhu al-Hijjah is the designated time for entering into the state of ihram for Hajj, and it is characterized by the obligation to avoid obscenity, sin, and argumentation during it, while urging the acquisition of piety and goodness.</div>
+        <div class="eng-meaning"><b>General Meaning:</b><br>It was said that the entire month of Dhu al-Hijjah...</div>
     </div>
 
     <footer>
@@ -190,6 +187,14 @@
                 dAr: "10 ذو الحجة 1447هـ | 27 مايو 2026م", dEn: "Dhu al-Hijjah 10, 1447 | May 27, 2026" 
             }
         };
+
+        // دالة حفظ الإعدادات
+        function saveSettings() {
+            const html = document.getElementById('app-html');
+            const isLight = document.body.classList.contains('light-mode');
+            localStorage.setItem('al_mutabaqi_lang', html.lang);
+            localStorage.setItem('al_mutabaqi_mode', isLight ? 'light' : 'dark');
+        }
 
         function showToast(msg, icon = "🔔") {
             const toast = document.getElementById('top-toast');
@@ -246,39 +251,59 @@
             } catch (err) { if (navigator.share) await navigator.share({ text: text }); }
         }
 
-        function toggleTheme() { document.body.classList.toggle('light-mode'); }
+        // تم تعديل دالة النمط لحفظ الخيار
+        function toggleTheme() { 
+            document.body.classList.toggle('light-mode'); 
+            saveSettings();
+        }
+
+        // تم تعديل دالة اللغة لحفظ الخيار
         function toggleLang() {
             const html = document.getElementById('app-html');
             const isAr = html.dir === "rtl";
-            html.dir = isAr ? "ltr" : "rtl";
-            html.lang = isAr ? "en" : "ar";
-            document.getElementById('lang-btn').innerText = isAr ? "عربي" : "English";
-            document.getElementById('main-title-text').innerText = isAr ? "Residual" : "المتبقي";
-            document.getElementById('site-title-tag').innerText = isAr ? "Residual" : "المتبقي";
-            Object.keys(events).forEach((key, i) => {
-                document.getElementById(`t-${key}`).innerText = isAr ? events[key].en : events[key].name;
-                document.getElementById(`d-info${i+1}`).innerText = isAr ? events[key].dEn : events[key].dAr;
-            });
-            document.querySelectorAll('.lb-d').forEach(el => el.innerText = isAr ? "Days" : "يوم");
-            document.querySelectorAll('.lb-h').forEach(el => el.innerText = isAr ? "Hrs" : "ساعة");
-            document.querySelectorAll('.lb-m').forEach(el => el.innerText = isAr ? "Min" : "دقيقة");
-            document.querySelectorAll('.lb-s').forEach(el => el.innerText = isAr ? "Sec" : "ثانية");
-            document.querySelectorAll('.n-label').forEach(el => el.innerText = isAr ? "Enable Alert" : "تفعيل التنبيه");
-            document.querySelectorAll('.share-btn').forEach(el => el.innerText = isAr ? "Share" : "مشاركة");
-            document.getElementById('ref-185').innerText = isAr ? "Surah Al-Baqarah - Ayah 185" : "سورة البقرة - آية 185";
-            document.getElementById('ref-197').innerText = isAr ? "Surah Al-Baqarah - Ayah 197" : "سورة البقرة - آية 197";
-            document.getElementById('f-rights').innerText = isAr ? "All rights reserved to Residual 1447 AH - 2026 AD" : "جميع الحقوق محفوظة للمتبقي 1447 هـ - 2026 م";
-            document.getElementById('f-dev').innerText = isAr ? "Contact Developer" : "التواصل مع المطور";
+            applyLang(isAr ? "en" : "ar");
+            saveSettings();
         }
 
-        window.onload = function() {
-            Object.keys(events).forEach(key => {
-                if (localStorage.getItem('notif_' + key) === 'true') {
-                    const sw = document.getElementById('notif-sw-' + key);
-                    if (sw) sw.checked = true;
-                }
+        function applyLang(lang) {
+            const html = document.getElementById('app-html');
+            const isEn = lang === "en";
+            html.dir = isEn ? "ltr" : "rtl";
+            html.lang = lang;
+            document.getElementById('lang-btn').innerText = isEn ? "عربي" : "English";
+            document.getElementById('main-title-text').innerText = isEn ? "Residual" : "المتبقي";
+            document.getElementById('site-title-tag').innerText = isEn ? "Residual" : "المتبقي";
+            Object.keys(events).forEach((key, i) => {
+                document.getElementById(`t-${key}`).innerText = isEn ? events[key].en : events[key].name;
+                document.getElementById(`d-info${i+1}`).innerText = isEn ? events[key].dEn : events[key].dAr;
             });
-        };
-    </script>
-</body>
-</html>
+            document.querySelectorAll('.lb-d').forEach(el => el.innerText = isEn ? "Days" : "يوم");
+            document.querySelectorAll('.lb-h').forEach(el => el.innerText = isEn ? "Hrs" : "ساعة");
+            document.querySelectorAll('.lb-m').forEach(el => el.innerText = isEn ? "Min" : "دقيقة");
+            document.querySelectorAll('.lb-s').forEach(el => el.innerText = isEn ? "Sec" : "ثانية");
+            document.querySelectorAll('.n-label').forEach(el => el.innerText = isEn ? "Enable Alert" : "تفعيل التنبيه");
+            document.querySelectorAll('.share-btn').forEach(el => el.innerText = isEn ? "Share" : "مشاركة");
+            document.getElementById('ref-185').innerText = isEn ? "Surah Al-Baqarah - Ayah 185" : "سورة البقرة - آية 185";
+            document.getElementById('ref-197').innerText = isEn ? "Surah Al-Baqarah - Ayah 197" : "سورة البقرة - آية 197";
+            document.getElementById('f-rights').innerText = isEn ? "All rights reserved to Residual 1447 AH - 2026 AD" : "جميع الحقوق محفوظة للمتبقي 1447 هـ - 2026 م";
+            document.getElementById('f-dev').innerText = isEn ? "Contact Developer" : "التواصل مع المطور";
+        }
+
+        // دالة التحميل عند فتح الموقع
+        window.onload = function() {
+            // تحميل الوضع (نهاري/ليلي)
+            const savedMode = localStorage.getItem('al_mutabaqi_mode');
+            if (savedMode === 'light') {
+                document.body.classList.add('light-mode');
+            } else {
+                document.body.classList.remove('light-mode');
+            }
+
+            // تحميل اللغة
+            const savedLang = localStorage.getItem('al_mutabaqi_lang');
+            if (savedLang) {
+                applyLang(savedLang);
+            }
+
+            // تحميل حالة التنبيهات
+            Object.keys(
