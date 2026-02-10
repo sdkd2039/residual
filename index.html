@@ -266,14 +266,24 @@
         document.querySelectorAll('.share-btn').forEach(el => el.innerText = isEn ? "Share" : "مشاركة");
     }
 
-    window.onload = () => {
-        applyLang(localStorage.getItem('lang') || "ar");
-        if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
-        Object.keys(events).forEach(key => {
-            if (localStorage.getItem('notif_' + key) === 'true') document.getElementById('notif-sw-' + key).checked = true;
-        });
-        updateTimers();
-    };
+          window.onload = () => {
+            applyLang(localStorage.getItem('lang') || "ar");
+            if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
+            
+            Object.keys(events).forEach(key => {
+                if (localStorage.getItem('notif_' + key) === 'true') {
+                    const sw = document.getElementById('notif-sw-' + key);
+                    if (sw) sw.checked = true;
+                }
+            });
+            updateTimers();
+        };
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').then(reg => {
+                console.log('تم تسجيل المحرك بنجاح');
+            });
+        }
+
 </script>
 
 </body>
