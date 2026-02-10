@@ -185,11 +185,13 @@
 
         let activeTimeouts = [];
 
-        function showToast(msg) {
+        function showToast(msg, icon = "🔔") {
             const toast = document.getElementById('top-toast');
             document.getElementById('toast-text').innerText = msg;
+            document.getElementById('toast-icon').innerText = icon;
             toast.classList.add('show');
             setTimeout(() => toast.classList.remove('show'), 3500);
+
         }
 
         function updateTimers() {
@@ -203,7 +205,7 @@
                 }
             });
         }
-        setInterval(updateTimers, 1000);
+
 
         function scheduleNotifications() {
             activeTimeouts.forEach(clearTimeout);
