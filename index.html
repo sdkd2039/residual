@@ -2,334 +2,156 @@
 <html lang="ar" dir="rtl" id="app-html">
 <head>
     <meta charset="UTF-8">
-    <meta name="google-site-verification" content="bztaHOs2gKqd5jfU05FOoaqldzClgyxQNJCKkX4YNQc" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="site-title-tag">المتبقي</title>
-    <link rel="manifest" href="/manifest.json">
     <link rel="icon" type="image/png" href="https://i.ibb.co/fzPfcMp0/small-logo.png">
-    <link rel="apple-touch-icon" href="https://i.ibb.co/fzPfcMp0/small-logo.png">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#ffd700">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root { --bg: #080c14; --card: #1e293b; --accent: #ffd700; --text: #ffffff; --muted: #94a3b8; --blue: #3b82f6; --box-bg: #0f172a; --nav-btn: #ffd700; }
         body.light-mode { --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --muted: #475569; --box-bg: #f1f5f9; --accent: #000000; --nav-btn: #000000; }
         body { background: var(--bg); color: var(--text); font-family: 'IBM Plex Sans Arabic', sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; transition: 0.3s; }
-        .toast-notification { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: var(--blue); color: white; padding: 12px 25px; border-radius: 50px; font-weight: bold; font-size: 0.9rem; box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 9999; transition: top 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28); display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+        .toast-notification { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: var(--blue); color: white; padding: 12px 25px; border-radius: 50px; font-weight: bold; font-size: 0.9rem; box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 9999; transition: top 0.5s; display: flex; align-items: center; gap: 8px; }
         .toast-notification.show { top: 25px; }
-        .main-logo { width: 160px; height: auto; margin-top: 30px; margin-bottom: 5px; }
-        .site-display-title { color: var(--accent); font-size: 1.8rem; font-weight: bold; margin-bottom: 30px; text-align: center; }
+        .main-logo { width: 160px; height: auto; margin-top: 30px; }
+        .site-display-title { color: var(--accent); font-size: 1.8rem; font-weight: bold; margin-bottom: 30px; }
         .controls { position: fixed; top: 15px; left: 15px; display: flex; gap: 8px; z-index: 1000; }
-        .btn-tool { background: var(--nav-btn); color: var(--card); border: none; padding: 8px 12px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 0.8rem; }
-        .card { background: var(--card); border-radius: 20px; padding: 25px; margin-bottom: 15px; width: 100%; max-width: 500px; text-align: center; position: relative; box-shadow: 0 4px 15px rgba(0,0,0,0.1); box-sizing: border-box; }
-        .share-btn { position: absolute; top: 15px; left: 15px; background: none; border: 1px solid var(--accent); color: var(--accent); padding: 4px 8px; border-radius: 8px; cursor: pointer; font-size: 0.7rem; font-weight: bold; }
-        .event-title { color: var(--accent); font-size: 1.4rem; font-weight: bold; margin-bottom: 5px; }
-        .event-date-info { font-size: 0.8rem; color: var(--muted); margin-bottom: 15px; font-weight: bold; }
+        .btn-tool { background: var(--nav-btn); color: var(--card); border: none; padding: 8px 12px; border-radius: 10px; cursor: pointer; font-weight: bold; }
+        .card { background: var(--card); border-radius: 20px; padding: 25px; margin-bottom: 15px; width: 100%; max-width: 500px; text-align: center; position: relative; }
+        .share-btn { position: absolute; top: 15px; left: 15px; background: none; border: 1px solid var(--accent); color: var(--accent); padding: 4px 8px; border-radius: 8px; cursor: pointer; font-size: 0.7rem; }
+        .event-title { color: var(--accent); font-size: 1.4rem; font-weight: bold; }
+        .event-date-info { font-size: 0.8rem; color: var(--muted); margin-bottom: 15px; }
         .timer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; direction: ltr; }
         .box { background: var(--box-bg); padding: 8px 5px; border-radius: 12px; }
         .num { display: block; font-size: 1.2rem; font-weight: bold; color: var(--accent); }
-        .label { font-size: 0.6rem; color: var(--muted); font-weight: bold; }
-        .verse-container { background: var(--card); padding: 20px; border-radius: 15px; margin-bottom: 30px; border-right: 4px solid var(--accent); width: 100%; max-width: 500px; box-sizing: border-box; }
-        .quran-text { font-size: 1.15rem; line-height: 2; color: var(--text); display: block; margin-bottom: 10px; font-weight: 500; text-align: center; }
-        .verse-ref { color: var(--accent); font-weight: bold; font-size: 0.85rem; display: block; margin-bottom: 10px; text-align: center; }
-        .eng-meaning { display: none; background: rgba(0,0,0,0.05); padding: 12px; border-radius: 8px; font-size: 0.85rem; color: var(--muted); line-height: 1.6; border-left: 3px solid var(--blue); margin-top: 10px; direction: ltr; text-align: left; }
-        html[lang="en"] .eng-meaning { display: block; }
-        .notify-row { margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 12px; }
+        .label { font-size: 0.6rem; color: var(--muted); }
+        .notify-row { margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        /* Switch Style */
         .switch { position: relative; width: 34px; height: 20px; }
         .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; inset: 0; background: #94a3b8; transition: .4s; border-radius: 34px; }
+        .slider { position: absolute; cursor: pointer; inset: 0; background: #ccc; transition: .4s; border-radius: 34px; }
         .slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background: white; transition: .4s; border-radius: 50%; }
         input:checked + .slider { background: var(--blue); }
         input:checked + .slider:before { transform: translateX(14px); }
-        footer { margin-top: auto; padding: 40px 0 20px; text-align: center; width: 100%; max-width: 500px; border-top: 1px solid rgba(148, 163, 184, 0.1); }
-        .rights { font-size: 0.8rem; color: var(--muted); margin-bottom: 10px; }
-        .dev-link { color: var(--accent); text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 5px; font-size: 0.9rem; }
     </style>
 </head>
 <body class="dark-mode">
-    <div id="top-toast" class="toast-notification"> <span id="toast-icon"></span> <span id="toast-text"></span> </div>
-    
-<div class="controls"> 
-    <button class="btn-tool" onclick="toggleTheme()">نمط</button> 
-    <button class="btn-tool" id="lang-btn" onclick="toggleLang()">English</button> 
-</div>
+    <div id="top-toast" class="toast-notification"> <span id="toast-text"></span> </div>
+    <div class="controls"> 
+        <button class="btn-tool" onclick="toggleTheme()">نمط</button> 
+        <button class="btn-tool" id="lang-btn" onclick="toggleLang()">English</button> 
+    </div>
 
-<img src="https://i.ibb.co/DDJWNdj1/main-logo.png" alt="Logo" class="main-logo"> 
-<h1 class="site-display-title" id="main-title-text">عداد الذكي لأيام الخير..</h1>
+    <img src="https://i.ibb.co/DDJWNdj1/main-logo.png" class="main-logo">
+    <h1 class="site-display-title" id="main-title">عداد الذكي لأيام الخير..</h1>
 
-<div class="card"> 
-    <button class="share-btn" onclick="shareEvent('ramadan')">مشاركة</button> 
-    <div class="event-title" id="t-ramadan">شهر رمضان المبارك</div> 
-    <div class="event-date-info" id="d-info-ramadan">1 رمضان 1447هـ | 18 فبراير 2026م</div> 
-    <div class="timer-grid"> 
-        <div class="box"><span class="num" id="d-ramadan">0</span><span class="label lb-d">يوم</span></div> 
-        <div class="box"><span class="num" id="h-ramadan">0</span><span class="label lb-h">ساعة</span></div> 
-        <div class="box"><span class="num" id="m-ramadan">0</span><span class="label lb-m">دقيقة</span></div> 
-        <div class="box"><span class="num" id="s-ramadan">0</span><span class="label lb-s">ثانية</span></div> 
-    </div> 
-    <div class="notify-row"> 
-        <span class="n-label">تفعيل التنبيه</span> 
-        <label class="switch"><input type="checkbox" id="notif-sw-ramadan" onchange="toggleNotify('ramadan', this)"><span class="slider"></span></label> 
-    </div> 
-</div>
+    <div class="card">
+        <button class="share-btn" onclick="share('ramadan')">مشاركة</button>
+        <div class="event-title" id="t-ramadan">شهر رمضان المبارك</div>
+        <div class="event-date-info">1 رمضان 1447هـ | 18 فبراير 2026م</div>
+        <div class="timer-grid">
+            <div class="box"><span class="num" id="d-ramadan">0</span><span class="label">يوم</span></div>
+            <div class="box"><span class="num" id="h-ramadan">0</span><span class="label">ساعة</span></div>
+            <div class="box"><span class="num" id="m-ramadan">0</span><span class="label">دقيقة</span></div>
+            <div class="box"><span class="num" id="s-ramadan">0</span><span class="label">ثانية</span></div>
+        </div>
+        <div class="notify-row">
+            <span class="n-label">تفعيل التنبيه</span>
+            <label class="switch"><input type="checkbox" id="sw-ramadan" onchange="toggleNotify('ramadan', this)"><span class="slider"></span></label>
+        </div>
+    </div>
 
-<div class="card"> 
-    <button class="share-btn" onclick="shareEvent('eid1')">مشاركة</button> 
-    <div class="event-title" id="t-eid1">عيد الفطر المبارك</div> 
-    <div class="event-date-info" id="d-info-eid1">1 شوال 1447هـ | 20 مارس 2026م</div> 
-    <div class="timer-grid"> 
-        <div class="box"><span class="num" id="d-eid1">0</span><span class="label lb-d">يوم</span></div> 
-        <div class="box"><span class="num" id="h-eid1">0</span><span class="label lb-h">ساعة</span></div> 
-        <div class="box"><span class="num" id="m-eid1">0</span><span class="label lb-m">دقيقة</span></div> 
-        <div class="box"><span class="num" id="s-eid1">0</span><span class="label lb-s">ثانية</span></div> 
-    </div> 
-    <div class="notify-row"> 
-        <span class="n-label">تفعيل التنبيه</span> 
-        <label class="switch"><input type="checkbox" id="notif-sw-eid1" onchange="toggleNotify('eid1', this)"><span class="slider"></span></label> 
-    </div> 
-</div>
-
-<div class="verse-container"> 
-    <span class="quran-text" dir="rtl">﴿شَهْرُ رَمَضَانَ ٱلَّذِىٓ أُنزِلَ فِيهِ ٱلْقُرْءَانُ هُدًۭى لِّلنَّاسِ وَبَيِّنَـٰتٍۢ مِّنَ ٱلْهُدَىٰ وَٱلْفُرْقَانِ ۚ فَمَن شَهِدَ مِنكُمُ ٱلشَّهْرَ فَلْيَصُمْهُ ۖ وَمَن كَانَ مَرِيضًا أَوْ عَلَىٰ سَفَرٍۢ فَعِدَّةٌۭ مِّنْ أَيَّامٍ أُخَرَ ۗ يُرِيدُ ٱللَّهُ بِكُمُ ٱلْيُسْرَ وَلَا يُرِيدُ بِكُمُ ٱلْعُسْرَ وَلِتُكَبِّرُوا۟ ٱللَّهَ عَلَىٰ مَا هَدَىٰكُمْ وَلَعَلَّكُمْ تَشْكُرُونَ﴾</span> 
-    <span class="verse-ref" id="ref-185">سورة البقرة - آية 185</span> 
-    <div class="eng-meaning">The fasting prescribed for you is the month of Ramadan, in which the Quran was revealed as guidance for people and clear proofs of guidance and criterion.</div> 
-</div>
-
-<div class="card"> 
-    <button class="share-btn" onclick="shareEvent('hajj')">مشاركة</button> 
-    <div class="event-title" id="t-hajj">عشر ذي الحجة</div> 
-    <div class="event-date-info" id="d-info-hajj">1 ذو الحجة 1447هـ | 18 مايو 2026م</div> 
-    <div class="timer-grid"> 
-        <div class="box"><span class="num" id="d-hajj">0</span><span class="label lb-d">يوم</span></div> 
-        <div class="box"><span class="num" id="h-hajj">0</span><span class="label lb-h">ساعة</span></div> 
-        <div class="box"><span class="num" id="m-hajj">0</span><span class="label lb-m">دقيقة</span></div> 
-        <div class="box"><span class="num" id="s-hajj">0</span><span class="label lb-s">ثانية</span></div> 
-    </div> 
-    <div class="notify-row"> 
-        <span class="n-label">تفعيل التنبيه</span> 
-        <label class="switch"><input type="checkbox" id="notif-sw-hajj" onchange="toggleNotify('hajj', this)"><span class="slider"></span></label> 
-    </div> 
-</div>
-
-<div class="card"> 
-    <button class="share-btn" onclick="shareEvent('eid2')">مشاركة</button> 
-    <div class="event-title" id="t-eid2">عيد الأضحى المبارك</div> 
-    <div class="event-date-info" id="d-info-eid2">10 ذو الحجة 1447هـ | 27 مايو 2026م</div> 
-    <div class="timer-grid"> 
-        <div class="box"><span class="num" id="d-eid2">0</span><span class="label lb-d">يوم</span></div> 
-        <div class="box"><span class="num" id="h-eid2">0</span><span class="label lb-h">ساعة</span></div> 
-        <div class="box"><span class="num" id="m-eid2">0</span><span class="label lb-m">دقيقة</span></div> 
-        <div class="box"><span class="num" id="s-eid2">0</span><span class="label lb-s">ثانية</span></div> 
-    </div> 
-    <div class="notify-row"> 
-        <span class="n-label">تفعيل التنبيه</span> 
-        <label class="switch"><input type="checkbox" id="notif-sw-eid2" onchange="toggleNotify('eid2', this)"><span class="slider"></span></label> 
-    </div> 
-</div>
-
-<div class="verse-container">
-    <span class="quran-text" dir="rtl">﴿ٱلْحَجُّ أَشْهُرٌۭ مَّعْلُومَـٰتٌۭ ۚ فَمَن فَرَضَ فِيهِنَّ ٱلْحَجَّ فَلَا رَفَثَ وَلَا فُسُوقَ وَلَا جِدَالَ فِى ٱلْحَجِّ ۗ﴾</span>
-    <span class="verse-ref" id="ref-197">سورة البقرة - آية 197</span>
-    <div class="eng-meaning">Hajj is [during] well-known months, so whoever has made Hajj obligatory upon himself therein [by entering the state of ihram], there is [to be for him] no sexual relations and no disobedience and no disputing during Hajj.</div>
-</div>
-
-<footer> 
-    <div class="rights" id="f-rights">جميع الحقوق محفوظة للمتبقي 1447 هـ - 2026 م</div> 
-    <a href="https://x.com/sult2009an" target="_blank" class="dev-link"> 
-        <span id="f-dev">التواصل مع المطور</span> 
-        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.045 4.126H5.078z"/></svg> 
-    </a> 
-</footer>
-
-<script>
+    <script>
     const events = {
-        ramadan: { 
-            date: "2026-02-18T00:00:00+03:00", 
-            preDate: "2026-02-17T00:00:00+03:00", 
-            name: "شهر رمضان المبارك", en: "Holy Ramadan",
-            duaAr: "اللهم تقبل الصيام والقيام وصالح الأعمال", 
-            duaEn: "O Allah, accept our fasting and prayers",
-            preAr: "نبارك لكم قرب شهر رمضان المبارك",
-            preEn: "We congratulate you on the upcoming Holy Ramadan",
-            dAr: "1 رمضان 1447هـ | 18 فبراير 2026م", 
-            dEn: "1 Ramadan 1447 AH | February 18, 2026 AD" 
-        },
-        eid1: { 
-            date: "2026-03-20T00:00:00+03:00", 
-            preDate: "2026-03-19T00:00:00+03:00", 
-            name: "عيد الفطر المبارك", en: "Eid al-Fitr",
-            duaAr: "تقبل الله منا ومنكم صالح الأعمال", 
-            duaEn: "May Allah accept our good deeds",
-            preAr: "نبارك لكم قرب عيد الفطر المبارك",
-            preEn: "We congratulate you on the upcoming Eid al-Fitr",
-            dAr: "1 شوال 1447هـ | 20 مارس 2026م", 
-            dEn: "1 Shawwal 1447 AH | March 20, 2026 AD" 
-        },
-        hajj: { 
-            date: "2026-05-18T00:00:00+03:00", 
-            preDate: "2026-05-17T00:00:00+03:00", 
-            name: "عشر ذي الحجة", en: "10 Days of Dhu al-Hijjah",
-            duaAr: "اللهم اجعل لنا فيها دعوة لا ترد", 
-            duaEn: "May Allah accept our prayers in these days",
-            preAr: "نبارك لكم قرب عشر ذي الحجة",
-            preEn: "Best wishes for the 10 days of Dhu al-Hijjah",
-            dAr: "1 ذو الحجة 1447هـ | 18 مايو 2026م", 
-            dEn: "1 Dhu al-Hijjah 1447 AH | May 18, 2026 AD" 
-        },
-        eid2: { 
-            date: "2026-05-27T00:00:00+03:00", 
-            preDate: "2026-05-26T00:00:00+03:00", 
-            name: "عيد الأضحى المبارك", en: "Eid al-Adha",
-            duaAr: "عيدكم مبارك وكل عام وأنتم بخير", 
-            duaEn: "Eid Mubarak and Happy New Year",
-            preAr: "نبارك لكم قرب عيد الأضحى المبارك",
-            preEn: "We congratulate you on the upcoming Eid al-Adha",
-            dAr: "10 ذو الحجة 1447هـ | 27 مايو 2026م", 
-            dEn: "10 Dhu al-Hijjah 1447 AH | May 27, 2026 AD" 
-        }
+        ramadan: { date: "2026-02-18T00:00:00+03:00", pre: "2026-02-17T18:30:00+03:00", nameAr: "رمضان", nameEn: "Ramadan" },
+        eid1: { date: "2026-03-20T00:00:00+03:00", pre: "2026-03-19T18:55:00+03:00", nameAr: "عيد الفطر", nameEn: "Eid al-Fitr" },
+        hajj: { date: "2026-05-18T00:00:00+03:00", pre: "2026-05-17T19:00:00+03:00", nameAr: "عشر ذي الحجة", nameEn: "10 Days of Dhu al-Hijjah" },
+        eid2: { date: "2026-05-27T00:00:00+03:00", pre: "2026-05-26T19:00:00+03:00", nameAr: "عيد الأضحى", nameEn: "Eid al-Adha" }
     };
 
-    let notificationTimeouts = {};
-
-    function showToast(msg) {
-        const toast = document.getElementById('top-toast');
-        document.getElementById('toast-text').innerText = msg;
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 3500);
-    }
+    let timeouts = [];
 
     function updateTimers() {
-        Object.keys(events).forEach(key => {
-            const diff = new Date(events[key].date) - Date.now();
+        const now = Date.now();
+        Object.keys(events).forEach(k => {
+            const diff = new Date(events[k].date) - now;
             if (diff > 0) {
-                document.getElementById(`d-${key}`).innerText = Math.floor(diff / 86400000);
-                document.getElementById(`h-${key}`).innerText = Math.floor((diff % 86400000) / 3600000);
-                document.getElementById(`m-${key}`).innerText = Math.floor((diff % 3600000) / 60000);
-                document.getElementById(`s-${key}`).innerText = Math.floor((diff % 60000) / 1000);
+                document.getElementById(`d-${k}`).innerText = Math.floor(diff / 86400000);
+                document.getElementById(`h-${k}`).innerText = Math.floor((diff % 86400000) / 3600000);
+                document.getElementById(`m-${k}`).innerText = Math.floor((diff % 3600000) / 60000);
+                document.getElementById(`s-${k}`).innerText = Math.floor((diff % 60000) / 1000);
             }
         });
     }
     setInterval(updateTimers, 1000);
 
-    function showNotification(title, body) {
-        if (Notification.permission === "granted") {
-            new Notification(title, { body, icon: 'https://i.ibb.co/fzPfcMp0/small-logo.png' });
-        }
-    }
+    // حل مشكلة الإشعارات المتراكمة:
+    function scheduleAll() {
+        // مسح أي توقيتات قديمة لمنع التداخل
+        timeouts.forEach(clearTimeout);
+        timeouts = [];
 
-    function scheduleNotification(key) {
         const now = Date.now();
-        const eventDate = new Date(events[key].date).getTime();
-        const preDate = new Date(events[key].preDate).getTime();
-        const isAr = document.getElementById('app-html').dir === "rtl";
+        Object.keys(events).forEach(k => {
+            if (localStorage.getItem('notif_' + k) === 'true') {
+                const start = new Date(events[k].date).getTime();
+                const pre = new Date(events[k].pre).getTime();
 
-        // إشعار اليوم المنتظر
-        if (eventDate > now) {
-            setTimeout(() => {
-                showNotification(isAr ? events[key].name : events[key].en, isAr ? events[key].duaAr : events[key].duaEn);
-            }, eventDate - now);
-        }
+                // إشعار المغرب (قبل المناسبة) - فقط إذا كان الوقت لم يفت!
+                if (pre > now) {
+                    const t = setTimeout(() => {
+                        new Notification("المتبقي", { body: "قرب موعد " + events[k].nameAr });
+                    }, pre - now);
+                    timeouts.push(t);
+                }
 
-        // إشعار التذكير قبلها بيوم
-        if (preDate > now) {
-            setTimeout(() => {
-                showNotification(isAr ? events[key].name : events[key].en, isAr ? events[key].preAr : events[key].preEn);
-            }, preDate - now);
-        }
+                // إشعار وقت المناسبة - فقط إذا كان الوقت لم يفت!
+                if (start > now) {
+                    const t = setTimeout(() => {
+                        new Notification("المتبقي", { body: "بدأ الآن " + events[k].nameAr });
+                    }, start - now);
+                    timeouts.push(t);
+                }
+            }
+        });
     }
 
-    async function toggleNotify(key, el) {
-        const isAr = document.getElementById('app-html').dir === "rtl";
+    async function toggleNotify(k, el) {
         if (el.checked) {
-            const perm = await Notification.requestPermission();
-            if (perm === "granted") {
-                localStorage.setItem('notif_' + key, 'true');
-                showToast(isAr ? "تم تفعيل التنبيه" : "Alert enabled");
-                scheduleNotification(key);
-            } else {
-                el.checked = false;
-                showToast(isAr ? "يرجى السماح بالإشعارات" : "Please allow notifications");
-            }
+            const p = await Notification.requestPermission();
+            if (p === "granted") {
+                localStorage.setItem('notif_' + k, 'true');
+                scheduleAll(); // إعادة جدولة صحيحة
+                showToast("تم تفعيل التنبيه");
+            } else { el.checked = false; }
         } else {
-            localStorage.setItem('notif_' + key, 'false');
-            showToast(isAr ? "تم إيقاف التنبيه" : "Alert disabled");
+            localStorage.setItem('notif_' + k, 'false');
+            scheduleAll();
+            showToast("تم الإيقاف");
         }
     }
 
-    async function shareEvent(key) {
-        const ev = events[key];
-        const isAr = document.getElementById('app-html').dir === "rtl";
-        const d = document.getElementById(`d-${key}`).innerText;
-        const h = document.getElementById(`h-${key}`).innerText;
-        const text = isAr ? 
-            `المتبقي لـ ${ev.name}: ${d} يوم و ${h} ساعة. تابع العداد هنا: ${window.location.href}` : 
-            `${d} Days and ${h} Hours left for ${ev.en}. Follow here: ${window.location.href}`;
-        
-        try {
-            if (navigator.share) await navigator.share({ text });
-            else {
-                await navigator.clipboard.writeText(text);
-                showToast(isAr ? "تم نسخ النص!" : "Copied!");
-            }
-        } catch(e) {}
+    function showToast(m) {
+        const t = document.getElementById('top-toast');
+        document.getElementById('toast-text').innerText = m;
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 3000);
     }
 
     function toggleTheme() {
-        const isLight = document.body.classList.toggle('light-mode');
-        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        document.body.classList.toggle('light-mode');
+        localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
     }
 
-    function toggleLang() {
-        const current = localStorage.getItem('lang') || "ar";
-        const newLang = current === "ar" ? "en" : "ar";
-        applyLang(newLang);
-        localStorage.setItem('lang', newLang);
-    }
-
-    function applyLang(lang) {
-        const html = document.getElementById('app-html');
-        const isEn = lang === "en";
-        html.dir = isEn ? "ltr" : "rtl";
-        html.lang = lang;
-
-        document.getElementById('lang-btn').innerText = isEn ? "عربي" : "English";
-        document.getElementById('main-title-text').innerText = isEn ? "Smart Countdown.." : "عداد الذكي لأيام الخير..";
-        document.getElementById('site-title-tag').innerText = isEn ? "Residual" : "المتبقي";
-
-        // تحديث معلومات التواريخ والأشهر في الكروت
-        Object.keys(events).forEach(key => {
-            document.getElementById(`t-${key}`).innerText = isEn ? events[key].en : events[key].name;
-            document.getElementById(`d-info-${key}`).innerText = isEn ? events[key].dEn : events[key].dAr;
-        });
-
-        document.querySelectorAll('.lb-d').forEach(el => el.innerText = isEn ? "Days" : "يوم");
-        document.querySelectorAll('.lb-h').forEach(el => el.innerText = isEn ? "Hrs" : "ساعة");
-        document.querySelectorAll('.lb-m').forEach(el => el.innerText = isEn ? "Min" : "دقيقة");
-        document.querySelectorAll('.lb-s').forEach(el => el.innerText = isEn ? "Sec" : "ثانية");
-        document.querySelectorAll('.n-label').forEach(el => el.innerText = isEn ? "Enable Alert" : "تفعيل التنبيه");
-        document.querySelectorAll('.share-btn').forEach(el => el.innerText = isEn ? "Share" : "مشاركة");
-        
-        document.getElementById('f-rights').innerText = isEn ? "All rights reserved 2026" : "جميع الحقوق محفوظة للمتبقي 2026 م";
-        document.getElementById('f-dev').innerText = isEn ? "Developer" : "المطور";
-    }
-
-    window.onload = function() {
-        const lang = localStorage.getItem('lang') || "ar";
-        applyLang(lang);
-        if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
-        
-        Object.keys(events).forEach(key => {
-            if (localStorage.getItem('notif_' + key) === 'true') {
-                document.getElementById('notif-sw-' + key).checked = true;
-                scheduleNotification(key);
+    window.onload = () => {
+        if(localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
+        updateTimers();
+        // تفعيل المفاتيح بناء على الذاكرة
+        Object.keys(events).forEach(k => {
+            if(localStorage.getItem('notif_'+k) === 'true') {
+                document.getElementById('sw-'+k).checked = true;
             }
         });
-        updateTimers();
-
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js');
-        }
+        scheduleAll();
     };
 </script>
 </body>
