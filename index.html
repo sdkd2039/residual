@@ -186,10 +186,6 @@
         }
     };
 
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js').then(reg => console.log('SW Registered'));
-    }
-
     function updateTimers() {
         Object.keys(events).forEach(key => {
             const diff = new Date(events[key].date) - Date.now();
@@ -230,12 +226,19 @@
     async function shareEvent(key) {
         const ev = events[key];
         const isAr = document.getElementById('app-html').dir === "rtl";
-        const text = isAr ? `${ev.emj} المتبقي لـ ${ev.name}:\n⏳ ${document.getElementById(`d-${key}`).innerText} يوم\n📍 ${window.location.href}` : `${ev.emj} المتبقي لـ ${ev.name}:\n⏳ ${d} يوم و ${h} ساعة\n✨ ${ev.duaAr}\n\n📍 تابع العداد:\n${window.location.href}` :
+        const d = document.getElementById(`d-${key}`).innerText;
+        const h = document.getElementById(`h-${key}`).innerText;
+        
+        const text = isAr ? 
+            `${ev.emj} المتبقي لـ ${ev.name}:\n⏳ ${d} يوم و ${h} ساعة\n✨ ${ev.duaAr}\n\n📍 تابع العداد:\n${window.location.href}` :
+            `${ev.emj} Remaining for ${ev.en}:\n⏳ ${d} Days and ${h} Hours\n✨ ${ev.duaEn}\n\n📍 Follow here:\n${window.location.href}`;
 
-                `${ev.emj} Remaining for ${ev.en}:\n⏳ ${d} Days and ${h} Hours\n✨ ${ev.duaEn}\n\n📍 Follow here:\n${window.location.href}`;
-
-        if (navigator.share) await navigator.share({ text: text });
-        else { navigator.clipboard.writeText(text); showToast(isAr ? "تم النسخ" : "Copied", "📋"); }
+        if (navigator.share) {
+            await navigator.share({ text: text });
+        } else {
+            await navigator.clipboard.writeText(text);
+            showToast(isAr ? "تم نسخ نص المشاركة 📋" : "Share text copied 📋", "📋");
+        }
     }
 
     function toggleTheme() {
@@ -269,24 +272,24 @@
         document.querySelectorAll('.share-btn').forEach(el => el.innerText = isEn ? "Share" : "مشاركة");
     }
 
-          window.onload = () => {
-            applyLang(localStorage.getItem('lang') || "ar");
-            if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
-            
-            Object.keys(events).forEach(key => {
-                if (localStorage.getItem('notif_' + key) === 'true') {
-                    const sw = document.getElementById('notif-sw-' + key);
-                    if (sw) sw.checked = true;
-                }
-            });
-            updateTimers();
-        };
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js').then(reg => {
-                console.log('تم تسجيل المحرك بنجاح');
-            });
-        }
+    window.onload = () => {
+        applyLang(localStorage.getItem('lang') || "ar");
+        if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
+        
+        Object.keys(events).forEach(key => {
+            if (localStorage.getItem('notif_' + key) === 'true') {
+                const sw = document.getElementById('notif-sw-' + key);
+                if (sw) sw.checked = true;
+            }
+        });
+        updateTimers();
+    };
 
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js').then(reg => {
+            console.log('تم تسجيل المحرك بنجاح');
+        });
+    }
 </script>
 
 </body>
