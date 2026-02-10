@@ -47,9 +47,9 @@ setInterval(() => {
     const startTime = new Date(ev.date);
 
     // 1. فحص إشعار ما قبل المناسبة (المغرب حسب ساعتك)
-    if (Math.abs(now - preTime) < 30000) {
-      showNotify(ev.nameAr, `${ev.preAr}\n\n${ev.preEn}`);
-    }
+    if (Math.abs(now - startTime) < 60000) { 
+    showNotify(ev.nameAr, `${ev.startAr}\n\n${ev.startEn}`);
+}
 
     // 2. فحص إشعار بداية المناسبة (12:00 ص)
     if (Math.abs(now - preTime) < 60000) { ... }
