@@ -265,6 +265,26 @@
             }
         }
 
+          async function shareEvent(key) {
+        const ev = events[key];
+        const isAr = document.getElementById('app-html').dir === "rtl";
+        const d = document.getElementById(`d-${key}`).innerText;
+        const h = document.getElementById(`h-${key}`).innerText;
+        
+        let text = isAr ? 
+            `${ev.emj} المتبقي لـ ${ev.name}:\n ${d} يوم و ${h} ساعة\n ${ev.duaAr}\n\n تابع العداد:\n${window.location.href}` :
+            `${ev.emj} Remaining for ${ev.en}:\n ${d} Days and ${h} Hours\n ${ev.duaEn}\n\n Follow here:\n${window.location.href}`;
+
+        try {
+            if (navigator.share) {
+                await navigator.share({ text: text });
+            } else {
+                await navigator.clipboard.writeText(text);
+                showToast(isAr ? "تم نسخ النص لمشاركته! " : "Text copied to clipboard! ", "");
+            }
+        } catch (err) { console.log(err); }
+    }
+
         function toggleTheme() {
             const isLight = document.body.classList.toggle('light-mode');
             localStorage.setItem('theme', isLight ? 'light' : 'dark');
