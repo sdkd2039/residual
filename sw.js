@@ -70,5 +70,5 @@ function showNotify(title, message) {
 
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
-  event.waitUntil(clients.openWindow(event.notification.data.url));
+  event.waitUntil(clients.openWindow(event.notification.data.url || 'https://sdkd2039.github.io/residual/'));
 });
