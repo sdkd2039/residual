@@ -207,30 +207,34 @@
         }
 
 
-        function scheduleNotifications() {
-            activeTimeouts.forEach(clearTimeout);
-            activeTimeouts = [];
+function scheduleNotification(key) {
+    const now = Date.now();
+    const eventTime = new Date(events[key].date).getTime();
+    const preTime = new Date(events[key].preDate).getTime();
 
-            const now = Date.now();
-            const isAr = document.getElementById('app-html').dir === "rtl";
+    const notified = localStorage.getItem('notified_' + key) === 'true';
+    const preNotified = localStorage.getItem('preNotified_' + key) === 'true';
 
-            Object.keys(events).forEach(key => {
-                // التأكد أن التنبيه مفعل لهذا الحدث
-                if (localStorage.getItem('notif_' + key) === 'true') {
-                    const targetTime = new Date(events[key].date).getTime();
-                    const preTime = new Date(events[key].preDate).getTime();
+    // جدولة الإشعار قبل يوم (إذا لم يُرسل بعد)
+    if (preTime > now && !preNotified) {
+        const preDiff = preTime - now;
+        if (preNotificationTimeouts[key]) clearTimeout(preNotificationTimeouts[key]);
+        preNotificationTimeouts[key] = setTimeout(() => {
+            showEventNotification(key, true);
+            localStorage.setItem('preNotified_' + key, 'true');
+        }, preDiff);
+    }
 
-                    // جدولة تنبيه ما قبل الحدث
-                    if (preTime > now && localStorage.getItem(`sent_pre_${key}`) !== 'true') {
-                        const t1 = setTimeout(() => {
-                            new Notification(isAr ? events[key].name : events[key].en, {
-                                body: isAr ? events[key].preAr : events[key].preEn,
-                                icon: 'https://i.ibb.co/fzPfcMp0/small-logo.png'
-                            });
-                            localStorage.setItem(`sent_pre_${key}`, 'true');
-                        }, preTime - now);
-                        activeTimeouts.push(t1);
-                    }
+    // جدولة الإشعار الرئيسي (إذا لم يُرسل بعد)
+    if (eventTime > now && !notified) {
+        const diff = eventTime - now;
+        if (notificationTimeouts[key]) clearTimeout(notificationTimeouts[key]);
+        notificationTimeouts[key] = setTimeout(() => {
+            showEventNotification(key, false);
+            localStorage.setItem('notified_' + key, 'true');
+        }, diff);
+    }
+}
 
                     // جدولة تنبيه وقت الحدث
                     if (targetTime > now && localStorage.getItem(`sent_main_${key}`) !== 'true') {
