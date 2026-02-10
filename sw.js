@@ -52,11 +52,9 @@ setInterval(() => {
     }
 
     // 2. فحص إشعار بداية المناسبة (12:00 ص)
-    if (Math.abs(now - startTime) < 30000) {
-      showNotify(ev.nameAr, `${ev.startAr}\n\n${ev.startEn}`);
-    }
-  });
-}, 60000);
+    if (Math.abs(now - preTime) < 60000) { ... }
+if (Math.abs(now - startTime) < 60000) { ... }
+
 
 function showNotify(title, message) {
   self.registration.showNotification(title, {
