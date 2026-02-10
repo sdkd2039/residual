@@ -107,9 +107,9 @@
     </div>
 
     <div class="verse-container">
-        <span class="quran-text" dir="rtl">﴿شَهْرُ رَمَضَانَ ٱلَّذِىٓ أُنزِلَ فِيهِ ٱلْقُرْءَانُ هُدًۭى لِّلنَّاسِ وَبَيِّنَـٰتٍۢ مِّنَ ٱلْهُدَىٰ وَٱلْفُرْقَانِ ۚ فَمَن شَهِدَ مِنكُمُ ٱلشَّهْرَ فَلْيَصُمْهُ ۖ وَمَن كَانَ مَرِيضًا أَوْ عَلَىٰ سَفَرٍۢ فَعِدَّةٌۭ مِّنْ أَيَّامٍ أُخَرَ ۗ يُرِيدُ ٱللَّهُ بِكُمُ ٱلْيُسْرَ وَلَا يُرِيدُ بِكُمُ ٱلْعُسْرَ وَلِتُكْمِلُوا۟ ٱلْعِدَّةَ وَلِتُكَبِّرُوا۟ ٱللَّهَ عَلَىٰ مَا هَدَىٰكُمْ وَلَعَلَّكُمْ تَشْكُرُونَ﴾</span>
+        <span class="quran-text" dir="rtl">﴿شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ هُدًى لِّلنَّاسِ وَبَيِّنَاتٍ مِّنَ الْهُدَىٰ وَالْفُرْقَانِ﴾</span>
         <span class="verse-ref" id="ref-185">سورة البقرة - آية 185</span>
-        <div class="eng-meaning"><b>General Meaning:</b><br>The verse explains the virtue of the month of Ramadan, which God has chosen to reveal the Quran as guidance for mankind, and details the rules of fasting for the resident, the traveler, and the sick, emphasizing God’s facilitation for His servants in His legislation, that completing the count is followed by the Takbir upon seeing the crescent of Shawwal as thanks to God for His guidance, which is what Muslims do on Eid al-Fitr.</div>
+        <div class="eng-meaning"><b>General Meaning:</b><br>Ramadan is the month in which the Quran was revealed as guidance for mankind and clear proofs of guidance and criterion.</div>
     </div>
 
     <div class="card">
@@ -145,9 +145,9 @@
     </div>
 
     <div class="verse-container">
-        <span class="quran-text" dir="rtl">﴿ٱلْحَجُّ أَشْهُرٌۭ مَّعْلُومَـٰتٌۭ ۚ فَمَن فَرَضَ فِيهِنَّ ٱلْحَجَّ فَلَا رَفَثَ وَلَا فُسُوقَ وَلَا جِدَالَ فِى ٱلْحَجِّ ۗ وَمَا تَفْعَلُوا۟ مِنْ خَيْرٍۢ يَعْلَمْهُ ٱللَّهُ ۗ وَتَزَوَّدُوا۟ فَإِنَّ خَيْرَ ٱلزَّادِ ٱلتَّقْوَىٰ ۚ وَٱتَّقُونِ يَـٰٓأُو۟لِى ٱلْأَلْبَـٰبِ﴾</span>
+        <span class="quran-text" dir="rtl">﴿وَتَزَوَّدُوا فَإِنَّ خَيْرَ الزَّادِ التَّقْوَىٰ﴾</span>
         <span class="verse-ref" id="ref-197">سورة البقرة - آية 197</span>
-        <div class="eng-meaning"><b>General Meaning:</b><br>It is the designated time for entering the state of ihram for Hajj, and it is characterized by the obligation to avoid obscenity, sin, and argumentation during it, while urging the pilgrim to increase in piety and good deeds.</div>
+        <div class="eng-meaning"><b>General Meaning:</b><br>And take provisions, but indeed, the best provision is fear of Allah.</div>
     </div>
 
     <footer>
@@ -299,4 +299,11 @@
             Object.keys(events).forEach(key => {
                 if (localStorage.getItem('notif_' + key) === 'true') {
                     const sw = document.getElementById('notif-sw-' + key);
- 
+                    if (sw) sw.checked = true;
+                }
+            });
+            updateTimers();
+        };
+    </script>
+</body>
+</html>
