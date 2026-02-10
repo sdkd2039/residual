@@ -231,6 +231,7 @@
         const ev = events[key];
         const isAr = document.getElementById('app-html').dir === "rtl";
         const text = isAr ? `${ev.emj} المتبقي لـ ${ev.name}:\n⏳ ${document.getElementById(`d-${key}`).innerText} يوم\n📍 ${window.location.href}` : `${ev.emj} المتبقي لـ ${ev.name}:\n⏳ ${d} يوم و ${h} ساعة\n✨ ${ev.duaAr}\n\n📍 تابع العداد:\n${window.location.href}` :
+
                 `${ev.emj} Remaining for ${ev.en}:\n⏳ ${d} Days and ${h} Hours\n✨ ${ev.duaEn}\n\n📍 Follow here:\n${window.location.href}`;
 
         if (navigator.share) await navigator.share({ text: text });
