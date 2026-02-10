@@ -209,25 +209,51 @@
                 }
             });
         }
-        setInterval(updateTimers, 1000);
+         function updateTimers() {
+            Object.keys(events).forEach(key => {
+                const eventDate = new Date(events[key].date);
+                const now = new Date();
+                const diff = eventDate - now;
+                const isAr = document.getElementById('app-html').dir === "rtl";
 
-        async function toggleNotify(key, el) {
-            const isAr = document.getElementById('app-html').dir === "rtl";
-            const eventName = isAr ? events[key].name : events[key].en;
-            if (el.checked) {
-                const perm = await Notification.requestPermission();
-                if (perm === "granted") {
-                    localStorage.setItem('notif_' + key, 'true');
-                    showToast(isAr ? `تم تفعيل التنبيه لـ ${eventName}` : `Alert set for ${eventName}`, "✅");
-                } else { 
-                    el.checked = false; 
-                    showToast(isAr ? "يرجى تفعيل الإشعارات من المتصفح" : "Please enable notifications from browser settings", "⚠️");
+                // ضبط توقيت المغرب لمكة (تقريبي حسب الفصل)
+                const month = eventDate.getMonth() + 1;
+                let maghribMin = (month >= 5 && month <= 8) ? 55 : 40; 
+
+                const preDay = new Date(eventDate);
+                preDay.setDate(preDay.getDate() - 1);
+                preDay.setHours(18, maghribMin, 0);
+
+                if (diff > 0) {
+                    // تحديث واجهة العداد
+                    document.getElementById(`d-${key}`).innerText = Math.floor(diff / 86400000);
+                    document.getElementById(`h-${key}`).innerText = Math.floor((diff % 86400000) / 3600000);
+                    document.getElementById(`m-${key}`).innerText = Math.floor((diff % 3600000) / 60000);
+                    document.getElementById(`s-${key}`).innerText = Math.floor((diff % 60000) / 1000);
+
+                    // تنبيه قبل يوم (وقت المغرب)
+                    if (now >= preDay && !localStorage.getItem('pre_sent_' + key)) {
+                        if (localStorage.getItem('notif_' + key) === 'true') {
+                            new Notification(isAr ? "اقترب الموعد! ✨" : "Almost there! ✨", {
+                                body: isAr ? `غداً أول أيام ${events[key].name}، نبارك لكم مقدماً.` : `Tomorrow is the first day of ${events[key].en}.`,
+                                icon: "https://i.ibb.co/fzPfcMp0/small-logo.png"
+                            });
+                            localStorage.setItem('pre_sent_' + key, 'true');
+                        }
+                    }
+                } else {
+                    // تهنئة ثبوت الموعد (عند الصفر)
+                    if (localStorage.getItem('notif_' + key) === 'true' && !localStorage.getItem('sent_' + key)) {
+                        new Notification(isAr ? "مبارك عليكم! 🌙" : "Congratulations! 🌙", {
+                            body: isAr ? `تهنئكم منصة المتبقي بقدوم ${events[key].name}، تقبل الله منا ومنكم.` : `Residual site congratulates you on ${events[key].en}.`,
+                            icon: "https://i.ibb.co/fzPfcMp0/small-logo.png"
+                        });
+                        localStorage.setItem('sent_' + key, 'true');
+                    }
                 }
-            } else { 
-                localStorage.setItem('notif_' + key, 'false');
-                showToast(isAr ? `تم إيقاف التنبيه لـ ${eventName}` : `Alert off for ${eventName}`, "🔕");
-            }
+            });
         }
+
 
         async function shareEvent(key) {
             const ev = events[key];
@@ -297,7 +323,8 @@
             if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
 
             Object.keys(events).forEach(key => {
-                if (localStorage.getItem('notif_' + key) === 'true') {
+                if (sw) sw.checked = true;
+
                     const sw = document.getElementById('notif-sw-' + key);
                     if (sw) sw.checked = true;
                 }
