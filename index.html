@@ -158,153 +158,124 @@
         </a>
     </footer>
 
-    <script>
-        const events = {
-            ramadan: { 
-                date: "2026-02-18T00:00:00+03:00", 
-                name: "شهر رمضان المبارك", en: "Holy Ramadan", emj: "🌒", 
-                duaAr: "اللهم تقبل الصيام والقيام وصالح الأعمال", 
-                duaEn: "O God, accept our fasting, prayers, and good deeds",
-                dAr: "1 رمضان 1447هـ | 18 فبراير 2026م", dEn: "Ramadan 1, 1447 | Feb 18, 2026" 
-            },
-            eid1: { 
-                date: "2026-03-20T00:00:00+03:00", 
-                name: "عيد الفطر المبارك", en: "Eid al-Fitr", emj: "🎈", 
-                duaAr: "تقبل الله منا ومنكم، أعاد الله علينا باليمن والبركات", 
-                duaEn: "May God accept from us and from you",
-                dAr: "1 شوال 1447هـ | 20 مارس 2026م", dEn: "Shawwal 1, 1447 | March 20, 2026" 
-            },
-            hajj: { 
-                date: "2026-05-18T00:00:00+03:00", 
-                name: "عشر ذي الحجة", en: "10 Days of Dhu al-Hijjah", emj: "🕋", 
-                duaAr: "اللهم بلغنا عشر ذي الحجة واجعل لنا دعوة لا ترد", 
-                duaEn: "O Allah, let us reach the first ten days of Dhul-Hijjah",
-                dAr: "1 ذو الحجة 1447هـ | 18 مايو 2026م", dEn: "Dhu al-Hijjah 1, 1447 | May 18, 2026" 
-            },
-            eid2: { 
-                date: "2026-05-27T00:00:00+03:00", 
-                name: "عيد الأضحى المبارك", en: "Eid al-Adha", emj: "🐑", 
-                duaAr: "اللهم اجعل هذا العيد عيد خير وسلام", 
-                duaEn: "O God, make this Eid an Eid of goodness and peace",
-                dAr: "10 ذو الحجة 1447هـ | 27 مايو 2026م", dEn: "Dhu al-Hijjah 10, 1447 | May 27, 2026" 
+<script>
+    const events = {
+        ramadan: { 
+            date: "2026-02-18T00:00:00+03:00", 
+            name: "شهر رمضان المبارك", en: "Holy Ramadan", emj: "🌒", 
+            duaAr: "اللهم تقبل الصيام والقيام وصالح الأعمال", duaEn: "O God, accept our fasting, prayers, and good deeds",
+            dAr: "1 رمضان 1447هـ | 18 فبراير 2026م", dEn: "Ramadan 1, 1447 | Feb 18, 2026" 
+        },
+        eid1: { 
+            date: "2026-03-20T00:00:00+03:00", 
+            name: "عيد الفطر المبارك", en: "Eid al-Fitr", emj: "🎈", 
+            duaAr: "تقبل الله منا ومنكم، أعاد الله علينا باليمن والبركات", duaEn: "May God accept from us and from you",
+            dAr: "1 شوال 1447هـ | 20 مارس 2026م", dEn: "Shawwal 1, 1447 | March 20, 2026" 
+        },
+        hajj: { 
+            date: "2026-05-18T00:00:00+03:00", 
+            name: "عشر ذي الحجة", en: "10 Days of Dhu al-Hijjah", emj: "🕋", 
+            duaAr: "اللهم بلغنا عشر ذي الحجة واجعل لنا دعوة لا ترد", duaEn: "O Allah, let us reach the first ten days of Dhul-Hijjah",
+            dAr: "1 ذو الحجة 1447هـ | 18 مايو 2026م", dEn: "Dhu al-Hijjah 1, 1447 | May 18, 2026" 
+        },
+        eid2: { 
+            date: "2026-05-27T00:00:00+03:00", 
+            name: "عيد الأضحى المبارك", en: "Eid al-Adha", emj: "🐑", 
+            duaAr: "اللهم اجعل هذا العيد عيد خير وسلام", duaEn: "O God, make this Eid an Eid of goodness and peace",
+            dAr: "10 ذو الحجة 1447هـ | 27 مايو 2026م", dEn: "Dhu al-Hijjah 10, 1447 | May 27, 2026" 
+        }
+    };
+
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js').then(reg => console.log('SW Registered'));
+    }
+
+    function updateTimers() {
+        Object.keys(events).forEach(key => {
+            const diff = new Date(events[key].date) - Date.now();
+            if (diff > 0) {
+                document.getElementById(`d-${key}`).innerText = Math.floor(diff / 86400000);
+                document.getElementById(`h-${key}`).innerText = Math.floor((diff % 86400000) / 3600000);
+                document.getElementById(`m-${key}`).innerText = Math.floor((diff % 3600000) / 60000);
+                document.getElementById(`s-${key}`).innerText = Math.floor((diff % 60000) / 1000);
             }
-        };
+        });
+    }
+    setInterval(updateTimers, 1000);
 
-        function showToast(msg, icon = "🔔") {
-            const toast = document.getElementById('top-toast');
-            document.getElementById('toast-text').innerText = msg;
-            document.getElementById('toast-icon').innerText = icon;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3500);
-        }
-
-        function updateTimers() {
-            Object.keys(events).forEach(key => {
-                const diff = new Date(events[key].date) - Date.now();
-                if (diff > 0) {
-                    document.getElementById(`d-${key}`).innerText = Math.floor(diff / 86400000);
-                    document.getElementById(`h-${key}`).innerText = Math.floor((diff % 86400000) / 3600000);
-                    document.getElementById(`m-${key}`).innerText = Math.floor((diff % 3600000) / 60000);
-                    document.getElementById(`s-${key}`).innerText = Math.floor((diff % 60000) / 1000);
-                }
-            });
-        }
-        setInterval(updateTimers, 1000);
-
-        async function toggleNotify(key, el) {
-            const isAr = document.getElementById('app-html').dir === "rtl";
-            const eventName = isAr ? events[key].name : events[key].en;
-            if (el.checked) {
-                const perm = await Notification.requestPermission();
-                if (perm === "granted") {
-                    localStorage.setItem('notif_' + key, 'true');
-                    showToast(isAr ? `تم تفعيل التنبيه لـ ${eventName}` : `Alert set for ${eventName}`, "✅");
-                } else { 
-                    el.checked = false; 
-                    showToast(isAr ? "يرجى تفعيل الإشعارات من المتصفح" : "Please enable notifications from browser settings", "⚠️");
-                }
+    async function toggleNotify(key, el) {
+        const isAr = document.getElementById('app-html').dir === "rtl";
+        if (el.checked) {
+            const perm = await Notification.requestPermission();
+            if (perm === "granted") {
+                localStorage.setItem('notif_' + key, 'true');
+                showToast(isAr ? "تم تفعيل التنبيه" : "Alert Activated", "✅");
             } else { 
-                localStorage.setItem('notif_' + key, 'false');
-                showToast(isAr ? `تم إيقاف التنبيه لـ ${eventName}` : `Alert off for ${eventName}`, "🔕");
+                el.checked = false; 
+                showToast(isAr ? "يرجى تفعيل الإشعارات" : "Enable Notifications", "⚠️");
             }
+        } else { 
+            localStorage.setItem('notif_' + key, 'false');
         }
+    }
 
-        async function shareEvent(key) {
-            const ev = events[key];
-            const isAr = document.getElementById('app-html').dir === "rtl";
-            const d = document.getElementById(`d-${key}`).innerText;
-            const h = document.getElementById(`h-${key}`).innerText;
-            
-            let text = isAr ? 
-                `${ev.emj} المتبقي لـ ${ev.name}:\n⏳ ${d} يوم و ${h} ساعة\n✨ ${ev.duaAr}\n\n📍 تابع العداد:\n${window.location.href}` :
-                `${ev.emj} Remaining for ${ev.en}:\n⏳ ${d} Days and ${h} Hours\n✨ ${ev.duaEn}\n\n📍 Follow here:\n${window.location.href}`;
+    function showToast(msg, icon) {
+        const toast = document.getElementById('top-toast');
+        document.getElementById('toast-text').innerText = msg;
+        document.getElementById('toast-icon').innerText = icon;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3500);
+    }
 
-            try {
-                if (navigator.share) {
-                    await navigator.share({ text: text });
-                } else {
-                    await navigator.clipboard.writeText(text);
-                    showToast(isAr ? "تم نسخ النص لمشاركته! 📋" : "Text copied to clipboard! 📋", "📋");
-                }
-            } catch (err) { console.log(err); }
-        }
+    async function shareEvent(key) {
+        const ev = events[key];
+        const isAr = document.getElementById('app-html').dir === "rtl";
+        const text = isAr ? `${ev.emj} المتبقي لـ ${ev.name}:\n⏳ ${document.getElementById(`d-${key}`).innerText} يوم\n📍 ${window.location.href}` : `${ev.emj} Remaining for ${ev.en}:\n⏳ ${document.getElementById(`d-${key}`).innerText} Days\n📍 ${window.location.href}`;
+        if (navigator.share) await navigator.share({ text: text });
+        else { navigator.clipboard.writeText(text); showToast(isAr ? "تم النسخ" : "Copied", "📋"); }
+    }
 
-        function toggleTheme() { 
-            const isLight = document.body.classList.toggle('light-mode');
-            localStorage.setItem('theme', isLight ? 'light' : 'dark');
-        }
+    function toggleTheme() {
+        const isLight = document.body.classList.toggle('light-mode');
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    }
 
-        function toggleLang() {
-            const html = document.getElementById('app-html');
-            const isAr = html.dir === "rtl";
-            applyLang(isAr ? "en" : "ar");
-            localStorage.setItem('lang', isAr ? "en" : "ar");
-        }
+    function toggleLang() {
+        const current = localStorage.getItem('lang') || "ar";
+        const newLang = current === "ar" ? "en" : "ar";
+        localStorage.setItem('lang', newLang);
+        applyLang(newLang);
+    }
 
-        function applyLang(lang) {
-            const html = document.getElementById('app-html');
-            const isEn = lang === "en";
-            html.dir = isEn ? "ltr" : "rtl";
-            html.lang = lang;
-            
-            document.getElementById('lang-btn').innerText = isEn ? "عربي" : "English";
-            document.getElementById('main-title-text').innerText = isEn ? "Residual" : "المتبقي";
-            document.getElementById('site-title-tag').innerText = isEn ? "Residual" : "المتبقي";
-            
-            Object.keys(events).forEach((key, i) => {
-                document.getElementById(`t-${key}`).innerText = isEn ? events[key].en : events[key].name;
-                document.getElementById(`d-info${i+1}`).innerText = isEn ? events[key].dEn : events[key].dAr;
-            });
+    function applyLang(lang) {
+        const isEn = lang === "en";
+        const html = document.getElementById('app-html');
+        html.dir = isEn ? "ltr" : "rtl";
+        html.lang = lang;
+        document.getElementById('lang-btn').innerText = isEn ? "عربي" : "English";
+        document.getElementById('main-title-text').innerText = isEn ? "Residual" : "المتبقي";
+        Object.keys(events).forEach((key, i) => {
+            document.getElementById(`t-${key}`).innerText = isEn ? events[key].en : events[key].name;
+            document.getElementById(`d-info${i+1}`).innerText = isEn ? events[key].dEn : events[key].dAr;
+        });
+        document.querySelectorAll('.lb-d').forEach(el => el.innerText = isEn ? "Days" : "يوم");
+        document.querySelectorAll('.lb-h').forEach(el => el.innerText = isEn ? "Hrs" : "ساعة");
+        document.querySelectorAll('.lb-m').forEach(el => el.innerText = isEn ? "Min" : "دقيقة");
+        document.querySelectorAll('.lb-s').forEach(el => el.innerText = isEn ? "Sec" : "ثانية");
+        document.querySelectorAll('.n-label').forEach(el => el.innerText = isEn ? "Enable Alert" : "تفعيل التنبيه");
+        document.querySelectorAll('.share-btn').forEach(el => el.innerText = isEn ? "Share" : "مشاركة");
+    }
 
-            document.querySelectorAll('.lb-d').forEach(el => el.innerText = isEn ? "Days" : "يوم");
-            document.querySelectorAll('.lb-h').forEach(el => el.innerText = isEn ? "Hrs" : "ساعة");
-            document.querySelectorAll('.lb-m').forEach(el => el.innerText = isEn ? "Min" : "دقيقة");
-            document.querySelectorAll('.lb-s').forEach(el => el.innerText = isEn ? "Sec" : "ثانية");
-            document.querySelectorAll('.n-label').forEach(el => el.innerText = isEn ? "Enable Alert" : "تفعيل التنبيه");
-            document.querySelectorAll('.share-btn').forEach(el => el.innerText = isEn ? "Share" : "مشاركة");
-            
-            document.getElementById('ref-185').innerText = isEn ? "Surah Al-Baqarah - Ayah 185" : "سورة البقرة - آية 185";
-            document.getElementById('ref-197').innerText = isEn ? "Surah Al-Baqarah - Ayah 197" : "سورة البقرة - آية 197";
-            document.getElementById('f-rights').innerText = isEn ? "All rights reserved 1447 AH - 2026 AD" : "جميع الحقوق محفوظة للمتبقي 1447 هـ - 2026 م";
-            document.getElementById('f-dev').innerText = isEn ? "Contact Developer" : "التواصل مع المطور";
-        }
+    window.onload = () => {
+        applyLang(localStorage.getItem('lang') || "ar");
+        if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
+        Object.keys(events).forEach(key => {
+            if (localStorage.getItem('notif_' + key) === 'true') document.getElementById('notif-sw-' + key).checked = true;
+        });
+        updateTimers();
+    };
+</script>
 
-        window.onload = function() {
-            // استعادة الإعدادات المحفوظة
-            const savedLang = localStorage.getItem('lang') || "ar";
-            applyLang(savedLang);
-            
-            if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
-
-            Object.keys(events).forEach(key => {
-                if (localStorage.getItem('notif_' + key) === 'true') {
-                    const sw = document.getElementById('notif-sw-' + key);
-                    if (sw) sw.checked = true;
-                }
-            });
-            updateTimers();
-        };
-    </script>
 </body>
 </html>
 
