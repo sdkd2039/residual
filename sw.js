@@ -5,7 +5,7 @@ const events = [
     preTime: "2026-02-17T18:30:00+03:00", 
     preAr: "تهنئ موقع المتبقي بقدوم شهر رمضان المبارك، تقبل الله الصيام والقيام وصالح الأعمال 🌒",
     preEn: "Al-Mutabaqi congratulates you on the arrival of Ramadan, may Allah accept your fasting and deeds 🌒",
-    startAr: "بدأ شهر رمضان، قال النبي ﷺ: 'تَسَحَّرُوا فَإِنَّ فِي السَّحُورِ بَرَكَةً' 🌙",
+    startAr: "بدأ شهر رمضان، قال النبي ﷺ: 'تَسَحَّرُوا فَإِنَّ فِي السَّحُورِ بَرَكَةً' 🌙",
     startEn: "Ramadan has started, the Prophet ﷺ said: 'Take Suhoor, for in Suhoor there is blessing' 🌙"
   },
   { 
@@ -38,38 +38,42 @@ const events = [
 ];
 
 self.addEventListener('install', (e) => self.skipWaiting());
+self.addEventListener('activate', (e) => e.waitUntil(clients.claim()));
 
-// فحص المواعيد كل دقيقة
+// فحص المواعيد
 setInterval(() => {
   const now = new Date();
-
+  
   events.forEach(ev => {
     const preTime = new Date(ev.preTime);
     const startTime = new Date(ev.date);
 
-    // 1. فحص إشعار ما قبل المناسبة
-    if (Math.abs(now - preTime) < 60000) {
-      showNotify(ev.nameAr, `${ev.preAr}\n\n${ev.preEn}`);
+    // التحقق من تفعيل المستخدم للتنبيه من خلال الـ IndexedDB أو الـ السجلات (اختياري)
+    // هنا سنعتمد الإرسال المباشر إذا طابق الوقت
+    
+    if (Math.abs(now - preTime) < 30000) { // نافذة 30 ثانية لمنع التكرار
+       showNotify(ev.nameAr, `${ev.preAr}\n\n${ev.preEn}`, ev.nameAr + "_pre");
     }
 
-    // 2. فحص إشعار بداية المناسبة
-    if (Math.abs(now - startTime) < 60000) {
-      showNotify(ev.nameAr, `${ev.startAr}\n\n${ev.startEn}`);
+    if (Math.abs(now - startTime) < 30000) {
+       showNotify(ev.nameAr, `${ev.startAr}\n\n${ev.startEn}`, ev.nameAr + "_start");
     }
   });
 }, 60000);
 
-function showNotify(title, message) {
+function showNotify(title, message, tag) {
   self.registration.showNotification(title, {
     body: message,
     icon: 'https://i.ibb.co/fzPfcMp0/small-logo.png',
     badge: 'https://i.ibb.co/fzPfcMp0/small-logo.png',
+    tag: tag, // التاج يمنع تكرار نفس الإشعار
     vibrate: [200, 100, 200],
+    requireInteraction: true,
     data: { url: 'https://sdkd2039.github.io/residual/' }
   });
 }
 
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
-  event.waitUntil(clients.openWindow(event.notification.data.url || 'https://sdkd2039.github.io/residual/'));
+  event.waitUntil(clients.openWindow(event.notification.data.url));
 });
