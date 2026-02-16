@@ -11,30 +11,24 @@
     <meta property="og:title" content="المتبقي">
     <meta property="og:description" content="عدادك الذكي لأيام الخير">
     <meta property="og:image" content="https://i.ibb.co/fzPfcMp0/small-logo.png">
-
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="المتبقي">
-    <meta name="twitter:description" content="عدادك الذكي لأيام الخير">
-    <meta name="twitter:image" content="https://i.ibb.co/fzPfcMp0/small-logo.png">
-
     <link rel="icon" type="image/png" href="https://i.ibb.co/fzPfcMp0/small-logo.png">
     <link rel="apple-touch-icon" href="https://i.ibb.co/fzPfcMp0/small-logo.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="المتبقي">
     <meta name="theme-color" content="#ffd700">
 
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root { 
             --bg: #080c14; 
-            --card: rgba(30, 41, 59, 0.6); /* شفافية للزجاج */
+            --card: rgba(30, 41, 59, 0.6); 
             --accent: #ffd700; 
             --text: #ffffff; 
             --muted: #94a3b8; 
             --blue: #3b82f6; 
             --box-bg: rgba(15, 23, 42, 0.5); 
             --nav-btn: #ffd700; 
+            --star-color: rgba(255, 215, 0, 0.07); 
         }
         body.light-mode { 
             --bg: #f8fafc; 
@@ -44,12 +38,32 @@
             --box-bg: rgba(241, 245, 249, 0.6); 
             --accent: #000000; 
             --nav-btn: #000000; 
+            --star-color: rgba(0, 0, 0, 0.04);
         }
 
         body { 
-            background: var(--bg); 
-            /* خلفية هندسية - نجمة 18 ضلع - شفافية 5% */
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath d='M50 0 L55.8 14.5 L70.5 8.9 L71.5 24.5 L86.5 20.8 L82.5 35.8 L96.3 35.8 L88.3 49.2 L100 58.7 L86.5 66.5 L91.8 81.3 L76.8 82.5 L76.8 98 L62.5 91.5 L56.7 100 L43.3 100 L37.5 91.5 L23.2 98 L23.2 82.5 L8.2 81.3 L13.5 66.5 L0 58.7 L11.7 49.2 L3.7 35.8 L17.5 35.8 L13.5 20.8 L28.5 24.5 L29.5 8.9 L44.2 14.5 Z' fill='%23ffd700' fill-opacity='0.05'/%3E%3C/svg%3E");
+            background: var(--bg);
+            /* توزيع 18 نجمة كبيرة فريدة ثابتة في الخلفية */
+            background-image: 
+                radial-gradient(circle at 12% 8%, var(--star-color) 0%, transparent 8%),
+                radial-gradient(circle at 88% 12%, var(--star-color) 0%, transparent 10%),
+                radial-gradient(circle at 50% 3%, var(--star-color) 0%, transparent 12%),
+                radial-gradient(circle at 22% 28%, var(--star-color) 0%, transparent 7%),
+                radial-gradient(circle at 78% 38%, var(--star-color) 0%, transparent 9%),
+                radial-gradient(circle at 8% 48%, var(--star-color) 0%, transparent 11%),
+                radial-gradient(circle at 92% 58%, var(--star-color) 0%, transparent 8%),
+                radial-gradient(circle at 42% 68%, var(--star-color) 0%, transparent 10%),
+                radial-gradient(circle at 68% 82%, var(--star-color) 0%, transparent 12%),
+                radial-gradient(circle at 18% 88%, var(--star-color) 0%, transparent 7%),
+                radial-gradient(circle at 52% 43%, var(--star-color) 0%, transparent 15%),
+                radial-gradient(circle at 82% 7%, var(--star-color) 0%, transparent 6%),
+                radial-gradient(circle at 32% 18%, var(--star-color) 0%, transparent 9%),
+                radial-gradient(circle at 62% 33%, var(--star-color) 0%, transparent 10%),
+                radial-gradient(circle at 12% 72%, var(--star-color) 0%, transparent 8%),
+                radial-gradient(circle at 88% 78%, var(--star-color) 0%, transparent 7%),
+                radial-gradient(circle at 28% 52%, var(--star-color) 0%, transparent 11%),
+                radial-gradient(circle at 72% 22%, var(--star-color) 0%, transparent 9%);
+            background-attachment: fixed;
             color: var(--text); 
             font-family: 'IBM Plex Sans Arabic', sans-serif; 
             margin: 0; padding: 20px; 
@@ -67,13 +81,10 @@
             display: flex; align-items: center; gap: 8px; white-space: nowrap;
         }
         .toast-notification.show { top: 25px; }
-
-        .main-logo { width: 160px; height: auto; margin-top: 30px; margin-bottom: 5px; }
-        .site-display-title { color: var(--accent); font-size: 1.8rem; font-weight: bold; margin-bottom: 30px; }
         .controls { position: fixed; top: 15px; left: 15px; display: flex; gap: 8px; z-index: 1000; }
         .btn-tool { background: var(--nav-btn); color: #000; border: none; padding: 8px 12px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 0.8rem; }
-        
-        /* تأثير الزجاج Card Glassmorphism */
+        body.light-mode .btn-tool { color: #fff; background: #000; }
+
         .card { 
             background: var(--card); 
             backdrop-filter: blur(12px); 
@@ -81,25 +92,28 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 20px; padding: 25px; margin-bottom: 15px; 
             width: 100%; max-width: 500px; text-align: center; 
-            position: relative; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); 
+            position: relative; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); 
             box-sizing: border-box; 
         }
 
+        .main-logo { width: 160px; height: auto; margin-top: 30px; margin-bottom: 5px; position: relative; }
+        .site-display-title { color: var(--accent); font-size: 1.8rem; font-weight: bold; margin-bottom: 30px; position: relative; }
+        
         .share-btn { position: absolute; top: 15px; left: 15px; background: none; border: 1px solid var(--accent); color: var(--accent); padding: 4px 8px; border-radius: 8px; cursor: pointer; font-size: 0.7rem; font-weight: bold; }
         .event-title { color: var(--accent); font-size: 1.4rem; font-weight: bold; margin-bottom: 5px; }
         .event-date-info { font-size: 0.8rem; color: var(--muted); margin-bottom: 15px; font-weight: bold; }
+        
         .timer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; direction: ltr; }
-        .box { background: var(--box-bg); padding: 8px 5px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); }
-        .num { display: block; font-size: 1.2rem; font-weight: bold; color: var(--accent); }
-        .label { font-size: 0.6rem; color: var(--muted); font-weight: bold; }
+        .box { background: var(--box-bg); padding: 10px 5px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); }
+        .num { display: block; font-size: 1.3rem; font-weight: bold; color: var(--accent); }
+        .label { font-size: 0.65rem; color: var(--muted); font-weight: bold; }
 
         .verse-container { 
             background: var(--card); 
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            padding: 20px; border-radius: 15px; margin-bottom: 30px; 
-            border-right: 4px solid var(--accent); width: 100%; 
-            max-width: 500px; box-sizing: border-box; 
+            padding: 20px; border-radius: 15px; margin-bottom: 20px; 
+            width: 100%; max-width: 500px; box-sizing: border-box; 
             border: 1px solid rgba(255,255,255,0.1);
             border-right: 4px solid var(--accent);
         }
@@ -108,6 +122,7 @@
         .verse-ref { color: var(--accent); font-weight: bold; font-size: 0.85rem; display: block; margin-bottom: 10px; text-align: center; }
         .eng-meaning { display: none; background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; font-size: 0.85rem; color: var(--muted); line-height: 1.6; border-left: 3px solid var(--blue); margin-top: 10px; direction: ltr; text-align: left; }
         html[lang="en"] .eng-meaning { display: block; }
+
         .notify-row { margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 12px; }
         .switch { position: relative; width: 34px; height: 20px; }
         .switch input { opacity: 0; width: 0; height: 0; }
@@ -115,6 +130,7 @@
         .slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background: white; transition: .4s; border-radius: 50%; }
         input:checked + .slider { background: var(--blue); }
         input:checked + .slider:before { transform: translateX(14px); }
+
         footer { margin-top: auto; padding: 40px 0 20px; text-align: center; width: 100%; max-width: 500px; border-top: 1px solid rgba(148, 163, 184, 0.1); }
         .rights { font-size: 0.8rem; color: var(--muted); margin-bottom: 10px; }
         .dev-link { color: var(--accent); text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 5px; font-size: 0.9rem; }
@@ -222,9 +238,9 @@
 <script>
     const events = {
         ramadan: { date: "2026-02-18T00:00:00+03:00", name: "شهر رمضان المبارك", en: "Holy Ramadan", emj: "🌒", duaAr: "اللهم تقبل الصيام والقيام وصالح الأعمال", duaEn: "O God, accept our fasting, prayers, and good deeds", dAr: "1 رمضان 1447هـ | 18 فبراير 2026م", dEn: "Ramadan 1, 1447 | Feb 18, 2026" },
-        eid1: { date: "2026-03-20T00:00:00+03:00", name: "عيد الفطر المبارك", en: "Eid al-Fitr", emj: "🎈", duaAr: "تقبل الله منا ومنكم، أعاد الله علينا باليمن والبركات", duaEn: "May God accept from us and from you", dAr: "1 شوال 1447هـ | 20 مارس 2026م", dEn: "Shawwal 1, 1447 | March 20, 2026" },
-        hajj: { date: "2026-05-18T00:00:00+03:00", name: "عشر ذي الحجة", en: "10 Days of Dhu al-Hijjah", emj: "🕋", duaAr: "اللهم بلغنا عشر ذي الحجة واجعل لنا دعوة لا ترد", duaEn: "O Allah, let us reach the first ten days of Dhul-Hijjah", dAr: "1 ذو الحجة 1447هـ | 18 مايو 2026م", dEn: "Dhu al-Hijjah 1, 1447 | May 18, 2026" },
-        eid2: { date: "2026-05-27T00:00:00+03:00", name: "عيد الأضحى المبارك", en: "Eid al-Adha", emj: "🐑", duaAr: "اللهم اجعل هذا العيد عيد خير وسلام", duaEn: "O God, make this Eid an Eid of goodness and peace", dAr: "10 ذو الحجة 1447هـ | 27 مايو 2026م", dEn: "Dhu al-Hijjah 10, 1447 | May 27, 2026" }
+        eid1: { date: "2026-03-20T00:00:00+03:00", name: "عيد الفطر المبارك", en: "Eid al-Fitr", emj: "🎈", duaAr: "تقبل الله منا ومنكم", duaEn: "May God accept from us and from you", dAr: "1 شوال 1447هـ | 20 مارس 2026م", dEn: "Shawwal 1, 1447 | March 20, 2026" },
+        hajj: { date: "2026-05-18T00:00:00+03:00", name: "عشر ذي الحجة", en: "10 Days of Dhu al-Hijjah", emj: "🕋", duaAr: "اللهم اجعل لنا دعوة لا ترد", duaEn: "O Allah, grant us an accepted prayer", dAr: "1 ذو الحجة 1447هـ | 18 مايو 2026م", dEn: "Dhu al-Hijjah 1, 1447 | May 18, 2026" },
+        eid2: { date: "2026-05-27T00:00:00+03:00", name: "عيد الأضحى المبارك", en: "Eid al-Adha", emj: "🐑", duaAr: "كل عام وأنتم بخير", duaEn: "Eid Mubarak to you all", dAr: "10 ذو الحجة 1447هـ | 27 مايو 2026م", dEn: "Dhu al-Hijjah 10, 1447 | May 27, 2026" }
     };
 
     function updateTimers() {
@@ -251,9 +267,7 @@
                 el.checked = false; 
                 showToast(isAr ? "يرجى تفعيل الإشعارات" : "Enable Notifications", "⚠️");
             }
-        } else { 
-            localStorage.setItem('notif_' + key, 'false');
-        }
+        } else { localStorage.setItem('notif_' + key, 'false'); }
     }
 
     function showToast(msg, icon) {
@@ -268,10 +282,9 @@
         const ev = events[key];
         const isAr = document.getElementById('app-html').dir === "rtl";
         const d = document.getElementById(`d-${key}`).innerText;
-        const h = document.getElementById(`h-${key}`).innerText;
-        const text = isAr ? `${ev.emj} المتبقي لـ ${ev.name}:\n⏳ ${d} يوم و ${h} ساعة\n✨ ${ev.duaAr}\n\n📍 تابع العداد:\n${window.location.href}` : `${ev.emj} Remaining for ${ev.en}:\n⏳ ${d} Days and ${h} Hours\n✨ ${ev.duaEn}\n\n📍 Follow here:\n${window.location.href}`;
+        const text = isAr ? `${ev.emj} المتبقي لـ ${ev.name}: ${d} يوم\n📍 ${window.location.href}` : `${ev.emj} ${d} Days for ${ev.en}\n📍 ${window.location.href}`;
         if (navigator.share) { await navigator.share({ text: text }); } 
-        else { await navigator.clipboard.writeText(text); showToast(isAr ? "تم نسخ نص المشاركة 📋" : "Share text copied 📋", "📋"); }
+        else { await navigator.clipboard.writeText(text); showToast(isAr ? "تم النسخ" : "Copied", "📋"); }
     }
 
     function toggleTheme() {
@@ -294,10 +307,8 @@
         document.getElementById('lang-btn').innerText = isEn ? "عربي" : "English";
         document.getElementById('main-title-text').innerText = isEn ? "Residual" : "المتبقي";
         Object.keys(events).forEach((key, i) => {
-            const nameEl = document.getElementById(`t-${key}`);
-            const infoEl = document.getElementById(`d-info${i+1}`);
-            if(nameEl) nameEl.innerText = isEn ? events[key].en : events[key].name;
-            if(infoEl) infoEl.innerText = isEn ? events[key].dEn : events[key].dAr;
+            if(document.getElementById(`t-${key}`)) document.getElementById(`t-${key}`).innerText = isEn ? events[key].en : events[key].name;
+            if(document.getElementById(`d-info${i+1}`)) document.getElementById(`d-info${i+1}`).innerText = isEn ? events[key].dEn : events[key].dAr;
         });
         document.querySelectorAll('.lb-d').forEach(el => el.innerText = isEn ? "Days" : "يوم");
         document.querySelectorAll('.lb-h').forEach(el => el.innerText = isEn ? "Hrs" : "ساعة");
@@ -318,12 +329,6 @@
         });
         updateTimers();
     };
-
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js').then(reg => {
-            console.log('Service Worker Registered');
-        });
-    }
 </script>
 
 </body>
