@@ -282,9 +282,18 @@
         const ev = events[key];
         const isAr = document.getElementById('app-html').dir === "rtl";
         const d = document.getElementById(`d-${key}`).innerText;
-        const text = isAr ? `${ev.emj} المتبقي لـ ${ev.name}: ${d} يوم\n📍 ${window.location.href}` : `${ev.emj} ${d} Days for ${ev.en}\n📍 ${window.location.href}`;
-        if (navigator.share) { await navigator.share({ text: text }); } 
-        else { await navigator.clipboard.writeText(text); showToast(isAr ? "تم النسخ" : "Copied", "📋"); }
+        const h = document.getElementById(`h-${key}`).innerText;
+        
+        const text = isAr ? 
+            `${ev.emj} المتبقي لـ ${ev.name}:\n⏳ ${d} يوم و ${h} ساعة\n✨ ${ev.duaAr}\n\n📍 تابع العداد:\n${window.location.href}` :
+            `${ev.emj} Remaining for ${ev.en}:\n⏳ ${d} Days and ${h} Hours\n✨ ${ev.duaEn}\n\n📍 Follow here:\n${window.location.href}`;
+
+        if (navigator.share) {
+            await navigator.share({ text: text });
+        } else {
+            await navigator.clipboard.writeText(text);
+            showToast(isAr ? "تم نسخ نص المشاركة 📋" : "Share text copied 📋", "📋");
+        }
     }
 
     function toggleTheme() {
@@ -307,8 +316,8 @@
         document.getElementById('lang-btn').innerText = isEn ? "عربي" : "English";
         document.getElementById('main-title-text').innerText = isEn ? "Residual" : "المتبقي";
         Object.keys(events).forEach((key, i) => {
-            if(document.getElementById(`t-${key}`)) document.getElementById(`t-${key}`).innerText = isEn ? events[key].en : events[key].name;
-            if(document.getElementById(`d-info${i+1}`)) document.getElementById(`d-info${i+1}`).innerText = isEn ? events[key].dEn : events[key].dAr;
+            document.getElementById(`t-${key}`).innerText = isEn ? events[key].en : events[key].name;
+            document.getElementById(`d-info${i+1}`).innerText = isEn ? events[key].dEn : events[key].dAr;
         });
         document.querySelectorAll('.lb-d').forEach(el => el.innerText = isEn ? "Days" : "يوم");
         document.querySelectorAll('.lb-h').forEach(el => el.innerText = isEn ? "Hrs" : "ساعة");
@@ -321,6 +330,7 @@
     window.onload = () => {
         applyLang(localStorage.getItem('lang') || "ar");
         if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
+        
         Object.keys(events).forEach(key => {
             if (localStorage.getItem('notif_' + key) === 'true') {
                 const sw = document.getElementById('notif-sw-' + key);
@@ -329,7 +339,14 @@
         });
         updateTimers();
     };
+
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js').then(reg => {
+            console.log('تم تسجيل المحرك بنجاح');
+        });
+    }
 </script>
 
 </body>
 </html>
+
