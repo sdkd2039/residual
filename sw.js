@@ -10,11 +10,30 @@ self.addEventListener('install', () => self.skipWaiting());
 setInterval(() => {
     const now = new Date();
     eventsData.forEach(ev => {
-        if (Math.abs(now - new Date(ev.preTime)) < 30000) triggerPush(ev.title, ev.preMsg, ev.id + "_pre");
-        if (Math.abs(now - new Date(ev.date)) < 30000) triggerPush(ev.title, ev.startMsg, ev.id + "_start");
+        const diffPre = now - new Date(ev.preTime);
+        const diffStart = now - new Date(ev.date);
+
+        if (diffPre >= 0 && diffPre < 60000) {
+            triggerPush(ev.title, ev.preMsg, ev.id + "_pre");
+        }
+        if (diffStart >= 0 && diffStart < 60000) {
+            triggerPush(ev.title, ev.startMsg, ev.id + "_start");
+        }
     });
 }, 60000);
 
 function triggerPush(title, body, tag) {
-    self.registration.showNotification(title, { body: body, icon: 'https://i.ibb.co/fzPfcMp0/small-logo.png', tag: tag, vibrate: [200, 100, 200] });
+    self.registration.showNotification(title, { 
+        body: body, 
+        icon: 'https://i.ibb.co/fzPfcMp0/small-logo.png', 
+        tag: tag, 
+        vibrate: [200, 100, 200] 
+    });
 }
+
+self.addEventListener('push', (event) => {
+    if (event.data) {
+        const data = event.data.json();
+        triggerPush(data.title, data.body, data.tag);
+    }
+});
