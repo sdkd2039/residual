@@ -256,19 +256,27 @@
     }
     setInterval(updateTimers, 1000);
 
-    async function toggleNotify(key, el) {
-        const isAr = document.getElementById('app-html').dir === "rtl";
-        if (el.checked) {
-            const perm = await Notification.requestPermission();
-            if (perm === "granted") {
-                localStorage.setItem('notif_' + key, 'true');
-                showToast(isAr ? "تم تفعيل التنبيه" : "Alert Activated", "✅");
-            } else { 
-                el.checked = false; 
-                showToast(isAr ? "يرجى تفعيل الإشعارات" : "Enable Notifications", "⚠️");
-            }
-        } else { localStorage.setItem('notif_' + key, 'false'); }
+async function toggleNotify(key, el) {
+    const isAr = document.getElementById('app-html').dir === "rtl";
+    if (el.checked) {
+        const perm = await Notification.requestPermission();
+        if (perm === "granted") {
+            localStorage.setItem('notif_' + key, 'true');
+            showToast(isAr ? "تم تفعيل التنبيه" : "Alert Activated", "✅");
+            
+            // إضافة تنبيه تجريبي يظهر فوراً للتأكد من العمل
+            new Notification(events[key].name, {
+                body: isAr ? "تم تفعيل التنبيه بنجاح لمتابعة العداد" : "Notifications enabled",
+                icon: "https://i.ibb.co/fzPfcMp0/small-logo.png"
+            });
+        } else { 
+            el.checked = false; 
+            showToast(isAr ? "يرجى تفعيل الإشعارات" : "Enable Notifications", "⚠️");
+        }
+    } else { 
+        localStorage.setItem('notif_' + key, 'false'); 
     }
+}
 
     function showToast(msg, icon) {
         const toast = document.getElementById('top-toast');
