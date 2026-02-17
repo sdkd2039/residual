@@ -4,79 +4,86 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>المتبقي</title>
-
-    <meta name="description" content="عدادك الذكي لأيام الخير">
-
-    <meta property="og:site_name" content="المتبقي">
-    <meta property="og:title" content="المتبقي">
-    <meta property="og:description" content="عدادك الذكي لأيام الخير">
-    <meta property="og:image" content="https://i.ibb.co/fzPfcMp0/small-logo.png">
-    <link rel="icon" type="image/png" href="https://i.ibb.co/fzPfcMp0/small-logo.png">
-    <link rel="apple-touch-icon" href="https://i.ibb.co/fzPfcMp0/small-logo.png">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#ffd700">
-
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { 
-            --bg: #080c14; 
-            --card: rgba(30, 41, 59, 0.6); 
-            --accent: #ffd700; 
-            --text: #ffffff; 
-            --muted: #94a3b8; 
-            --blue: #3b82f6; 
-            --box-bg: rgba(15, 23, 42, 0.5); 
-            --nav-btn: #ffd700; 
-            --star-color: rgba(255, 215, 0, 0.07); 
-        }
-        body.light-mode { 
-            --bg: #f8fafc; 
-            --card: rgba(255, 255, 255, 0.7); 
-            --text: #0f172a; 
-            --muted: #475569; 
-            --box-bg: rgba(241, 245, 249, 0.6); 
-            --accent: #000000; 
-            --nav-btn: #000000; 
-            --star-color: rgba(0, 0, 0, 0.04);
-        }
+        :root { --bg: #080c14; --card: rgba(30, 41, 59, 0.6); --accent: #ffd700; --text: #ffffff; --muted: #94a3b8; --blue: #3b82f6; --box-bg: rgba(15, 23, 42, 0.5); --star-color: rgba(255, 215, 0, 0.07); }
+        body.light-mode { --bg: #f8fafc; --card: rgba(255, 255, 255, 0.7); --text: #0f172a; --muted: #475569; --box-bg: rgba(241, 245, 249, 0.6); --accent: #000000; }
+        body { background: var(--bg); color: var(--text); font-family: 'IBM Plex Sans Arabic', sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; transition: 0.3s; }
+        .card { background: var(--card); backdrop-filter: blur(12px); border-radius: 20px; padding: 25px; margin-bottom: 15px; width: 100%; max-width: 500px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.1); box-sizing: border-box; }
+        .main-logo { width: 120px; margin-top: 20px; }
+        .event-title { color: var(--accent); font-size: 1.4rem; font-weight: bold; }
+        .timer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 15px; direction: ltr; }
+        .box { background: var(--box-bg); padding: 10px; border-radius: 12px; }
+        .num { display: block; font-size: 1.3rem; font-weight: bold; color: var(--accent); }
+        .label { font-size: 0.7rem; color: var(--muted); }
+        .controls { position: fixed; top: 15px; left: 15px; display: flex; gap: 8px; z-index: 1000; }
+        .btn-tool { background: var(--accent); color: #000; border: none; padding: 8px 12px; border-radius: 10px; cursor: pointer; font-weight: bold; }
+        .btn-notif { background: var(--blue); color: white; border: none; padding: 10px 20px; border-radius: 50px; cursor: pointer; font-weight: bold; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); }
+    </style>
+</head>
+<body class="dark-mode">
+    <div class="controls">
+        <button class="btn-tool" onclick="document.body.classList.toggle('light-mode')">نمط</button>
+    </div>
 
-        body { 
-            background: var(--bg);
-            background-image: 
-                radial-gradient(circle at 12% 8%, var(--star-color) 0%, transparent 8%),
-                radial-gradient(circle at 88% 12%, var(--star-color) 0%, transparent 10%),
-                radial-gradient(circle at 50% 3%, var(--star-color) 0%, transparent 12%),
-                radial-gradient(circle at 22% 28%, var(--star-color) 0%, transparent 7%),
-                radial-gradient(circle at 78% 38%, var(--star-color) 0%, transparent 9%),
-                radial-gradient(circle at 8% 48%, var(--star-color) 0%, transparent 11%),
-                radial-gradient(circle at 92% 58%, var(--star-color) 0%, transparent 8%),
-                radial-gradient(circle at 42% 68%, var(--star-color) 0%, transparent 10%),
-                radial-gradient(circle at 68% 82%, var(--star-color) 0%, transparent 12%),
-                radial-gradient(circle at 18% 88%, var(--star-color) 0%, transparent 7%),
-                radial-gradient(circle at 52% 43%, var(--star-color) 0%, transparent 15%),
-                radial-gradient(circle at 82% 7%, var(--star-color) 0%, transparent 6%),
-                radial-gradient(circle at 32% 18%, var(--star-color) 0%, transparent 9%),
-                radial-gradient(circle at 62% 33%, var(--star-color) 0%, transparent 10%),
-                radial-gradient(circle at 12% 72%, var(--star-color) 0%, transparent 8%),
-                radial-gradient(circle at 88% 78%, var(--star-color) 0%, transparent 7%),
-                radial-gradient(circle at 28% 52%, var(--star-color) 0%, transparent 11%),
-                radial-gradient(circle at 72% 22%, var(--star-color) 0%, transparent 9%);
-            background-attachment: fixed;
-            color: var(--text); 
-            font-family: 'IBM Plex Sans Arabic', sans-serif; 
-            margin: 0; padding: 20px; 
-            display: flex; flex-direction: column; 
-            align-items: center; min-height: 100vh; 
-            transition: 0.3s; 
-        }
+    <img src="https://i.ibb.co/fzPfcMp0/small-logo.png" alt="Logo" class="main-logo">
+    <h1 style="color: var(--accent);">المتبقي</h1>
 
-        .toast-notification {
-            position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
-            background: var(--blue); color: white; padding: 12px 25px;
-            border-radius: 50px; font-weight: bold; font-size: 0.9rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 9999;
-            transition: top 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-            display: flex; align-items: center; gap: 8px; white-space: nowrap;
+    <button class="btn-notif" onclick="activateNotifications()">🔔 تفعيل التنبيهات</button>
+
+    <div class="card">
+        <div class="event-title">شهر رمضان المبارك</div>
+        <div class="timer-grid">
+            <div class="box"><span class="num" id="d-ramadan">0</span><span class="label">يوم</span></div>
+            <div class="box"><span class="num" id="h-ramadan">0</span><span class="label">ساعة</span></div>
+            <div class="box"><span class="num" id="m-ramadan">0</span><span class="label">دقيقة</span></div>
+            <div class="box"><span class="num" id="s-ramadan">0</span><span class="label">ثانية</span></div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDiYRYIg3r7lDZF7ZU7vHQhaPK1znD553o",
+            authDomain: "residual-app-d9a45.firebaseapp.com",
+            projectId: "residual-app-d9a45",
+            storageBucket: "residual-app-d9a45.firebasestorage.app",
+            messagingSenderId: "765230796527",
+            appId: "1:765230796527:web:6f971e02657feb1962951a",
+            measurementId: "G-XFQSX2MYH1"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const messaging = getMessaging(app);
+
+        async function activateNotifications() {
+            try {
+                const permission = await Notification.requestPermission();
+                if (permission === 'granted') {
+                    const registration = await navigator.serviceWorker.register('/residual/firebase-messaging-sw.js');
+                    const token = await getToken(messaging, { 
+                        vapidKey: 'BLNNeXrZfHKeUzqsHqaE6SX7sn82xHHlcn2ISWaCSA-BmB8xzYZrbNtjk2oO_kbVLpjG5Ctx4F8PFIZZjpNPxvg',
+                        serviceWorkerRegistration: registration
+                    });
+                    if (token) alert("تم تفعيل الإشعارات بنجاح!");
+                }
+            } catch (error) { console.error(error); }
         }
-        .toast-notification.show { top: 25px; }
+        window.activateNotifications = activateNotifications;
+
+        function updateTimers() {
+            const ramadanDate = new Date("2026-02-18T00:00:00+03:00");
+            const diff = ramadanDate - Date.now();
+            if (diff > 0) {
+                document.getElementById('d-ramadan').innerText = Math.floor(diff / 86400000);
+                document.getElementById('h-ramadan').innerText = Math.floor((diff % 86400000) / 3600000);
+                document.getElementById('m-ramadan').innerText = Math.floor((diff % 3600000) / 60000);
+                document.getElementById('s-ramadan').innerText = Math.floor((diff % 60000) / 1000);
+            }
+        }
+        setInterval(updateTimers, 1000);
+    </script>
+</body>
+</html>
