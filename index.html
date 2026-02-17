@@ -6,7 +6,6 @@
     <title>المتبقي</title>
 
     <meta name="description" content="عدادك الذكي لأيام الخير">
-
     <meta property="og:site_name" content="المتبقي">
     <meta property="og:title" content="المتبقي">
     <meta property="og:description" content="عدادك الذكي لأيام الخير">
@@ -212,119 +211,121 @@
         </a>
     </footer>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js";
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js";
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyDiYRYIg3r7lDZF7ZU7vHQhaPK1znD553o",
-        authDomain: "residual-app-d9a45.firebaseapp.com",
-        projectId: "residual-app-d9a45",
-        storageBucket: "residual-app-d9a45.firebasestorage.app",
-        messagingSenderId: "765230796527",
-        appId: "1:765230796527:web:6f971e02657feb1962951a",
-        measurementId: "G-XFQSX2MYH1"
-    };
+        const firebaseConfig = {
+            apiKey: "AIzaSyDiYRYIg3r7lDZF7ZU7vHQhaPK1znD553o",
+            authDomain: "residual-app-d9a45.firebaseapp.com",
+            projectId: "residual-app-d9a45",
+            storageBucket: "residual-app-d9a45.firebasestorage.app",
+            messagingSenderId: "765230796527",
+            appId: "1:765230796527:web:6f971e02657feb1962951a",
+            measurementId: "G-XFQSX2MYH1"
+        };
 
-    const app = initializeApp(firebaseConfig);
-    const messaging = getMessaging(app);
+        const app = initializeApp(firebaseConfig);
+        const messaging = getMessaging(app);
 
-    async function activateNotifications() {
-        try {
-            const permission = await Notification.requestPermission();
-            if (permission === 'granted') {
-                const registration = await navigator.serviceWorker.register('/residual/firebase-messaging-sw.js');
-                const token = await getToken(messaging, { 
-                    vapidKey: 'BLNNeXrZfHKeUzqsHqaE6SX7sn82xHHlcn2ISWaCSA-BmB8xzYZrbNtjk2oO_kbVLpjG5Ctx4F8PFIZZjpNPxvg',
-                    serviceWorkerRegistration: registration
-                });
-                if (token) {
-                    showToast(document.getElementById('app-html').lang === "en" ? "Notifications Enabled!" : "تم تفعيل التنبيهات!", "🔔");
+        async function activateNotifications() {
+            try {
+                const permission = await Notification.requestPermission();
+                if (permission === 'granted') {
+                    const registration = await navigator.serviceWorker.register('/residual/firebase-messaging-sw.js');
+                    const token = await getToken(messaging, { 
+                        vapidKey: 'BLNNeXrZfHKeUzqsHqaE6SX7sn82xHHlcn2ISWaCSA-BmB8xzYZrbNtjk2oO_kbVLpjG5Ctx4F8PFIZZjpNPxvg',
+                        serviceWorkerRegistration: registration
+                    });
+                    if (token) {
+                        showToast(document.getElementById('app-html').lang === "en" ? "Notifications Active!" : "تم تفعيل التنبيهات!", "🔔");
+                        console.log("Token:", token);
+                    }
                 }
-            } else {
-                showToast(document.getElementById('app-html').lang === "en" ? "Permission Denied" : "تم رفض الإذن", "❌");
-            }
-        } catch (error) { console.error(error); }
-    }
-    window.activateNotifications = activateNotifications;
-</script>
+            } catch (error) { console.error(error); }
+        }
+        window.activateNotifications = activateNotifications;
+    </script>
 
-<script>
-    const events = {
-        ramadan: { date: "2026-02-18T00:00:00+03:00", name: "شهر رمضان المبارك", en: "Holy Ramadan", emj: "🌒", duaAr: "اللهم تقبل الصيام والقيام وصالح الأعمال", duaEn: "O God, accept our fasting, prayers, and good deeds" },
-        eid1: { date: "2026-03-20T00:00:00+03:00", name: "عيد الفطر المبارك", en: "Eid al-Fitr", emj: "🎈", duaAr: "تقبل الله منا ومنكم", duaEn: "May God accept from us and from you" },
-        hajj: { date: "2026-05-18T00:00:00+03:00", name: "عشر ذي الحجة", en: "10 Days of Dhu al-Hijjah", emj: "🕋", duaAr: "اللهم اجعل لنا دعوة لا ترد", duaEn: "O Allah, grant us an accepted prayer" },
-        eid2: { date: "2026-05-27T00:00:00+03:00", name: "عيد الأضحى المبارك", en: "Eid al-Adha", emj: "🐑", duaAr: "كل عام وأنتم بخير", duaEn: "Eid Mubarak to you all" }
-    };
+    <script>
+        const events = {
+            ramadan: { date: "2026-02-18T00:00:00+03:00", name: "شهر رمضان المبارك", en: "Holy Ramadan", emj: "🌒", duaAr: "اللهم تقبل الصيام والقيام وصالح الأعمال", duaEn: "O God, accept our fasting, prayers, and good deeds" },
+            eid1: { date: "2026-03-20T00:00:00+03:00", name: "عيد الفطر المبارك", en: "Eid al-Fitr", emj: "🎈", duaAr: "تقبل الله منا ومنكم", duaEn: "May God accept from us and from you" },
+            hajj: { date: "2026-05-18T00:00:00+03:00", name: "عشر ذي الحجة", en: "10 Days of Dhu al-Hijjah", emj: "🕋", duaAr: "اللهم اجعل لنا دعوة لا ترد", duaEn: "O Allah, grant us an accepted prayer" },
+            eid2: { date: "2026-05-27T00:00:00+03:00", name: "عيد الأضحى المبارك", en: "Eid al-Adha", emj: "🐑", duaAr: "كل عام وأنتم بخير", duaEn: "Eid Mubarak to you all" }
+        };
 
-    function updateTimers() {
-        Object.keys(events).forEach(key => {
-            const diff = new Date(events[key].date) - Date.now();
-            if (diff > 0) {
-                document.getElementById(`d-${key}`).innerText = Math.floor(diff / 86400000);
-                document.getElementById(`h-${key}`).innerText = Math.floor((diff % 86400000) / 3600000);
-                document.getElementById(`m-${key}`).innerText = Math.floor((diff % 3600000) / 60000);
-                document.getElementById(`s-${key}`).innerText = Math.floor((diff % 60000) / 1000);
-            }
-        });
-    }
-    setInterval(updateTimers, 1000);
+        function updateTimers() {
+            Object.keys(events).forEach(key => {
+                const diff = new Date(events[key].date) - Date.now();
+                if (diff > 0) {
+                    document.getElementById(`d-${key}`).innerText = Math.floor(diff / 86400000);
+                    document.getElementById(`h-${key}`).innerText = Math.floor((diff % 86400000) / 3600000);
+                    document.getElementById(`m-${key}`).innerText = Math.floor((diff % 3600000) / 60000);
+                    document.getElementById(`s-${key}`).innerText = Math.floor((diff % 60000) / 1000);
+                }
+            });
+        }
+        setInterval(updateTimers, 1000);
 
-    function showToast(msg, icon) {
-        const toast = document.getElementById('top-toast');
-        document.getElementById('toast-text').innerText = msg;
-        document.getElementById('toast-icon').innerText = icon;
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 3500);
-    }
+        function showToast(msg, icon) {
+            const toast = document.getElementById('top-toast');
+            document.getElementById('toast-text').innerText = msg;
+            document.getElementById('toast-icon').innerText = icon;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3500);
+        }
 
-    async function shareEvent(key) {
-        const ev = events[key];
-        const isAr = document.getElementById('app-html').dir === "rtl";
-        const d = document.getElementById(`d-${key}`).innerText;
-        const text = isAr ? `${ev.emj} متبقي لـ ${ev.name}: ${d} يوم` : `${ev.emj} ${d} Days left for ${ev.en}`;
-        if (navigator.share) await navigator.share({ text: text });
-        else { navigator.clipboard.writeText(text); showToast(isAr ? "تم نسخ النص" : "Copied", "📋"); }
-    }
+        async function shareEvent(key) {
+            const ev = events[key];
+            const isAr = document.getElementById('app-html').dir === "rtl";
+            const d = document.getElementById(`d-${key}`).innerText;
+            const h = document.getElementById(`h-${key}`).innerText;
+            const text = isAr ? 
+                `${ev.emj} المتبقي لـ ${ev.name}:\n⏳ ${d} يوم و ${h} ساعة\n✨ ${ev.duaAr}\n\n📍 تابع العداد:\n${window.location.href}` :
+                `${ev.emj} Remaining for ${ev.en}:\n⏳ ${d} Days and ${h} Hours\n✨ ${ev.duaEn}\n\n📍 Follow here:\n${window.location.href}`;
+            if (navigator.share) await navigator.share({ text: text });
+            else { navigator.clipboard.writeText(text); showToast(isAr ? "تم النسخ" : "Copied", "📋"); }
+        }
 
-    function toggleTheme() {
-        const isLight = document.body.classList.toggle('light-mode');
-        localStorage.setItem('theme', isLight ? 'light' : 'dark');
-    }
+        function toggleTheme() {
+            const isLight = document.body.classList.toggle('light-mode');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        }
 
-    function toggleLang() {
-        const current = localStorage.getItem('lang') || "ar";
-        const newLang = current === "ar" ? "en" : "ar";
-        localStorage.setItem('lang', newLang);
-        applyLang(newLang);
-    }
+        function toggleLang() {
+            const current = localStorage.getItem('lang') || "ar";
+            const newLang = current === "ar" ? "en" : "ar";
+            localStorage.setItem('lang', newLang);
+            applyLang(newLang);
+        }
 
-    function applyLang(lang) {
-        const isEn = lang === "en";
-        const html = document.getElementById('app-html');
-        html.dir = isEn ? "ltr" : "rtl";
-        html.lang = lang;
-        document.getElementById('lang-btn').innerText = isEn ? "عربي" : "English";
-        document.getElementById('notif-btn').innerText = isEn ? "🔔 Notify" : "🔔 تنبيهي";
-        document.getElementById('main-title-text').innerText = isEn ? "Residual" : "المتبقي";
-        
-        document.getElementById('t-ramadan').innerText = isEn ? events.ramadan.en : events.ramadan.name;
-        document.getElementById('t-eid1').innerText = isEn ? events.eid1.en : events.eid1.name;
-        document.getElementById('t-hajj').innerText = isEn ? events.hajj.en : events.hajj.name;
-        document.getElementById('t-eid2').innerText = isEn ? events.eid2.en : events.eid2.name;
+        function applyLang(lang) {
+            const isEn = lang === "en";
+            const html = document.getElementById('app-html');
+            html.dir = isEn ? "ltr" : "rtl";
+            html.lang = lang;
+            document.getElementById('lang-btn').innerText = isEn ? "عربي" : "English";
+            document.getElementById('notif-btn').innerText = isEn ? "🔔 Notify" : "🔔 تنبيهي";
+            document.getElementById('main-title-text').innerText = isEn ? "Residual" : "المتبقي";
+            
+            document.getElementById('t-ramadan').innerText = isEn ? events.ramadan.en : events.ramadan.name;
+            document.getElementById('t-eid1').innerText = isEn ? events.eid1.en : events.eid1.name;
+            document.getElementById('t-hajj').innerText = isEn ? events.hajj.en : events.hajj.name;
+            document.getElementById('t-eid2').innerText = isEn ? events.eid2.en : events.eid2.name;
 
-        document.querySelectorAll('.lb-d').forEach(el => el.innerText = isEn ? "Days" : "يوم");
-        document.querySelectorAll('.lb-h').forEach(el => el.innerText = isEn ? "Hours" : "ساعة");
-        document.querySelectorAll('.lb-m').forEach(el => el.innerText = isEn ? "Mins" : "دقيقة");
-        document.querySelectorAll('.lb-s').forEach(el => el.innerText = isEn ? "Secs" : "ثانية");
-    }
+            document.querySelectorAll('.lb-d').forEach(el => el.innerText = isEn ? "Days" : "يوم");
+            document.querySelectorAll('.lb-h').forEach(el => el.innerText = isEn ? "Hours" : "ساعة");
+            document.querySelectorAll('.lb-m').forEach(el => el.innerText = isEn ? "Mins" : "دقيقة");
+            document.querySelectorAll('.lb-s').forEach(el => el.innerText = isEn ? "Secs" : "ثانية");
+        }
 
-    window.onload = () => {
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'light') document.body.classList.add('light-mode');
-        applyLang(localStorage.getItem('lang') || "ar");
-        updateTimers();
-    };
-</script>
+        window.onload = () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') document.body.classList.add('light-mode');
+            applyLang(localStorage.getItem('lang') || "ar");
+            updateTimers();
+        };
+    </script>
 </body>
 </html>
