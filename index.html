@@ -197,31 +197,35 @@
         }
         setInterval(updateTimers, 1000);
 
-        // وظيفة التنبيه مع إضافة Firebase
-        async function toggleNotify(key, el) {
-            const isAr = document.getElementById('app-html').dir === "rtl";
-            const eventName = isAr ? events[key].name : events[key].en;
-            if (el.checked) {
-                try {
-                    const perm = await Notification.requestPermission();
-                    if (perm === "granted") {
-                        // الحصول على الـ Token لتمكين الإشعارات السحابية
-                        const token = await messaging.getToken({ vapidKey: 'ضع_هنا_مفتاح_VAPID' });
-                        console.log("Token:", token);
-                        localStorage.setItem('notif_' + key, 'true');
-                        showToast(isAr ? `تم تفعيل التنبيه لـ ${eventName}` : `Alert set for ${eventName}`, "✅");
-                    } else { 
-                        el.checked = false; 
-                        showToast(isAr ? "يرجى تفعيل الإشعارات من المتصفح" : "Please enable notifications", "⚠️");
-                    }
-                } catch (e) {
-                    console.error("Firebase Error:", e);
+// دالة تفعيل التنبيه
+async function toggleNotify(key, el) {
+    const isAr = document.getElementById('app-html').dir === "rtl";
+    const eventName = isAr ? events[key].name : events[key].en;
+    
+    if (el.checked) {
+        try {
+            const perm = await Notification.requestPermission();
+            if (perm === "granted") {
+                const token = await messaging.getToken({ 
+                    vapidKey: 'BLNNeXrZfHKeUzqsHqaE6SX7sn82xHHlcn2ISWaCSA-BmB8xzYZrbNtjk2oO_kbVLpjG5Ctx4F8PFIZZjpNPxvg' 
+                });
+                
+                if (token) {
+                    localStorage.setItem('notif_' + key, 'true');
+                    showToast(isAr ? `تم تفعيل التنبيه لـ ${eventName}` : `Alert set for ${eventName}`, "✅");
                 }
             } else { 
-                localStorage.setItem('notif_' + key, 'false');
-                showToast(isAr ? `تم إيقاف التنبيه لـ ${eventName}` : `Alert off for ${eventName}`, "🔕");
+                el.checked = false; 
+                showToast(isAr ? "يرجى تفعيل الإشعارات من المتصفح" : "Please enable notifications", "⚠️");
             }
+        } catch (e) {
+            el.checked = false;
         }
+    } else { 
+        localStorage.setItem('notif_' + key, 'false');
+        showToast(isAr ? `تم إيقاف التنبيه لـ ${eventName}` : `Alert off for ${eventName}`, "🔕");
+    }
+}
 
         // باقي الوظائف (Share, Theme, Lang) كما هي تماماً
         async function shareEvent(key) {
