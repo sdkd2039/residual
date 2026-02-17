@@ -43,7 +43,6 @@
 
         body { 
             background: var(--bg);
-            /* توزيع 18 نجمة كبيرة فريدة ثابتة في الخلفية */
             background-image: 
                 radial-gradient(circle at 12% 8%, var(--star-color) 0%, transparent 8%),
                 radial-gradient(circle at 88% 12%, var(--star-color) 0%, transparent 10%),
@@ -123,14 +122,6 @@
         .eng-meaning { display: none; background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; font-size: 0.85rem; color: var(--muted); line-height: 1.6; border-left: 3px solid var(--blue); margin-top: 10px; direction: ltr; text-align: left; }
         html[lang="en"] .eng-meaning { display: block; }
 
-        .notify-row { margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 12px; }
-        .switch { position: relative; width: 34px; height: 20px; }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; inset: 0; background: #94a3b8; transition: .4s; border-radius: 34px; }
-        .slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background: var(--blue); }
-        input:checked + .slider:before { transform: translateX(14px); }
-
         footer { margin-top: auto; padding: 40px 0 20px; text-align: center; width: 100%; max-width: 500px; border-top: 1px solid rgba(148, 163, 184, 0.1); }
         .rights { font-size: 0.8rem; color: var(--muted); margin-bottom: 10px; }
         .dev-link { color: var(--accent); text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 5px; font-size: 0.9rem; }
@@ -139,7 +130,7 @@
 <body class="dark-mode">
 
     <div id="top-toast" class="toast-notification">
-        <span id="toast-icon">🔔</span>
+        <span id="toast-icon">📋</span>
         <span id="toast-text"></span>
     </div>
 
@@ -161,10 +152,6 @@
             <div class="box"><span class="num" id="m-ramadan">0</span><span class="label lb-m">دقيقة</span></div>
             <div class="box"><span class="num" id="s-ramadan">0</span><span class="label lb-s">ثانية</span></div>
         </div>
-        <div class="notify-row">
-            <span class="n-label">تفعيل التنبيه</span>
-            <label class="switch"><input type="checkbox" id="notif-sw-ramadan" onchange="toggleNotify('ramadan', this)"><span class="slider"></span></label>
-        </div>
     </div>
 
     <div class="card">
@@ -177,16 +164,12 @@
             <div class="box"><span class="num" id="m-eid1">0</span><span class="label lb-m">دقيقة</span></div>
             <div class="box"><span class="num" id="s-eid1">0</span><span class="label lb-s">ثانية</span></div>
         </div>
-        <div class="notify-row">
-            <span class="n-label">تفعيل التنبيه</span>
-            <label class="switch"><input type="checkbox" id="notif-sw-eid1" onchange="toggleNotify('eid1', this)"><span class="slider"></span></label>
-        </div>
     </div>
 
     <div class="verse-container">
         <span class="quran-text" dir="rtl">﴿شَهْرُ رَمَضَانَ ٱلَّذِىٓ أُنزِلَ فِيهِ ٱلْقُرْءَانُ هُدًۭى لِّلنَّاسِ وَبَيِّنَـٰتٍۢ مِّنَ ٱلْهُدَىٰ وَٱلْفُرْقَانِ ۚ فَمَن شَهِدَ مِنكُمُ ٱلشَّهْرَ فَلْيَصُمْهُ ۖ وَمَن كَانَ مَرِيضًا أَوْ عَلَىٰ سَفَرٍۢ فَعِدَّةٌۭ مِّنْ أَيَّامٍ أُخَرَ ۗ يُرِيدُ ٱللَّهُ بِكُمُ ٱلْيُسْرَ وَلَا يُرِيدُ بِكُمُ ٱلْعُسْرَ وَلِتُكْمِلُوا۟ ٱلْعِدَّةَ وَلِتُكَبِّرُوا۟ ٱللَّهَ عَلَىٰ مَا هَدَىٰكُمْ وَلَعَلَّكُمْ تَشْكُرُونَ﴾</span>
         <span class="verse-ref" id="ref-185">سورة البقرة - آية 185</span>
-        <div class="eng-meaning"><b>General Meaning:</b><br>The fasting prescribed for you is the month of Ramadan, the great month in which you have received from God a great favor, namely the Holy Quran, which contains guidance for your religious and worldly interests, clarifies the truth with the clearest explanation, distinguishes between right and wrong, guidance and misguidance, and identifies the people of happiness and the people of misery. This misconception is dispelled by the command to complete its prescribed number of days, and to thank God Almighty upon its completion for His guidance, facilitation, and clarification for His servants, and by reciting the Takbir (Allahu Akbar) upon its conclusion. This includes reciting the Takbir upon sighting the crescent moon of Shawwal until the conclusion of the Eid sermon.</div>
+        <div class="eng-meaning"><b>General Meaning:</b><br>The fasting prescribed for you is the month of Ramadan, the great month in which you have received from God a great favor, namely the Holy Quran, which contains guidance for your religious and worldly interests, clarifies the truth with the clearest explanation, distinguishes between right and wrong, guidance and misguidance, and identifies the people of happiness and the people of misery.</div>
     </div>
 
     <div class="card">
@@ -198,10 +181,6 @@
             <div class="box"><span class="num" id="h-hajj">0</span><span class="label lb-h">ساعة</span></div>
             <div class="box"><span class="num" id="m-hajj">0</span><span class="label lb-m">دقيقة</span></div>
             <div class="box"><span class="num" id="s-hajj">0</span><span class="label lb-s">ثانية</span></div>
-        </div>
-        <div class="notify-row">
-            <span class="n-label">تفعيل التنبيه</span>
-            <label class="switch"><input type="checkbox" id="notif-sw-hajj" onchange="toggleNotify('hajj', this)"><span class="slider"></span></label>
         </div>
     </div>
 
@@ -215,16 +194,11 @@
             <div class="box"><span class="num" id="m-eid2">0</span><span class="label lb-m">دقيقة</span></div>
             <div class="box"><span class="num" id="s-eid2">0</span><span class="label lb-s">ثانية</span></div>
         </div>
-        <div class="notify-row">
-            <span class="n-label">تفعيل التنبيه</span>
-            <label class="switch"><input type="checkbox" id="notif-sw-eid2" onchange="toggleNotify('eid2', this)"><span class="slider"></span></label>
-        </div>
     </div>
 
     <div class="verse-container">
         <span class="quran-text" dir="rtl">﴿ٱلْحَجُّ أَشْهُرٌۭ مَّعْلُومَـٰتٌۭ ۚ فَمَن فَرَضَ فِيهِنَّ ٱلْحَجَّ فَلَا رَفَثَ وَلَا فُسُوقَ وَلَا جِدَالَ فِى ٱلْحَجِّ ۗ وَمَا تَفْعَلُوا۟ مِنْ خَيْرٍۢ يَعْلَمْهُ ٱللَّهُ ۗ وَتَزَوَّدُوا۟ فَإِنَّ خَيْرَ ٱلزَّادِ ٱلتَّقْوَىٰ ۚ وَٱتَّقُونِ يَـٰٓأُو۟لِى ٱلْأَلْبَـٰبِ﴾</span>
         <span class="verse-ref" id="ref-197">سورة البقرة - آية 197</span>
-        <div class="eng-meaning"><b>General Meaning:</b><br>It is forbidden for the pilgrim to perform Hajj, and the pilgrim is prohibited from obscene language, immorality, and arguing, while being obligated to be pious and to adhere to acts of obedience.</div>
     </div>
 
     <footer>
@@ -237,10 +211,10 @@
 
 <script>
     const events = {
-        ramadan: { date: "2026-02-18T00:00:00+03:00", name: "شهر رمضان المبارك", en: "Holy Ramadan", emj: "🌒", duaAr: "اللهم تقبل الصيام والقيام وصالح الأعمال", duaEn: "O God, accept our fasting, prayers, and good deeds", dAr: "1 رمضان 1447هـ | 18 فبراير 2026م", dEn: "Ramadan 1, 1447 | Feb 18, 2026" },
-        eid1: { date: "2026-03-20T00:00:00+03:00", name: "عيد الفطر المبارك", en: "Eid al-Fitr", emj: "🎈", duaAr: "تقبل الله منا ومنكم", duaEn: "May God accept from us and from you", dAr: "1 شوال 1447هـ | 20 مارس 2026م", dEn: "Shawwal 1, 1447 | March 20, 2026" },
-        hajj: { date: "2026-05-18T00:00:00+03:00", name: "عشر ذي الحجة", en: "10 Days of Dhu al-Hijjah", emj: "🕋", duaAr: "اللهم اجعل لنا دعوة لا ترد", duaEn: "O Allah, grant us an accepted prayer", dAr: "1 ذو الحجة 1447هـ | 18 مايو 2026م", dEn: "Dhu al-Hijjah 1, 1447 | May 18, 2026" },
-        eid2: { date: "2026-05-27T00:00:00+03:00", name: "عيد الأضحى المبارك", en: "Eid al-Adha", emj: "🐑", duaAr: "كل عام وأنتم بخير", duaEn: "Eid Mubarak to you all", dAr: "10 ذو الحجة 1447هـ | 27 مايو 2026م", dEn: "Dhu al-Hijjah 10, 1447 | May 27, 2026" }
+        ramadan: { date: "2026-02-18T00:00:00+03:00", name: "شهر رمضان المبارك", en: "Holy Ramadan", emj: "🌒", duaAr: "اللهم تقبل الصيام والقيام وصالح الأعمال", duaEn: "O God, accept our fasting, prayers, and good deeds" },
+        eid1: { date: "2026-03-20T00:00:00+03:00", name: "عيد الفطر المبارك", en: "Eid al-Fitr", emj: "🎈", duaAr: "تقبل الله منا ومنكم", duaEn: "May God accept from us and from you" },
+        hajj: { date: "2026-05-18T00:00:00+03:00", name: "عشر ذي الحجة", en: "10 Days of Dhu al-Hijjah", emj: "🕋", duaAr: "اللهم اجعل لنا دعوة لا ترد", duaEn: "O Allah, grant us an accepted prayer" },
+        eid2: { date: "2026-05-27T00:00:00+03:00", name: "عيد الأضحى المبارك", en: "Eid al-Adha", emj: "🐑", duaAr: "كل عام وأنتم بخير", duaEn: "Eid Mubarak to you all" }
     };
 
     function updateTimers() {
@@ -255,28 +229,6 @@
         });
     }
     setInterval(updateTimers, 1000);
-
-async function toggleNotify(key, el) {
-    const isAr = document.getElementById('app-html').dir === "rtl";
-    if (el.checked) {
-        const perm = await Notification.requestPermission();
-        if (perm === "granted") {
-            localStorage.setItem('notif_' + key, 'true');
-            showToast(isAr ? "تم تفعيل التنبيه" : "Alert Activated", "✅");
-            
-            // إضافة تنبيه تجريبي يظهر فوراً للتأكد من العمل
-            new Notification(events[key].name, {
-                body: isAr ? "تم تفعيل التنبيه بنجاح لمتابعة العداد" : "Notifications enabled",
-                icon: "https://i.ibb.co/fzPfcMp0/small-logo.png"
-            });
-        } else { 
-            el.checked = false; 
-            showToast(isAr ? "يرجى تفعيل الإشعارات" : "Enable Notifications", "⚠️");
-        }
-    } else { 
-        localStorage.setItem('notif_' + key, 'false'); 
-    }
-}
 
     function showToast(msg, icon) {
         const toast = document.getElementById('top-toast');
@@ -323,38 +275,24 @@ async function toggleNotify(key, el) {
         html.lang = lang;
         document.getElementById('lang-btn').innerText = isEn ? "عربي" : "English";
         document.getElementById('main-title-text').innerText = isEn ? "Residual" : "المتبقي";
-        Object.keys(events).forEach((key, i) => {
-            document.getElementById(`t-${key}`).innerText = isEn ? events[key].en : events[key].name;
-            document.getElementById(`d-info${i+1}`).innerText = isEn ? events[key].dEn : events[key].dAr;
-        });
+        
+        document.getElementById('t-ramadan').innerText = isEn ? events.ramadan.en : events.ramadan.name;
+        document.getElementById('t-eid1').innerText = isEn ? events.eid1.en : events.eid1.name;
+        document.getElementById('t-hajj').innerText = isEn ? events.hajj.en : events.hajj.name;
+        document.getElementById('t-eid2').innerText = isEn ? events.eid2.en : events.eid2.name;
+
         document.querySelectorAll('.lb-d').forEach(el => el.innerText = isEn ? "Days" : "يوم");
-        document.querySelectorAll('.lb-h').forEach(el => el.innerText = isEn ? "Hrs" : "ساعة");
-        document.querySelectorAll('.lb-m').forEach(el => el.innerText = isEn ? "Min" : "دقيقة");
-        document.querySelectorAll('.lb-s').forEach(el => el.innerText = isEn ? "Sec" : "ثانية");
-        document.querySelectorAll('.n-label').forEach(el => el.innerText = isEn ? "Enable Alert" : "تفعيل التنبيه");
-        document.querySelectorAll('.share-btn').forEach(el => el.innerText = isEn ? "Share" : "مشاركة");
+        document.querySelectorAll('.lb-h').forEach(el => el.innerText = isEn ? "Hours" : "ساعة");
+        document.querySelectorAll('.lb-m').forEach(el => el.innerText = isEn ? "Mins" : "دقيقة");
+        document.querySelectorAll('.lb-s').forEach(el => el.innerText = isEn ? "Secs" : "ثانية");
     }
 
     window.onload = () => {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') document.body.classList.add('light-mode');
         applyLang(localStorage.getItem('lang') || "ar");
-        if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
-        
-        Object.keys(events).forEach(key => {
-            if (localStorage.getItem('notif_' + key) === 'true') {
-                const sw = document.getElementById('notif-sw-' + key);
-                if (sw) sw.checked = true;
-            }
-        });
         updateTimers();
     };
-
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js').then(reg => {
-            console.log('تم تسجيل المحرك بنجاح');
-        });
-    }
 </script>
-
 </body>
 </html>
-
