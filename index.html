@@ -1592,21 +1592,18 @@ async function toggleNotify(key, el) {
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-messaging-compat.js"></script>
 
     <script>
-        // إعدادات Firebase الخاصة بمشروعك
         const firebaseConfig = {
-            apiKey: "AIzaSy...", // انسخها من إعدادات Firebase
+            apiKey: "AIzaSyDiYRYIg3r7lDZF7ZU7vHQhaPK1znD553o", 
             authDomain: "residual-app-d9a45.firebaseapp.com",
             projectId: "residual-app-d9a45",
-            storageBucket: "residual-app-d9a45.appspot.com",
-            messagingSenderId: "...", // انسخها من إعدادات Firebase
-            appId: "..." // انسخها من إعدادات Firebase
+            storageBucket: "residual-app-d9a45.firebasestorage.app",
+            messagingSenderId: "765230796527",
+            appId: "1:765230796527:web:6f971e02657feb1962951a"
         };
 
-        // تهيئة Firebase
         firebase.initializeApp(firebaseConfig);
         const messaging = firebase.messaging();
 
-        // باقي الأكواد الخاصة بك كما هي تماماً
         const events = {
             ramadan: { date: "2026-02-18T00:00:00+03:00", name: "شهر رمضان المبارك", en: "Holy Ramadan", emj: "🌒", duaAr: "اللهم تقبل الصيام والقيام وصالح الأعمال", duaEn: "O God, accept our fasting, prayers, and good deeds", dAr: "1 رمضان 1447هـ | 18 فبراير 2026م", dEn: "Ramadan 1, 1447 | Feb 18, 2026" },
             eid1: { date: "2026-03-20T00:00:00+03:00", name: "عيد الفطر المبارك", en: "Eid al-Fitr", emj: "🎈", duaAr: "تقبل الله منا ومنكم، أعاد الله علينا باليمن والبركات", duaEn: "May God accept from us and from you", dAr: "1 شوال 1447هـ | 20 مارس 2026م", dEn: "Shawwal 1, 1447 | March 20, 2026" },
@@ -1635,7 +1632,6 @@ async function toggleNotify(key, el) {
         }
         setInterval(updateTimers, 1000);
 
-        // وظيفة التنبيه مع إضافة Firebase
         async function toggleNotify(key, el) {
             const isAr = document.getElementById('app-html').dir === "rtl";
             const eventName = isAr ? events[key].name : events[key].en;
@@ -1643,25 +1639,24 @@ async function toggleNotify(key, el) {
                 try {
                     const perm = await Notification.requestPermission();
                     if (perm === "granted") {
-                        // الحصول على الـ Token لتمكين الإشعارات السحابية
-                        const token = await messaging.getToken({ vapidKey: 'ضع_هنا_مفتاح_VAPID' });
-                        console.log("Token:", token);
-                        localStorage.setItem('notif_' + key, 'true');
-                        showToast(isAr ? `تم تفعيل التنبيه لـ ${eventName}` : `Alert set for ${eventName}`, "✅");
+                        const token = await messaging.getToken({ 
+                            vapidKey: 'BLNNeXrZfHKeUzqsHqaE6SX7sn82xHHlcn2ISWaCSA-BmB8xzYZrbNtjk2oO_kbVLpjG5Ctx4F8PFIZZjpNPxvg' 
+                        });
+                        if (token) {
+                            localStorage.setItem('notif_' + key, 'true');
+                            showToast(isAr ? `تم تفعيل التنبيه لـ ${eventName}` : `Alert set for ${eventName}`, "✅");
+                        }
                     } else { 
                         el.checked = false; 
-                        showToast(isAr ? "يرجى تفعيل الإشعارات من المتصفح" : "Please enable notifications", "⚠️");
+                        showToast(isAr ? "يرجى تفعيل الإشعارات" : "Please enable notifications", "⚠️");
                     }
-                } catch (e) {
-                    console.error("Firebase Error:", e);
-                }
-            } else { 
+                } catch (e) { el.checked = false; }
+            } else {
                 localStorage.setItem('notif_' + key, 'false');
-                showToast(isAr ? `تم إيقاف التنبيه لـ ${eventName}` : `Alert off for ${eventName}`, "🔕");
+                showToast(isAr ? `تم إيقاف التنبيه` : `Alert off`, "🔕");
             }
         }
 
-        // باقي الوظائف (Share, Theme, Lang) كما هي تماماً
         async function shareEvent(key) {
             const ev = events[key]; const isAr = document.getElementById('app-html').dir === "rtl";
             const d = document.getElementById(`d-${key}`).innerText; const h = document.getElementById(`h-${key}`).innerText;
@@ -1669,8 +1664,9 @@ async function toggleNotify(key, el) {
             try { if (navigator.share) { await navigator.share({ text: text }); } else { await navigator.clipboard.writeText(text); showToast(isAr ? "تم نسخ النص! 📋" : "Text copied! 📋", "📋"); } } catch (err) { }
         }
 
- function toggleTheme() { const isLight = document.body.classList.toggle('light-mode'); localStorage.setItem('theme', isLight ? 'light' : 'dark'); }
+        function toggleTheme() { const isLight = document.body.classList.toggle('light-mode'); localStorage.setItem('theme', isLight ? 'light' : 'dark'); }
         function toggleLang() { const html = document.getElementById('app-html'); const isAr = html.dir === "rtl"; applyLang(isAr ? "en" : "ar"); localStorage.setItem('lang', isAr ? "en" : "ar"); }
+        
         function applyLang(lang) {
             const html = document.getElementById('app-html'); const isEn = lang === "en"; html.dir = isEn ? "ltr" : "rtl"; html.lang = lang;
             document.getElementById('lang-btn').innerText = isEn ? "عربي" : "English";
